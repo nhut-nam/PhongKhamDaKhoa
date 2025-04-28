@@ -23,6 +23,20 @@ import java.util.Date;
 @Entity
 @Table(name = "bangcap")
 public class BangCap implements Serializable {
+
+    /**
+     * @return the bacSi_id
+     */
+    public BacSi getBacSi_id() {
+        return bacSi_id;
+    }
+
+    /**
+     * @param bacSi_id the bacSi_id to set
+     */
+    public void setBacSi_id(BacSi bacSi_id) {
+        this.bacSi_id = bacSi_id;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

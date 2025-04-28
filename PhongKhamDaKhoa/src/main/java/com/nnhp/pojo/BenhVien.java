@@ -10,15 +10,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
  * @author namnh
  */
 @Entity
+@Table(name = "benhvien")
 public class BenhVien implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +32,11 @@ public class BenhVien implements Serializable {
     private String tenBenhVien;
     @Column(name = "dia_chi")
     private String diaChi;
-    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhVien_id")
+    private Set<BacSi> bacSiSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhVien_id")
     private List<BenhVienChuyenKhoa> benhVienChuyenKhoaList;
-
+   
     public BenhVien(int id, String tenBenhVien, String diaChi) {
         this.id = id;
         this.tenBenhVien = tenBenhVien;
@@ -80,6 +86,34 @@ public class BenhVien implements Serializable {
      */
     public void setDiaChi(String diaChi) {
         this.diaChi = diaChi;
+    }
+
+    /**
+     * @return the bacSiSet
+     */
+    public Set<BacSi> getBacSiSet() {
+        return bacSiSet;
+    }
+
+    /**
+     * @param bacSiSet the bacSiSet to set
+     */
+    public void setBacSiSet(Set<BacSi> bacSiSet) {
+        this.bacSiSet = bacSiSet;
+    }
+
+    /**
+     * @return the benhVienChuyenKhoaList
+     */
+    public List<BenhVienChuyenKhoa> getBenhVienChuyenKhoaList() {
+        return benhVienChuyenKhoaList;
+    }
+
+    /**
+     * @param benhVienChuyenKhoaList the benhVienChuyenKhoaList to set
+     */
+    public void setBenhVienChuyenKhoaList(List<BenhVienChuyenKhoa> benhVienChuyenKhoaList) {
+        this.benhVienChuyenKhoaList = benhVienChuyenKhoaList;
     }
     
     

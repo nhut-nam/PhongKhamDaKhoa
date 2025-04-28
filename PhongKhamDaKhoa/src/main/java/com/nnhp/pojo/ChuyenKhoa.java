@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import java.util.List;
  * @author namnh
  */
 @Entity
+@Table(name = "chuyenkhoa")
 public class ChuyenKhoa implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,6 +67,34 @@ public class ChuyenKhoa implements Serializable {
      */
     public void setTenChuyenKhoa(String tenChuyenKhoa) {
         this.tenChuyenKhoa = tenChuyenKhoa;
+    }
+
+    /**
+     * @return the bacSiThuocChuyenKhoaList
+     */
+    public List<BacSiThuocChuyenKhoa> getBacSiThuocChuyenKhoaList() {
+        return bacSiThuocChuyenKhoaList;
+    }
+
+    /**
+     * @param bacSiThuocChuyenKhoaList the bacSiThuocChuyenKhoaList to set
+     */
+    public void setBacSiThuocChuyenKhoaList(List<BacSiThuocChuyenKhoa> bacSiThuocChuyenKhoaList) {
+        this.bacSiThuocChuyenKhoaList = bacSiThuocChuyenKhoaList;
+    }
+
+    /**
+     * @return the benhVienChuyenKhoaList
+     */
+    public List<BenhVienChuyenKhoa> getBenhVienChuyenKhoaList() {
+        return benhVienChuyenKhoaList;
+    }
+
+    /**
+     * @param benhVienChuyenKhoaList the benhVienChuyenKhoaList to set
+     */
+    public void setBenhVienChuyenKhoaList(List<BenhVienChuyenKhoa> benhVienChuyenKhoaList) {
+        this.benhVienChuyenKhoaList = benhVienChuyenKhoaList;
     }
     
     

@@ -5,6 +5,7 @@
 package com.nnhp.pojo;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import java.io.Serializable;
 
 /**
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * @author namnh
  */
 @Entity
+@Table(name = "quantri")
 public class QuanTri extends TaiKhoan implements Serializable {
 
     public QuanTri(int id) {

@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
  * @author namnh
  */
 @Entity
+@Table(name = "hoso")
 public class HoSo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -102,6 +104,34 @@ public class HoSo implements Serializable {
      */
     public void setNgayTao(Date ngayTao) {
         this.ngayTao = ngayTao;
+    }
+
+    /**
+     * @return the benhNhan_id
+     */
+    public BenhNhan getBenhNhan_id() {
+        return benhNhan_id;
+    }
+
+    /**
+     * @param benhNhan_id the benhNhan_id to set
+     */
+    public void setBenhNhan_id(BenhNhan benhNhan_id) {
+        this.benhNhan_id = benhNhan_id;
+    }
+
+    /**
+     * @return the lichSuKhamBenhList
+     */
+    public List<LichSuKhamBenh> getLichSuKhamBenhList() {
+        return lichSuKhamBenhList;
+    }
+
+    /**
+     * @param lichSuKhamBenhList the lichSuKhamBenhList to set
+     */
+    public void setLichSuKhamBenhList(List<LichSuKhamBenh> lichSuKhamBenhList) {
+        this.lichSuKhamBenhList = lichSuKhamBenhList;
     }
     
     
