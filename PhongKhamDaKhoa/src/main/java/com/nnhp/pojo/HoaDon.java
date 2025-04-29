@@ -17,8 +17,6 @@ import java.math.BigDecimal;
  *
  * @author hoang
  */
-@Entity
-@Table(name = "hoadon")
 public class HoaDon extends LichKham implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

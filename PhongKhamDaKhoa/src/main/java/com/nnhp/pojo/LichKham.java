@@ -5,6 +5,7 @@
 package com.nnhp.pojo;
 
 import com.nnhp.enums.TrangThaiLichKham;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,9 +13,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -33,12 +37,16 @@ public class LichKham implements Serializable {
     private Date ngayHen; 
     @Column(name = "buoi")
     private String buoi;
+    @Column(name = "so_tien_nhan")
+    private BigDecimal soTienNhan;
     @ManyToOne(optional = false)
     @JoinColumn(name = "bacsidichvu_id", referencedColumnName = "id")
     private BacSiDichVu bacSiDichVu_id;
     @ManyToOne(optional = false)
-    @JoinColumn(name = "benhnhan_id", referencedColumnName = "id")
-    private BenhNhan benhNhan_id;
+    @JoinColumn(name = "hoso_id", referencedColumnName = "id")
+    private HoSo hoSo_id;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lichKham_id")
+    private List<ThongTinThanhToan> thongTinThanhToanList;
     /**
      * @return the id
      */
@@ -107,19 +115,5 @@ public class LichKham implements Serializable {
      */
     public void setBacSiDichVu_id(BacSiDichVu bacSiDichVu_id) {
         this.bacSiDichVu_id = bacSiDichVu_id;
-    }
-
-    /**
-     * @return the benhNhan_id
-     */
-    public BenhNhan getBenhNhan_id() {
-        return benhNhan_id;
-    }
-
-    /**
-     * @param benhNhan_id the benhNhan_id to set
-     */
-    public void setBenhNhan_id(BenhNhan benhNhan_id) {
-        this.benhNhan_id = benhNhan_id;
     }
 }

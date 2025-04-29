@@ -9,9 +9,9 @@ package com.nnhp.enums;
  * @author namnh
  */
 public enum TrangThaiLichKham {
-    DAKHAMXONG,
-    DADAT,
-    DAHUY,
-    VANGMAT,
-    DAXACNHAN
+    DA_KHAM_XONG,
+    DA_DAT,
+    DA_HUY,
+    VANG_MAT,
+    DA_XAC_NHAN
 }

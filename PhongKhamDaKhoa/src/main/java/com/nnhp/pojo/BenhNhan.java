@@ -22,8 +22,6 @@ public class BenhNhan extends TaiKhoan implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhNhan_id")
     private List<HoSo> danhSachHoSo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhNhan_id")
-    private Set<LichKham> lichKhamSet;
     
     public BenhNhan(int id) {
         super(id);
@@ -46,18 +44,5 @@ public class BenhNhan extends TaiKhoan implements Serializable {
         this.danhSachHoSo = danhSachHoSo;
     }
 
-    /**
-     * @return the lichKhamSet
-     */
-    public Set<LichKham> getLichKhamSet() {
-        return lichKhamSet;
-    }
-
-    /**
-     * @param lichKhamSet the lichKhamSet to set
-     */
-    public void setLichKhamSet(Set<LichKham> lichKhamSet) {
-        this.lichKhamSet = lichKhamSet;
-    }
 
 }

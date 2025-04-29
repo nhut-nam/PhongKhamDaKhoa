@@ -17,6 +17,7 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -34,6 +35,8 @@ public class HoSo implements Serializable {
     private String ketQuaXetNghiem;
     @Column(name = "ngay_tao")
     private Date ngayTao;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "hoSo_id")
+    private Set<LichKham> lichKhamSet;
     @ManyToOne(optional = false)
     @JoinColumn(name = "benhnhan_id", referencedColumnName = "id", nullable = false)
     private BenhNhan benhNhan_id;

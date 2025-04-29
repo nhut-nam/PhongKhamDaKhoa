@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 
@@ -17,7 +19,7 @@ import java.io.Serializable;
  * @author hoang
  */
 @Entity
-@Table(name = "thongtinthanhtoan")
+//@Table(name = "thongtinthanhtoan")
 public class ThongTinThanhToan implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,6 +29,9 @@ public class ThongTinThanhToan implements Serializable {
     private int id;
     @Column(name = "so_tai_khoan")
     private String soTaiKhoan;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "lichkham_id", referencedColumnName = "id")
+    private LichKham lichKham_id;
     
     public int getId() {
         return id;

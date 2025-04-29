@@ -9,6 +9,6 @@ package com.nnhp.enums;
  * @author namnh
  */
 public enum LoaiThanhToan {
-    THANHTOANTAIBENHVIEN,
-    THANHTOANTRUCTUYEN
+    THANH_TOAN_TAI_BENH_VIEN,
+    THANH_TOAN_TRUC_TUYEN
 }
