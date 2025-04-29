@@ -11,11 +11,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -24,12 +25,11 @@ import java.util.Collection;
  * @author namnh
  */
 @Entity
-@Table(name = "buoi")
+@Table(name = "benhvienchuyenkhoa")
 @NamedQueries({
-    @NamedQuery(name = "Buoi.findAll", query = "SELECT b FROM Buoi b"),
-    @NamedQuery(name = "Buoi.findById", query = "SELECT b FROM Buoi b WHERE b.id = :id"),
-    @NamedQuery(name = "Buoi.findByThoiGian", query = "SELECT b FROM Buoi b WHERE b.thoiGian = :thoiGian")})
-public class Buoi implements Serializable {
+    @NamedQuery(name = "Benhvienchuyenkhoa.findAll", query = "SELECT b FROM Benhvienchuyenkhoa b"),
+    @NamedQuery(name = "Benhvienchuyenkhoa.findById", query = "SELECT b FROM Benhvienchuyenkhoa b WHERE b.id = :id")})
+public class Benhvienchuyenkhoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,16 +37,19 @@ public class Buoi implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
-    @Column(name = "thoi_gian")
-    private String thoiGian;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buoiId")
-    private Collection<Ngaylamviec> ngaylamviecCollection;
+    @JoinColumn(name = "benhvien_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Benhvien benhvienId;
+    @JoinColumn(name = "chuyenkhoa_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Chuyenkhoa chuyenkhoaId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhvienchuyenkhoaId")
+    private Collection<Dichvu> dichvuCollection;
 
-    public Buoi() {
+    public Benhvienchuyenkhoa() {
     }
 
-    public Buoi(Integer id) {
+    public Benhvienchuyenkhoa(Integer id) {
         this.id = id;
     }
 
@@ -58,20 +61,28 @@ public class Buoi implements Serializable {
         this.id = id;
     }
 
-    public String getThoiGian() {
-        return thoiGian;
+    public Benhvien getBenhvienId() {
+        return benhvienId;
     }
 
-    public void setThoiGian(String thoiGian) {
-        this.thoiGian = thoiGian;
+    public void setBenhvienId(Benhvien benhvienId) {
+        this.benhvienId = benhvienId;
     }
 
-    public Collection<Ngaylamviec> getNgaylamviecCollection() {
-        return ngaylamviecCollection;
+    public Chuyenkhoa getChuyenkhoaId() {
+        return chuyenkhoaId;
     }
 
-    public void setNgaylamviecCollection(Collection<Ngaylamviec> ngaylamviecCollection) {
-        this.ngaylamviecCollection = ngaylamviecCollection;
+    public void setChuyenkhoaId(Chuyenkhoa chuyenkhoaId) {
+        this.chuyenkhoaId = chuyenkhoaId;
+    }
+
+    public Collection<Dichvu> getDichvuCollection() {
+        return dichvuCollection;
+    }
+
+    public void setDichvuCollection(Collection<Dichvu> dichvuCollection) {
+        this.dichvuCollection = dichvuCollection;
     }
 
     @Override
@@ -84,10 +95,10 @@ public class Buoi implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Buoi)) {
+        if (!(object instanceof Benhvienchuyenkhoa)) {
             return false;
         }
-        Buoi other = (Buoi) object;
+        Benhvienchuyenkhoa other = (Benhvienchuyenkhoa) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -96,7 +107,7 @@ public class Buoi implements Serializable {
 
     @Override
     public String toString() {
-        return "com.nnhp.pojo.Buoi[ id=" + id + " ]";
+        return "com.nnhp.pojo.Benhvienchuyenkhoa[ id=" + id + " ]";
     }
     
 }

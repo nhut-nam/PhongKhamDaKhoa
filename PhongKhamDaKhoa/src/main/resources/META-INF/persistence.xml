@@ -3,5 +3,25 @@
   <!-- Define Persistence Unit -->
   <persistence-unit name="my_persistence_unit">
     <class>com.nnhp.pojo.ThongTinThanhToan</class>
+    <class>com.nnhp.test.Thongtinthanhtoan</class>
+    <class>com.nnhp.pojo.Danhgia</class>
+    <class>com.nnhp.pojo.Bacsi</class>
+    <class>com.nnhp.pojo.Taikhoan</class>
+    <class>com.nnhp.pojo.Hoso</class>
+    <class>com.nnhp.pojo.Buoi</class>
+    <class>com.nnhp.pojo.Bangcap</class>
+    <class>com.nnhp.pojo.Benhvien</class>
+    <class>com.nnhp.pojo.Bacsidichvu</class>
+    <class>com.nnhp.pojo.Lichsukhambenh</class>
+    <class>com.nnhp.pojo.Lichkham</class>
+    <class>com.nnhp.pojo.Quantri</class>
+    <class>com.nnhp.pojo.Ngaylamviec</class>
+    <class>com.nnhp.pojo.Bacsithuocchuyenkhoa</class>
+    <class>com.nnhp.pojo.Lichsubinhluan</class>
+    <class>com.nnhp.pojo.Benhnhan</class>
+    <class>com.nnhp.pojo.Thongtinthanhtoan</class>
+    <class>com.nnhp.pojo.Chuyenkhoa</class>
+    <class>com.nnhp.pojo.Benhvienchuyenkhoa</class>
+    <class>com.nnhp.pojo.Dichvu</class>
   </persistence-unit>
 </persistence>

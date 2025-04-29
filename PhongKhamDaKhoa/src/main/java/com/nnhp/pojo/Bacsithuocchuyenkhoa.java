@@ -5,31 +5,28 @@
 package com.nnhp.pojo;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  *
  * @author namnh
  */
 @Entity
-@Table(name = "buoi")
+@Table(name = "bacsithuocchuyenkhoa")
 @NamedQueries({
-    @NamedQuery(name = "Buoi.findAll", query = "SELECT b FROM Buoi b"),
-    @NamedQuery(name = "Buoi.findById", query = "SELECT b FROM Buoi b WHERE b.id = :id"),
-    @NamedQuery(name = "Buoi.findByThoiGian", query = "SELECT b FROM Buoi b WHERE b.thoiGian = :thoiGian")})
-public class Buoi implements Serializable {
+    @NamedQuery(name = "Bacsithuocchuyenkhoa.findAll", query = "SELECT b FROM Bacsithuocchuyenkhoa b"),
+    @NamedQuery(name = "Bacsithuocchuyenkhoa.findById", query = "SELECT b FROM Bacsithuocchuyenkhoa b WHERE b.id = :id")})
+public class Bacsithuocchuyenkhoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,16 +34,17 @@ public class Buoi implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
-    @Column(name = "thoi_gian")
-    private String thoiGian;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buoiId")
-    private Collection<Ngaylamviec> ngaylamviecCollection;
+    @JoinColumn(name = "bacsi_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Bacsi bacsiId;
+    @JoinColumn(name = "chuyenkhoa_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Chuyenkhoa chuyenkhoaId;
 
-    public Buoi() {
+    public Bacsithuocchuyenkhoa() {
     }
 
-    public Buoi(Integer id) {
+    public Bacsithuocchuyenkhoa(Integer id) {
         this.id = id;
     }
 
@@ -58,20 +56,20 @@ public class Buoi implements Serializable {
         this.id = id;
     }
 
-    public String getThoiGian() {
-        return thoiGian;
+    public Bacsi getBacsiId() {
+        return bacsiId;
     }
 
-    public void setThoiGian(String thoiGian) {
-        this.thoiGian = thoiGian;
+    public void setBacsiId(Bacsi bacsiId) {
+        this.bacsiId = bacsiId;
     }
 
-    public Collection<Ngaylamviec> getNgaylamviecCollection() {
-        return ngaylamviecCollection;
+    public Chuyenkhoa getChuyenkhoaId() {
+        return chuyenkhoaId;
     }
 
-    public void setNgaylamviecCollection(Collection<Ngaylamviec> ngaylamviecCollection) {
-        this.ngaylamviecCollection = ngaylamviecCollection;
+    public void setChuyenkhoaId(Chuyenkhoa chuyenkhoaId) {
+        this.chuyenkhoaId = chuyenkhoaId;
     }
 
     @Override
@@ -84,10 +82,10 @@ public class Buoi implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Buoi)) {
+        if (!(object instanceof Bacsithuocchuyenkhoa)) {
             return false;
         }
-        Buoi other = (Buoi) object;
+        Bacsithuocchuyenkhoa other = (Bacsithuocchuyenkhoa) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -96,7 +94,7 @@ public class Buoi implements Serializable {
 
     @Override
     public String toString() {
-        return "com.nnhp.pojo.Buoi[ id=" + id + " ]";
+        return "com.nnhp.pojo.Bacsithuocchuyenkhoa[ id=" + id + " ]";
     }
     
 }

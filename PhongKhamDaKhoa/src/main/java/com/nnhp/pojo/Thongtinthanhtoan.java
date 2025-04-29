@@ -5,31 +5,30 @@
 package com.nnhp.pojo;
 
 import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  *
  * @author namnh
  */
 @Entity
-@Table(name = "buoi")
+@Table(name = "thongtinthanhtoan")
 @NamedQueries({
-    @NamedQuery(name = "Buoi.findAll", query = "SELECT b FROM Buoi b"),
-    @NamedQuery(name = "Buoi.findById", query = "SELECT b FROM Buoi b WHERE b.id = :id"),
-    @NamedQuery(name = "Buoi.findByThoiGian", query = "SELECT b FROM Buoi b WHERE b.thoiGian = :thoiGian")})
-public class Buoi implements Serializable {
+    @NamedQuery(name = "Thongtinthanhtoan.findAll", query = "SELECT t FROM Thongtinthanhtoan t"),
+    @NamedQuery(name = "Thongtinthanhtoan.findById", query = "SELECT t FROM Thongtinthanhtoan t WHERE t.id = :id"),
+    @NamedQuery(name = "Thongtinthanhtoan.findBySoTaiKhoan", query = "SELECT t FROM Thongtinthanhtoan t WHERE t.soTaiKhoan = :soTaiKhoan")})
+public class Thongtinthanhtoan implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,15 +37,16 @@ public class Buoi implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Size(max = 255)
-    @Column(name = "thoi_gian")
-    private String thoiGian;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buoiId")
-    private Collection<Ngaylamviec> ngaylamviecCollection;
+    @Column(name = "so_tai_khoan")
+    private String soTaiKhoan;
+    @JoinColumn(name = "lichkham_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Lichkham lichkhamId;
 
-    public Buoi() {
+    public Thongtinthanhtoan() {
     }
 
-    public Buoi(Integer id) {
+    public Thongtinthanhtoan(Integer id) {
         this.id = id;
     }
 
@@ -58,20 +58,20 @@ public class Buoi implements Serializable {
         this.id = id;
     }
 
-    public String getThoiGian() {
-        return thoiGian;
+    public String getSoTaiKhoan() {
+        return soTaiKhoan;
     }
 
-    public void setThoiGian(String thoiGian) {
-        this.thoiGian = thoiGian;
+    public void setSoTaiKhoan(String soTaiKhoan) {
+        this.soTaiKhoan = soTaiKhoan;
     }
 
-    public Collection<Ngaylamviec> getNgaylamviecCollection() {
-        return ngaylamviecCollection;
+    public Lichkham getLichkhamId() {
+        return lichkhamId;
     }
 
-    public void setNgaylamviecCollection(Collection<Ngaylamviec> ngaylamviecCollection) {
-        this.ngaylamviecCollection = ngaylamviecCollection;
+    public void setLichkhamId(Lichkham lichkhamId) {
+        this.lichkhamId = lichkhamId;
     }
 
     @Override
@@ -84,10 +84,10 @@ public class Buoi implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Buoi)) {
+        if (!(object instanceof Thongtinthanhtoan)) {
             return false;
         }
-        Buoi other = (Buoi) object;
+        Thongtinthanhtoan other = (Thongtinthanhtoan) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -96,7 +96,7 @@ public class Buoi implements Serializable {
 
     @Override
     public String toString() {
-        return "com.nnhp.pojo.Buoi[ id=" + id + " ]";
+        return "com.nnhp.pojo.Thongtinthanhtoan[ id=" + id + " ]";
     }
     
 }
