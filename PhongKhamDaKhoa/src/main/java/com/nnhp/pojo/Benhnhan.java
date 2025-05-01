@@ -28,17 +28,7 @@ import java.util.Collection;
 @NamedQueries({
     @NamedQuery(name = "Benhnhan.findAll", query = "SELECT b FROM Benhnhan b"),
     @NamedQuery(name = "Benhnhan.findById", query = "SELECT b FROM Benhnhan b WHERE b.id = :id")})
-public class Benhnhan implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Taikhoan taikhoan;
+public class Benhnhan extends Taikhoan implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhnhanId")
     private Collection<Hoso> hosoCollection;
 
@@ -56,15 +46,7 @@ public class Benhnhan implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-
-    public Taikhoan getTaikhoan() {
-        return taikhoan;
-    }
-
-    public void setTaikhoan(Taikhoan taikhoan) {
-        this.taikhoan = taikhoan;
-    }
-
+    
     public Collection<Hoso> getHosoCollection() {
         return hosoCollection;
     }

@@ -26,7 +26,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
     "com.nnhp.controllers",
-    "com.nnhp.pojo"
+    "com.nnhp.services",
+    "com.nnhp.repositories",
+    "com.nnhp.repositoriesImpl",
+    "com.nnhp.servicesImpl"
 })
 public class WebAppContextConfigs implements WebMvcConfigurer {
 

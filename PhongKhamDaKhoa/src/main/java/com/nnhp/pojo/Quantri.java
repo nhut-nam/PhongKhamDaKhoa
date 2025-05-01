@@ -25,17 +25,7 @@ import java.io.Serializable;
 @NamedQueries({
     @NamedQuery(name = "Quantri.findAll", query = "SELECT q FROM Quantri q"),
     @NamedQuery(name = "Quantri.findById", query = "SELECT q FROM Quantri q WHERE q.id = :id")})
-public class Quantri implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Taikhoan taikhoan;
+public class Quantri extends Taikhoan implements Serializable {
 
     public Quantri() {
     }
@@ -50,14 +40,6 @@ public class Quantri implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Taikhoan getTaikhoan() {
-        return taikhoan;
-    }
-
-    public void setTaikhoan(Taikhoan taikhoan) {
-        this.taikhoan = taikhoan;
     }
 
     @Override

@@ -4,10 +4,13 @@
  */
 package com.nnhp.configs;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+
 /**
  *
  * @author namnh
  */
-public class SecurityWebApplicationInitializer {
+public class SecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
     
 }

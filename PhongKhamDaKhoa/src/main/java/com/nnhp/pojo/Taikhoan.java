@@ -4,13 +4,17 @@
  */
 package com.nnhp.pojo;
 
+import com.nnhp.enums.Role;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
@@ -43,16 +47,17 @@ import java.util.Date;
     @NamedQuery(name = "Taikhoan.findByMatKhau", query = "SELECT t FROM Taikhoan t WHERE t.matKhau = :matKhau"),
     @NamedQuery(name = "Taikhoan.findBySoDienThoai", query = "SELECT t FROM Taikhoan t WHERE t.soDienThoai = :soDienThoai"),
     @NamedQuery(name = "Taikhoan.findByTenNguoiDung", query = "SELECT t FROM Taikhoan t WHERE t.tenNguoiDung = :tenNguoiDung")})
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Taikhoan implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    protected Integer id;
+    @Size(max = 50)
     @Column(name = "role")
-    private Short role;
+    private String role;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ngay_sinh")
@@ -93,12 +98,6 @@ public class Taikhoan implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "ten_nguoi_dung")
     private String tenNguoiDung;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "taikhoan")
-    private Bacsi bacsi;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "taikhoan")
-    private Quantri quantri;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "taikhoan")
-    private Benhnhan benhnhan;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "taikhoanId")
     private Collection<Danhgia> danhgiaCollection;
 
@@ -127,11 +126,15 @@ public class Taikhoan implements Serializable {
         this.id = id;
     }
 
-    public Short getRole() {
+    public String getRole() {
         return role;
     }
+    
+    public Role getRoleEnum() {
+        return Role.valueOf(this.role);
+    }
 
-    public void setRole(Short role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -205,30 +208,6 @@ public class Taikhoan implements Serializable {
 
     public void setTenNguoiDung(String tenNguoiDung) {
         this.tenNguoiDung = tenNguoiDung;
-    }
-
-    public Bacsi getBacsi() {
-        return bacsi;
-    }
-
-    public void setBacsi(Bacsi bacsi) {
-        this.bacsi = bacsi;
-    }
-
-    public Quantri getQuantri() {
-        return quantri;
-    }
-
-    public void setQuantri(Quantri quantri) {
-        this.quantri = quantri;
-    }
-
-    public Benhnhan getBenhnhan() {
-        return benhnhan;
-    }
-
-    public void setBenhnhan(Benhnhan benhnhan) {
-        this.benhnhan = benhnhan;
     }
 
     public Collection<Danhgia> getDanhgiaCollection() {

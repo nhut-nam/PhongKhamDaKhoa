@@ -37,14 +37,12 @@ import java.util.Date;
     @NamedQuery(name = "Bacsi.findByNgayLamViec", query = "SELECT b FROM Bacsi b WHERE b.ngayLamViec = :ngayLamViec"),
     @NamedQuery(name = "Bacsi.findByNgayNghiViec", query = "SELECT b FROM Bacsi b WHERE b.ngayNghiViec = :ngayNghiViec"),
     @NamedQuery(name = "Bacsi.findByChuyenTri", query = "SELECT b FROM Bacsi b WHERE b.chuyenTri = :chuyenTri")})
-public class Bacsi implements Serializable {
+public class Bacsi extends Taikhoan implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
+    @Size(max = 255)
+    @Column(name = "chuyen_tri")
+    private String chuyenTri;
+
     @Column(name = "trang_thai")
     private Boolean trangThai;
     @Column(name = "ngay_lam_viec")
@@ -53,9 +51,6 @@ public class Bacsi implements Serializable {
     @Column(name = "ngay_nghi_viec")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayNghiViec;
-    @Size(max = 255)
-    @Column(name = "chuyen_tri")
-    private String chuyenTri;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
     private Collection<Lichsukhambenh> lichsukhambenhCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
@@ -65,9 +60,6 @@ public class Bacsi implements Serializable {
     @JoinColumn(name = "bacsi_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Benhvien bacsiId;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Taikhoan taikhoan;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacSiid")
     private Collection<Ngaylamviec> ngaylamviecCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
@@ -152,14 +144,6 @@ public class Bacsi implements Serializable {
 
     public void setBacsiId(Benhvien bacsiId) {
         this.bacsiId = bacsiId;
-    }
-
-    public Taikhoan getTaikhoan() {
-        return taikhoan;
-    }
-
-    public void setTaikhoan(Taikhoan taikhoan) {
-        this.taikhoan = taikhoan;
     }
 
     public Collection<Ngaylamviec> getNgaylamviecCollection() {
