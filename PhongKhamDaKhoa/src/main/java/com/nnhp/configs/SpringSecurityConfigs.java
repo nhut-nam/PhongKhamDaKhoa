@@ -40,8 +40,8 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
     "com.nnhp.servicesImpl"
 })
 public class SpringSecurityConfigs {
-//    @Autowired
-//    private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -51,24 +51,9 @@ public class SpringSecurityConfigs {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
             Exception {
-//        http.csrf(c -> c.disable()).authorizeHttpRequests(requests
-//                -> requests.requestMatchers("/", "/home").authenticated()
-//                        .requestMatchers("/api/users", "/api/cart").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/products").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.GET,
-//                                "/products/**").hasAnyRole("USER", "ADMIN")
-//                        .anyRequest().authenticated())
-//                .formLogin(form -> form.loginPage("/login")
-//                .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/", true)
-//                .failureUrl("/login?error=true").permitAll())
-//                .logout(logout -> logout.logoutSuccessUrl("/login").permitAll());
-
-        http
-    .csrf(csrf -> csrf.disable()) // Tắt CSRF
-    .authorizeHttpRequests(authz -> authz
-        .anyRequest().permitAll() // Cho tất cả request (dev)
-    );
+                http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }
 

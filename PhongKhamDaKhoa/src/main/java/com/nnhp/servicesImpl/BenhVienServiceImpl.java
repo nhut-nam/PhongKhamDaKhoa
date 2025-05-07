@@ -30,4 +30,5 @@ public class BenhVienServiceImpl implements BenhVienService{
     public Benhvien getBenhVienById(int id) {
        return this.benhVienRepo.getBenhVienById(id);
     }
+
 }

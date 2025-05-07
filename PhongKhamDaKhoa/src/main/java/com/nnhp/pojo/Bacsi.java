@@ -57,9 +57,9 @@ public class Bacsi extends Taikhoan implements Serializable {
     private Collection<Bacsidichvu> bacsidichvuCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
     private Collection<Bacsithuocchuyenkhoa> bacsithuocchuyenkhoaCollection;
-    @JoinColumn(name = "bacsi_id", referencedColumnName = "id")
+    @JoinColumn(name = "benhvien_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Benhvien benhVien;
+    private Benhvien benhvienId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacSiid")
     private Collection<Ngaylamviec> ngaylamviecCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
@@ -138,12 +138,12 @@ public class Bacsi extends Taikhoan implements Serializable {
         this.bacsithuocchuyenkhoaCollection = bacsithuocchuyenkhoaCollection;
     }
 
-    public Benhvien getBenhVien() {
-        return benhVien;
+    public Benhvien getBenhvienId() {
+        return benhvienId;
     }
 
-    public void setBenhVien(Benhvien benhVien) {
-        this.benhVien = benhVien;
+    public void setBenhvienId(Benhvien benhvienId) {
+        this.benhvienId = benhvienId;
     }
 
     public Collection<Ngaylamviec> getNgaylamviecCollection() {

@@ -5,6 +5,7 @@
 package com.nnhp.repositories;
 
 import com.nnhp.pojo.Taikhoan;
+import java.util.List;
 
 /**
  *
@@ -13,4 +14,7 @@ import com.nnhp.pojo.Taikhoan;
 public interface TaiKhoanRepository {
     Taikhoan getUserByEmail(String email);
     Taikhoan getTaikhoanTest(String email);
+    List<Taikhoan> getTaiKhoanList();
+    Taikhoan addTaiKhoan(Taikhoan tk);
+    boolean authenticate(String email, String matKhau);
 }

@@ -77,9 +77,9 @@ public class BacSiRepositoryImpl implements BacSiRepository {
     public Bacsi addOrUpdateBacSi(Bacsi b) {
         Session s = this.factory.getObject().getCurrentSession();
         
-        if (b.getBenhVien() != null && b.getBenhVien().getId() != null) {
-            Benhvien benhVien = s.get(Benhvien.class, b.getBenhVien().getId());
-            b.setBenhVien(benhVien);
+        if (b.getBenhvienId()!= null && b.getBenhvienId().getId() != null) {
+            Benhvien benhVien = s.get(Benhvien.class, b.getBenhvienId().getId());
+            b.setBenhvienId(benhVien);
         }
 
         // Thêm hoặc cập nhật

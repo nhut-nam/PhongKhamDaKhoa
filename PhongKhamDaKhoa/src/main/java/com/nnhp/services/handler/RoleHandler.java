@@ -2,18 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.nnhp.services;
+package com.nnhp.services.handler;
 
-import com.nnhp.pojo.Benhvien;
-import java.util.List;
+import com.nnhp.pojo.Taikhoan;
 import java.util.Map;
 
 /**
  *
- * @author hoang
+ * @author namnh
  */
-public interface BenhVienService {
-    List<Benhvien> getDsBenhVien(Map<String, String> params);
-    Benhvien getBenhVienById(int id);
-
+public interface RoleHandler {
+    Taikhoan handle(Map<String, String> params);
 }

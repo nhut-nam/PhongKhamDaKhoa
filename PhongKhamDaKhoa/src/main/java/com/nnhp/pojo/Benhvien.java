@@ -31,8 +31,7 @@ import java.util.Collection;
     @NamedQuery(name = "Benhvien.findByDiaChi", query = "SELECT b FROM Benhvien b WHERE b.diaChi = :diaChi"),
     @NamedQuery(name = "Benhvien.findByTenBenhVien", query = "SELECT b FROM Benhvien b WHERE b.tenBenhVien = :tenBenhVien")})
 public class Benhvien implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
+ 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -44,7 +43,7 @@ public class Benhvien implements Serializable {
     @Size(max = 255)
     @Column(name = "ten_benh_vien")
     private String tenBenhVien;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhVien")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhvienId")
     private Collection<Bacsi> bacsiCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhvienId")
     private Collection<Benhvienchuyenkhoa> benhvienchuyenkhoaCollection;
