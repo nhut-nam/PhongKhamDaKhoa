@@ -30,15 +30,21 @@ import java.util.Collection;
     @NamedQuery(name = "Benhvien.findById", query = "SELECT b FROM Benhvien b WHERE b.id = :id"),
     @NamedQuery(name = "Benhvien.findByDiaChi", query = "SELECT b FROM Benhvien b WHERE b.diaChi = :diaChi"),
     @NamedQuery(name = "Benhvien.findByTenBenhVien", query = "SELECT b FROM Benhvien b WHERE b.tenBenhVien = :tenBenhVien")})
-public class Benhvien extends Taikhoan implements Serializable {
-
+public class Benhvien implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Size(max = 255)
     @Column(name = "dia_chi")
     private String diaChi;
     @Size(max = 255)
     @Column(name = "ten_benh_vien")
     private String tenBenhVien;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhVien")
     private Collection<Bacsi> bacsiCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhvienId")
     private Collection<Benhvienchuyenkhoa> benhvienchuyenkhoaCollection;

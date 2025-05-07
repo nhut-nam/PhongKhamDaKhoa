@@ -43,10 +43,10 @@ public class WebAppContextConfigs implements WebMvcConfigurer {
         return new StandardServletMultipartResolver();
     }
 
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
-//                
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/static/js/");
+                
+    }
     
 }

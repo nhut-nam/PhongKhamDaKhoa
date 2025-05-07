@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý đặt lịch khám</title>
+    <th:block th:replace="base :: bootstrap"></th:block>
+</head>
+<body>
+    <main class="container">
+        <div th:replace="base :: header"></div>
+        <h2 class="text-center text-info mt-1">Danh sách bác sĩ</h2>
+         <form th:action="@{/bac-si}" id="searchForm">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3 mt-3">
+                        <input type="text" class="form-control" name="tenBacSi" placeholder="Tên bác sĩ..." />
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 mt-3">
+                <button class="btn btn-info" type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+        <hr  />    
+        <a th:href="@{/bacsichange}" class="btn btn-info mt-2 mb-2">Thêm bác sĩ</a>
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>STT</th>
+                    <th>Tên bác sĩ</th>
+                    <th>Tên bệnh viện</th>
+                    <th></th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="bacSi, iterStat : ${dsBacSi}">
+                    <td th:text="${iterStat.count}"></td> <!-- Đếm số thứ tự -->
+                    <td th:text="${bacSi.getHoNguoiDung()+' '+bacSi.getTenNguoiDung()}"></td>
+                    <td th:text="${bacSi.getBenhVien().getTenBenhVien()}"></td>  
+                    <td>
+                        <img th:src="${bacSi.getAvatar()}" width="200">
+                    </td>
+                    <td>
+                         <a th:href="@{'/bac-si/' + ${bacSi.id}}" class="btn btn-success">Sửa</a>
+                         <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/bac-si/}+'\','+${bacSi.id}+')'">Xóa</button>
+                    </td>
+                </tr>
+                
+         
+            </tbody>
+        </table>
+        
+    </main>
+        <script th:src="@{/js/main.js}"></script>
+</body>
+   
+

@@ -4,10 +4,17 @@
  */
 package com.nnhp.services;
 
+import com.nnhp.pojo.Bacsi;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author namnh
  */
 public interface BacSiService {
-    
+    List<Bacsi> getDsBacSi(Map<String, String> params);
+    Bacsi getBacSiById(int id);
+    Bacsi addOrUpdateBacSi(Bacsi b);
+    void deleteBacSi(int id);
 }

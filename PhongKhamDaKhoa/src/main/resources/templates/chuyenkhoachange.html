@@ -1,0 +1,27 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý đặt lịch khám</title>
+    <th:block th:replace="base :: bootstrap"></th:block>
+</head>
+<body>
+    <main class="container">
+        <div th:replace="base :: header"></div>
+        <h1 class="text-center text-info mt-1">QUẢN LÝ CHUYÊN KHOA</h1>
+        <form  method="post" th:action="@{/chuyen-khoa/add}" th:object="${chuyenKhoa}">
+            <div class="mb-3 mt-3">
+                <label for="tenChuyenKhoa" class="form-label">Tên chuyên khoa: </label>
+                <input type="text" class="form-control" id="tenChuyenKhoa" placeholder="Tên chuyên khoa" th:field="*{tenChuyenKhoa}"  />
+            </div>
+            <div class="mb-3 mt-3">
+                <input type="hidden" class="form-control" th:field="*{id}"  />
+                <button class="btn btn-success mt-1" type="submit">
+                    <span th:if="${chuyenKhoa.id == null}">Thêm chuyên khoa</span>
+                    <span th:unless="${chuyenKhoa.id == null}">Cập nhật chuyên khoa</span>
+                </button>
+            </div>
+        </form>
+
+        <div th:replace="base :: footer"></div>
+    </main>
+</body>

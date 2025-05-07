@@ -63,6 +63,12 @@ public class SpringSecurityConfigs {
 //                .defaultSuccessUrl("/", true)
 //                .failureUrl("/login?error=true").permitAll())
 //                .logout(logout -> logout.logoutSuccessUrl("/login").permitAll());
+
+        http
+    .csrf(csrf -> csrf.disable()) // Tắt CSRF
+    .authorizeHttpRequests(authz -> authz
+        .anyRequest().permitAll() // Cho tất cả request (dev)
+    );
         return http.build();
     }
 
