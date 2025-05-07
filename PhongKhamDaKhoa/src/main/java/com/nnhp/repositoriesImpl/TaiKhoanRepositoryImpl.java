@@ -9,9 +9,11 @@ import com.nnhp.pojo.Quantri;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.repositories.TaiKhoanRepository;
 import jakarta.persistence.Query;
+import java.util.List;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,18 +27,16 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
     
     @Override
     public Taikhoan getUserByEmail(String email) {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Taikhoan.findByEmail", Taikhoan.class);
-        q.setParameter("username", email);
+        q.setParameter("email", email);
         Taikhoan account = (Taikhoan) q.getSingleResult();
-        if (account instanceof Benhnhan) {
-            System.out.println("Benh Nhan");
-        }
-
-        return null;
+        return account;
     }
     
     @Override
@@ -45,5 +45,29 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
         Query q = s.createNamedQuery("Taikhoan.findById", Taikhoan.class);
         q.setParameter("id", 1);
         return (Taikhoan) q.getSingleResult();
+    }
+
+    @Override
+    public List<Taikhoan> getTaiKhoanList() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Taikhoan.findAll", Taikhoan.class);
+        return q.getResultList();
+    }
+
+    @Override
+    public Taikhoan addTaiKhoan(Taikhoan tk) {
+        if (tk == null) return null;
+        Session s = this.factory.getObject().getCurrentSession();
+        s.persist(tk);
+        
+        s.refresh(tk);
+        
+        return tk;
+    }
+
+    @Override
+    public boolean authenticate(String email, String matKhau) {
+        Taikhoan tk = this.getUserByEmail(email);
+        return this.passwordEncoder.matches(matKhau, tk.getMatKhau());
     }
 }

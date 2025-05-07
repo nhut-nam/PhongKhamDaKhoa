@@ -26,13 +26,12 @@ const Header = () => {
                 
                 <nav className="main-menu">
                     <ul>
-                        <li><a href="/" onClick={(e) => e.preventDefault()}>Trang chủ</a></li>
+                        <li><a href="/">Trang chủ</a></li>
                         <li><a href="#">Giới thiệu</a></li>
                         <li><a href="#">Dịch vụ</a></li>
-                        <li><a href="#">Bác sĩ</a></li>
                         <li><a href="#">Tin tức</a></li>
                         <li><a href="#">Liên hệ</a></li>
-                        <li><a href="#">Đăng nhập</a></li>
+                        <li><a href="/user-login">Đăng nhập</a></li>
                     </ul>
                 </nav>
                 

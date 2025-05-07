@@ -9,6 +9,8 @@ import com.nnhp.pojo.Taikhoan;
 import com.nnhp.repositoriesImpl.TaiKhoanRepositoryImpl;
 import com.nnhp.services.TaiKhoanService;
 import com.nnhp.servicesImpl.TaiKhoanServiceImpl;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,10 +31,16 @@ public class IndexController {
     @Autowired
     private TaiKhoanService tkService;
     
-    @GetMapping("/tai-khoan")
-    public ResponseEntity<TaiKhoanDTO> index() {
-        Taikhoan tk = tkService.getTaiKhoanTest();
-        TaiKhoanDTO dto = TaiKhoanDTO.convertToDTO(tk);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
+    
+    @GetMapping("/ds-tai-khoan")
+    public ResponseEntity<List<TaiKhoanDTO>> getTaiKhoanList() {
+        List<TaiKhoanDTO> dsTaiKhoanDTO = new ArrayList<>();
+        List<Taikhoan> dsTaiKhoan = tkService.getTaiKhoanList();
+        dsTaiKhoan.forEach(tk -> dsTaiKhoanDTO.add(TaiKhoanDTO.convertToDTO(tk)));
+        return new ResponseEntity<>(dsTaiKhoanDTO, HttpStatus.OK);
     }
 }
