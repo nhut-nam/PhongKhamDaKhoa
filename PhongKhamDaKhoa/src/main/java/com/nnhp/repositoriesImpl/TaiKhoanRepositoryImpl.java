@@ -55,11 +55,14 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
     }
 
     @Override
-    public Taikhoan addTaiKhoan(Taikhoan tk) {
-        if (tk == null) return null;
+    public Taikhoan addTaiKhoan(Taikhoan tk) {  
         Session s = this.factory.getObject().getCurrentSession();
-        s.persist(tk);
         
+        if (tk.getId() == null) {
+            s.persist(tk);
+        } else {
+            s.merge(tk);
+        }
         s.refresh(tk);
         
         return tk;
@@ -69,5 +72,20 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
     public boolean authenticate(String email, String matKhau) {
         Taikhoan tk = this.getUserByEmail(email);
         return this.passwordEncoder.matches(matKhau, tk.getMatKhau());
+    }
+
+    @Override
+    public void deleteUser(int id) {
+       Session s = this.factory.getObject().getCurrentSession();
+       Taikhoan tk = this.getUserById(id);
+       s.remove(tk);
+    }
+
+    @Override
+    public Taikhoan getUserById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Taikhoan.findById", Taikhoan.class);
+        q.setParameter("id", id);
+        return (Taikhoan)q.getSingleResult();
     }
 }

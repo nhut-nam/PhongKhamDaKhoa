@@ -4,6 +4,7 @@
  */
 package com.nnhp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nnhp.enums.Role;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
@@ -27,6 +28,7 @@ import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -73,7 +75,7 @@ public class Taikhoan implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
     @Size(max = 255)
     @Column(name = "ghi_chu")

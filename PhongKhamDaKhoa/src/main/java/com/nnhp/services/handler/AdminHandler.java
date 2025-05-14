@@ -43,4 +43,9 @@ public class AdminHandler implements RoleHandler {
         tk.setRole("ADMIN");
         return tk;
     }
+
+    @Override
+    public Taikhoan handle(Taikhoan tk) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

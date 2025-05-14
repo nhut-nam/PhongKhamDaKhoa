@@ -13,8 +13,10 @@ import java.util.List;
  */
 public interface TaiKhoanRepository {
     Taikhoan getUserByEmail(String email);
+    Taikhoan getUserById(int id);
     Taikhoan getTaikhoanTest(String email);
     List<Taikhoan> getTaiKhoanList();
     Taikhoan addTaiKhoan(Taikhoan tk);
     boolean authenticate(String email, String matKhau);
+    void deleteUser(int id);
 }

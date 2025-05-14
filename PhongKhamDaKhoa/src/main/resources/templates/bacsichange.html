@@ -10,12 +10,30 @@
         <h1 class="text-center text-info mt-1">QUẢN LÝ BÁC SĨ</h1>
         <form  method="post" th:action="@{/bac-si/add}" th:object="${bacSi}">
             <div class="mb-3 mt-3">
+                <label for="email" class="form-label">Email: </label>
+                <input type="text" class="form-control" id="email" placeholder="Email bác sĩ" th:field="*{email}"  required/>
                 <label for="hoBacSi" class="form-label">Họ bác sĩ: </label>
-                <input type="text" class="form-control" id="hoBacSi" placeholder="Tên bác sĩ" th:field="*{hoNguoiDung}"  />
-                 <label for="tenBacSi" class="form-label">Tên bác sĩ: </label>
-                <input type="text" class="form-control" id="tenBacSi" placeholder="Tên bác sĩ" th:field="*{tenNguoiDung}"  />
+                <input type="text" class="form-control" id="hoBacSi" placeholder="Họ bác sĩ" th:field="*{hoNguoiDung}"  required/>
+                <label for="tenBacSi" class="form-label">Tên bác sĩ: </label>
+                <input type="text" class="form-control" id="tenBacSi" placeholder="Tên bác sĩ" th:field="*{tenNguoiDung}"  required/>
+                <label for="matKhau" class="form-label">Mật khẩu: </label>
+                <input type="text" class="form-control" id="matKhau" placeholder="Mật khẩu" th:field="*{matKhau}"  required/>
+                <label for="soDienThoai" class="form-label">Số điện thoại: </label>
+                <input type="text" class="form-control" id="soDienThoai" placeholder="Số điện thoại" th:field="*{soDienThoai}"  required/>
+                <label for="ngaySinh" class="form-label">Ngày sinh: </label>
+                <input type="date" class="form-control" id="ngaySinh" placeholder="Ngày sinh" name="ngaySinh" th:value="${#dates.format(bacSi.ngaySinh, 'yyyy-MM-dd')}" required/>
+                <label for="chuyenTri" class="form-label">Chuyên trị: </label>
+                <input type="text" class="form-control" id="chuyenTri" placeholder="Chuyên trị" th:field="*{chuyenTri}"  />
+                <label for="ngayLamViec" class="form-label">Ngày làm việc: </label>
+                <input type="date" class="form-control" id="ngayLamViec" placeholder="Ngày làm việc" name="ngayLamViec" th:value="${#dates.format(bacSi.ngayLamViec, 'yyyy-MM-dd')}"  />
+                <label for="ngayNghiViec" class="form-label">Ngày nghỉ việc: </label>
+                <input type="date" class="form-control" id="ngayNghiViec" placeholder="Ngày nghỉ việc" name="ngayNghiViec" th:value="${#dates.format(bacSi.ngayNghiViec, 'yyyy-MM-dd')}"  />
+                <div class ="mt-2">
+                <label for="trangThai" class="form-label">Trạng thái hoạt động:</label>
+                <input type="checkbox" class="form-check-input" id="trangThai" th:field="*{trangThai}" />
+                </div>
                 <label for="tenBenhVien" class="form-label">Tên bệnh viện: </label>
-                <select class="form-select" id="benhVien" th:field="*{benhVien.id}">
+                <select class="form-select" id="benhVien" th:field="*{benhvienId.id}">
                     <option value="" disabled selected>-- Chọn bệnh viện --</option>
                     <option th:each="bv : ${dsBenhVien}" 
                             th:value="${bv.id}" 
@@ -25,7 +43,6 @@
             </div>
             <div class="mb-3 mt-3">
                 <input type="hidden" class="form-control" th:field="*{id}"  />
-                <input type="hidden" class="form-control" th:field="*{Email}"  />
                 <button class="btn btn-success mt-1" type="submit">
                     <span th:if="${bacSi.id == null}">Thêm bác sĩ</span>
                     <span th:unless="${bacSi.id == null}">Cập nhật bác sĩ</span>

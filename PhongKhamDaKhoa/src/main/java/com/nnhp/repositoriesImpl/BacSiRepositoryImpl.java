@@ -46,7 +46,7 @@ public class BacSiRepositoryImpl implements BacSiRepository {
 
         if (params != null) {
             List<Predicate> predicates = new ArrayList<>();
-            Join<Bacsi, Benhvien> bvJoin = root.join("benhVien");
+            Join<Bacsi, Benhvien> bvJoin = root.join("benhvienId");
             Expression<String> fullName = b.concat(b.concat(root.get("hoNguoiDung")," "),root.get("tenNguoiDung"));
             String kw = params.get("kw");
             

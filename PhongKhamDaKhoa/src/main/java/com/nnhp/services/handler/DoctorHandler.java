@@ -52,4 +52,21 @@ public class DoctorHandler implements RoleHandler {
         tk.setBenhvienId(this.bvService.getBenhVienById(Integer.valueOf(params.get("benhVienId"))));
         return tk;
     }
+
+    @Override
+    public Taikhoan handle(Taikhoan tk) {
+        Bacsi bs = new Bacsi();
+        if(tk.getId()!=null)
+            bs.setId(tk.getId());
+        bs.setHoNguoiDung(tk.getHoNguoiDung());
+        bs.setTenNguoiDung(tk.getTenNguoiDung());
+        bs.setDiaChi(tk.getDiaChi());
+        bs.setEmail(tk.getEmail());
+        bs.setMatKhau(this.passwordEncoder.encode(tk.getMatKhau()));
+        bs.setGhiChu(tk.getGhiChu());
+        bs.setNgaySinh(tk.getNgaySinh());
+        bs.setSoDienThoai(tk.getSoDienThoai());
+        bs.setRole("DOCTOR");
+        return bs; 
+    }
 }

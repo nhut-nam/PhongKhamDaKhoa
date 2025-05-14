@@ -9,6 +9,7 @@ import com.nnhp.pojo.Benhnhan;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.servicesImpl.TaiKhoanServiceImpl;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +43,22 @@ public class UserHandler implements RoleHandler {
         tk.setSoDienThoai(params.get("soDienThoai"));
         tk.setRole("USER");
         return tk;
+    }
+    
+    public Taikhoan handle (Taikhoan tk){
+        Benhnhan bn = new Benhnhan();
+        if(tk.getId()!=null)
+            bn.setId(tk.getId());
+        bn.setHoNguoiDung(tk.getHoNguoiDung());
+        bn.setTenNguoiDung(tk.getTenNguoiDung());
+        bn.setDiaChi(tk.getDiaChi());
+        bn.setEmail(tk.getEmail());
+        bn.setMatKhau(this.passwordEncoder.encode(tk.getMatKhau()));
+        bn.setGhiChu(tk.getGhiChu());
+        bn.setNgaySinh(tk.getNgaySinh());
+        bn.setSoDienThoai(tk.getSoDienThoai());
+        bn.setRole("USER");
+        return bn; 
     }
     
 }

@@ -20,4 +20,6 @@ public interface TaiKhoanService extends UserDetailsService {
     Taikhoan getUserByEmail(String email);
     Taikhoan addTaiKhoan(Map<String, String> params, Role role);
     boolean authenticate(String email, String matKhau);
+    Taikhoan addTaiKhoan(Taikhoan tk);
+    void deleteUser(String email);
 }

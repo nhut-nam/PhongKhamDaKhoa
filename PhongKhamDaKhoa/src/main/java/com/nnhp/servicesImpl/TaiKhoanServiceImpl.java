@@ -77,9 +77,26 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         Taikhoan tk = handler.handle(params);
         return this.tkRepo.addTaiKhoan(tk);
     }
-
+    
+    @Override
+    public Taikhoan addTaiKhoan(Taikhoan tk) {
+        String roleName = tk.getRole();
+        RoleHandler handler = handlerMap.get(roleName.toUpperCase());
+        
+        if (handler == null)
+            throw new IllegalArgumentException("Không hỗ trợ role: " + tk.getRole());
+        
+        Taikhoan us = handler.handle(tk);
+        return this.tkRepo.addTaiKhoan(us);
+    }
+    
     @Override
     public boolean authenticate(String email, String matKhau) {
         return this.tkRepo.authenticate(email, matKhau);
+    }
+    
+    @Override
+    public void deleteUser(String email) {
+        this.tkRepo.deleteUser(email);
     }
 }
