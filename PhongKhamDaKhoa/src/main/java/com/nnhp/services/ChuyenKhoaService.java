@@ -4,6 +4,7 @@
  */
 package com.nnhp.services;
 
+import com.nnhp.pojo.Benhvien;
 import com.nnhp.pojo.Chuyenkhoa;
 import java.util.List;
 import java.util.Map;
@@ -17,4 +18,5 @@ public interface ChuyenKhoaService {
     Chuyenkhoa getChuyenKhoaById(int id);
     Chuyenkhoa addOrUpdateChuyenKhoa(Chuyenkhoa c);
     void deleteChuyenKhoa(int id);
+    List<Chuyenkhoa> getChuyenKhoaByBenhVien(int bvId);
 }

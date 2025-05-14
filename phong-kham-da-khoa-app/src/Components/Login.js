@@ -3,12 +3,13 @@ import "../Styles/Login.css";
 import Apis, { authApis, endpoints } from "../Configs/Apis";
 import { MyDispatcherContext } from "../Configs/MyContexts";
 import cookie from 'react-cookies';
-import { useNavigate } from "react-router-dom";
+import { Form, Link, useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [user, setUser] = useState({ email: "", matKhau: "" });
   const [loading, setLoading] = useState(false);
   const dispatch = useContext(MyDispatcherContext);
+  const [msg, setMsg] = useState("");
   const nav = useNavigate();
   
   
@@ -16,14 +17,16 @@ function LoginPage() {
     e.preventDefault();
     try {
       setLoading(true);
-      console.log(user);
       let res = await Apis.post(endpoints['login'], {
       ...user
       });
-      console.info(res.data);
+      if (user.trangThai === "DOI_XAC_NHAN" || user.trangThai === "HUY_KICH_HOAT") {
+        setMsg("Tài khoản của bạn đã bị khóa hoặc đang chờ xác nhận");
+        return;
+      }
+      console.log(res);
       cookie.save('token', res.data.token);
       let u = await authApis().get(endpoints['current-user']);
-      console.info(u.data);
       dispatch({
         type: "login",
         payload: {
@@ -32,7 +35,9 @@ function LoginPage() {
       });
       nav("/");
     } catch (ex) {
-      console.error(ex);
+      if (ex.response && ex.response.data.status === false) {
+        setMsg(ex.response.data.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -55,6 +60,7 @@ function LoginPage() {
               name="email"
               value={user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
+              required
             />
           </div>
           <div>
@@ -68,21 +74,23 @@ function LoginPage() {
               name="matKhau"
               value={user.matKhau}
               onChange={(e) => setUser({ ...user, matKhau: e.target.value })}
+              required
             />
           </div>
+          {msg && <div className="login-error">{msg}</div>}
           <button type="submit" className="login-button">
             Đăng nhập
           </button>
           <div className="login-footer">
             <div className="login-links">
-              <a href="#" className="login-link">Quên mật khẩu?</a>
+              <Link to="#" className="login-link">Quên mật khẩu?</Link>
               <span> | </span>
-              <a href="/user-register" className="login-link">Đăng ký tài khoản</a>
+              <Link to="/user-register" className="login-link">Đăng ký tài khoản</Link>
             </div>
 
             <div className="doctor-login-box">
-              <span>Bạn là bác sĩ?</span>
-              <a href="/login-doctor" className="doctor-login-link">Đăng nhập tại đây</a>
+              <span>Đăng ký hành nghề bác sĩ</span>
+              <Link to="/doctor-register" className="doctor-login-link">Đăng ký tại đây</Link>
             </div>
           </div>
         </form>

@@ -5,15 +5,25 @@
 package com.nnhp.controllers;
 
 import com.nnhp.enums.Role;
+import com.nnhp.pojo.BacSiDTO;
+import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Benhvien;
+import com.nnhp.pojo.Chuyenkhoa;
 import com.nnhp.pojo.TaiKhoanDTO;
 import com.nnhp.pojo.Taikhoan;
+import com.nnhp.pojo.ThongBao;
+import com.nnhp.services.BacSiThuocChuyenKhoaService;
 import com.nnhp.services.BenhVienService;
+import com.nnhp.services.ChuyenKhoaService;
 import com.nnhp.services.TaiKhoanService;
 import com.nnhp.utils.JwtUtils;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,6 +46,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiUserController {
     @Autowired
     private TaiKhoanService userDetailsService;
+    @Autowired
+    private BacSiThuocChuyenKhoaService bsckService;
+    @Autowired
+    private ChuyenKhoaService ckService;
     
     @PostMapping(path = "/benh-nhan", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
@@ -49,10 +63,21 @@ public class ApiUserController {
         return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.addTaiKhoan(params, Role.ADMIN)), HttpStatus.CREATED);
     }
     
-    @PostMapping(path = "/bac-si", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/bac-si", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<TaiKhoanDTO> createDoctor(@RequestParam Map<String, String> params) {
-        return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.addTaiKhoan(params, Role.DOCTOR)), HttpStatus.CREATED);
+    public ResponseEntity<TaiKhoanDTO> createDoctor(@RequestBody Map<String, String> params) {
+        Bacsi bs = (Bacsi) this.userDetailsService.addTaiKhoan(params, Role.DOCTOR);
+        String chuoi = params.get("chuyenKhoa"); // ví dụ: "[1,2]"
+        chuoi = chuoi.replaceAll("[\\[\\]\\s]", ""); // bỏ [ ], và khoảng trắng
+        String[] ckIds = chuoi.split(",");
+
+        List<Chuyenkhoa> chuyenKhoas = Arrays.stream(ckIds)
+                .map(Integer::parseInt)
+                .map(ckId -> ckService.getChuyenKhoaById(ckId))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        bs.setBacsithuocchuyenkhoaCollection(this.bsckService.addBacSiChuyenKhoaList(bs, chuyenKhoas));
+        return new ResponseEntity<>(BacSiDTO.convertToDTO(bs), HttpStatus.CREATED);
     }
     
     @PostMapping("/users")
@@ -73,7 +98,7 @@ public class ApiUserController {
                 return ResponseEntity.status(500).body("Lỗi khi tạo JWT");
             }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Sai thông tin đăng nhập");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ThongBao("Sai thông tin tài khoản", false));
     }
     
     @RequestMapping("/secure/profile")

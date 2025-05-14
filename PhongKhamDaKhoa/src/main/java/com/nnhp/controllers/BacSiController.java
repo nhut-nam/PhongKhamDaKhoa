@@ -31,7 +31,7 @@ public class BacSiController {
     private BenhVienService benhVienService;
     
     private void benhVienForm(Model model, @RequestParam Map<String, String> params) {
-    model.addAttribute("dsBenhVien", benhVienService.getDsBenhVien(params));
+        model.addAttribute("dsBenhVien", benhVienService.getDsBenhVien(params));
     }
     
     @GetMapping("/bac-si")

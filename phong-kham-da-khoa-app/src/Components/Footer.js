@@ -1,5 +1,6 @@
 import React from 'react';
 import '../Styles/Footer.css'; // Import CSS file for styling
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
@@ -10,7 +11,7 @@ const Footer = () => {
                         <h3>Về MedPro</h3>
                         <p>MedPro là hệ thống y tế chất lượng cao với hơn 10 năm kinh nghiệm trong lĩnh vực chăm sóc sức khỏe.</p>
                         <div className="footer-social">
-                            <a href="#"><i className="fab fa-facebook-f"></i></a>
+                            <Link to="https://www.facebook.com/nhut.nam.522733"><i className="fab fa-facebook-f"></i></Link>
                             <a href="#"><i className="fab fa-twitter"></i></a>
                             <a href="#"><i className="fab fa-linkedin-in"></i></a>
                             <a href="#"><i className="fab fa-youtube"></i></a>

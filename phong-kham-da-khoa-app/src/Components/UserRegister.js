@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "../Styles/RegisterUser.css";
+import { BiArrowBack } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import Apis, { endpoints } from "../Configs/Apis";
 
 export default function RegisterUser() {
     const [err_msg, setErrMsg] = useState("");
@@ -16,6 +19,29 @@ export default function RegisterUser() {
         confirmPassword: "",
         role: "USER",
     });
+    const [loading, setLoading] = useState(false);
+    const nav = useNavigate();
+
+    const register = async (e) => {
+        e.preventDefault();
+        let form = new FormData();
+        for (let key in user) {
+            if (key !== 'confirm')
+                form.append(key, user[key]);
+        }
+        try {
+            setLoading(true);
+            console.log(user);
+            let res = await Apis.post(endpoints['user-register'], form, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            nav("/login");
+        } catch (ex) {
+            console.error(ex);
+        }
+    }
 
     const handleChange = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
@@ -23,7 +49,7 @@ export default function RegisterUser() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Dữ liệu đăng ký:", user);
+        console.log("Dữ liệu đăng ký:", user.ghiChu);
         if (user.matKhau !== user.confirmPassword) {
             setErrMsg("Mật khẩu không khớp. Vui lòng kiểm tra lại.");
             return;
@@ -41,11 +67,19 @@ export default function RegisterUser() {
             setErrMsg("Họ và tên không hợp lệ.");
             return;
         }
+        register(e);
+        setErrMsg("");
     };
 
     return (
         <div className="register-wrapper">
             <div className="register-card">
+                <button
+                    className="back-button-icon"
+                    onClick={() => nav("/user-login")}
+                >
+                    <BiArrowBack size={22} />
+                </button>
                 <h1 className="register-title">Đăng ký tài khoản Medpro</h1>
                 <form className="register-form" onSubmit={handleSubmit}>
                     <div className="form-group">

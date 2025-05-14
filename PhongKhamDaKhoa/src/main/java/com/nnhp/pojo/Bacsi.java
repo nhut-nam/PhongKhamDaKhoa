@@ -4,10 +4,12 @@
  */
 package com.nnhp.pojo;
 
+import com.nnhp.enums.TrangThaiTaiKhoan;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -42,9 +44,6 @@ public class Bacsi extends Taikhoan implements Serializable {
     @Size(max = 255)
     @Column(name = "chuyen_tri")
     private String chuyenTri;
-
-    @Column(name = "trang_thai")
-    private Boolean trangThai;
     @Column(name = "ngay_lam_viec")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayLamViec;
@@ -80,14 +79,6 @@ public class Bacsi extends Taikhoan implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Boolean getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(Boolean trangThai) {
-        this.trangThai = trangThai;
     }
 
     public Date getNgayLamViec() {

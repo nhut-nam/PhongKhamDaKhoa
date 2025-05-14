@@ -15,5 +15,5 @@ import java.util.Map;
 public interface BenhVienService {
     List<Benhvien> getDsBenhVien(Map<String, String> params);
     Benhvien getBenhVienById(int id);
-
+    List<Benhvien> getAllBenhVien();
 }

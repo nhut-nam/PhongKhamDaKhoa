@@ -8,6 +8,7 @@ import UserRegister from './Components/UserRegister';
 import { MyDispatcherContext, MyUserContext } from './Configs/MyContexts';
 import { useReducer } from 'react';
 import MyUserReducer from './reducers/MyUserReducer';
+import DoctorRegister from './Components/DoctorRegister';
 
 function App() {
   const [user, dispatch] = useReducer(MyUserReducer, null);
@@ -19,8 +20,9 @@ function App() {
         <Header />
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/user-login" element={<Login />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/user-register" element={<UserRegister />} />
+            <Route path="/doctor-register" element={<DoctorRegister />} />
         </Routes>
         <Footer />
         </BrowserRouter>

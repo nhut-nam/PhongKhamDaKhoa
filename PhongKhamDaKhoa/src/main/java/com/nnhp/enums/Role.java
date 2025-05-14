@@ -73,7 +73,6 @@ public enum Role {
                 Logger.getLogger(Role.class.getName()).log(Level.SEVERE, null, ex);
             }
             bs.setNgayNghiViec(null);
-            bs.setTrangThai(Boolean.TRUE);
             return bs;
         }
 
