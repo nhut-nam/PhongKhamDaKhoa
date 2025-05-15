@@ -5,6 +5,7 @@
 package com.nnhp.servicesImpl;
 
 import com.nnhp.pojo.Bacsi;
+import com.nnhp.pojo.Chuyenkhoa;
 import com.nnhp.repositories.BacSiRepository;
 import com.nnhp.services.BacSiService;
 import java.util.List;
@@ -40,6 +41,11 @@ public class BacSiServiceImpl implements BacSiService{
     @Override
     public void deleteBacSi(int id) {
         this.bacSiRepo.deleteBacSi(id);
+    }
+
+    @Override
+    public List<Chuyenkhoa> getChuyenKhoaByBacSiId(int id) {
+        return this.bacSiRepo.getChuyenKhoaByBacSiId(id);
     }
     
 }

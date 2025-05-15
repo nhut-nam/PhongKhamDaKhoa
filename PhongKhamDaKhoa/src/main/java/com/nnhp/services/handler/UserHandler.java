@@ -4,6 +4,7 @@
  */
 package com.nnhp.services.handler;
 
+import com.nnhp.enums.TrangThaiTaiKhoan;
 import com.nnhp.formaters.Formatter;
 import com.nnhp.pojo.Benhnhan;
 import com.nnhp.pojo.Taikhoan;
@@ -41,6 +42,7 @@ public class UserHandler implements RoleHandler {
                 Logger.getLogger(TaiKhoanServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         tk.setSoDienThoai(params.get("soDienThoai"));
+        tk.setTrangThai(TrangThaiTaiKhoan.KICH_HOAT);
         tk.setRole("USER");
         return tk;
     }

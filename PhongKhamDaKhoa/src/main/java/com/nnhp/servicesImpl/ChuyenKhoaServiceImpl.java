@@ -4,6 +4,7 @@
  */
 package com.nnhp.servicesImpl;
 
+import com.nnhp.pojo.Benhvien;
 import com.nnhp.pojo.Chuyenkhoa;
 import com.nnhp.repositories.ChuyenKhoaRepository;
 import com.nnhp.services.ChuyenKhoaService;
@@ -39,5 +40,10 @@ public class ChuyenKhoaServiceImpl implements ChuyenKhoaService{
     @Override
     public void deleteChuyenKhoa(int id) {
         this.chuyenKhoaRepo.deleteChuyenKhoa(id);
+    }
+
+    @Override
+    public List<Chuyenkhoa> getChuyenKhoaByBenhVien(int bvId) {
+        return this.chuyenKhoaRepo.getChuyenKhoaByBenhVien(bvId);
     }
 }

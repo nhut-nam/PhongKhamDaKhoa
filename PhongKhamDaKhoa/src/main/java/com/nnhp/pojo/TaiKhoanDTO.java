@@ -4,6 +4,7 @@
  */
 package com.nnhp.pojo;
 
+import com.nnhp.enums.TrangThaiTaiKhoan;
 import java.util.Date;
 
 
@@ -20,8 +21,12 @@ public class TaiKhoanDTO {
     private String tenNguoiDung;
     private String soDienThoai;
     private Date ngaySinh;
+    private String role;
+    private TrangThaiTaiKhoan trangThai;
+    
 
-    public TaiKhoanDTO(Integer id, String email, String diaChi, String avatar, String hoNguoiDung, String tenNguoiDung, String soDienThoai, Date ngaySinh) {
+    public TaiKhoanDTO(Integer id, String email, String diaChi, String avatar, String hoNguoiDung, 
+            String tenNguoiDung, String soDienThoai, Date ngaySinh, String role, TrangThaiTaiKhoan trangThai) {
         this.id = id;
         this.email = email;
         this.diaChi = diaChi;
@@ -30,13 +35,21 @@ public class TaiKhoanDTO {
         this.tenNguoiDung = tenNguoiDung;
         this.soDienThoai = soDienThoai;
         this.ngaySinh = ngaySinh;
+        this.role = role;
+        this.trangThai = trangThai;
     }
-    
-    
     
     public static TaiKhoanDTO convertToDTO(Taikhoan tk) {
         return new TaiKhoanDTO(tk.getId(), tk.getEmail(), tk.getDiaChi(), tk.getAvatar(), 
-                tk.getHoNguoiDung(), tk.getTenNguoiDung(), tk.getSoDienThoai(), tk.getNgaySinh());
+                tk.getHoNguoiDung(), tk.getTenNguoiDung(), tk.getSoDienThoai(), tk.getNgaySinh(), tk.getRole(), tk.getTrangThai());
+    }
+
+    public TrangThaiTaiKhoan getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(TrangThaiTaiKhoan trangThai) {
+        this.trangThai = trangThai;
     }
 
     public Integer getId() {
@@ -101,6 +114,14 @@ public class TaiKhoanDTO {
 
     public void setNgaySinh(Date ngaySinh) {
         this.ngaySinh = ngaySinh;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
     
     

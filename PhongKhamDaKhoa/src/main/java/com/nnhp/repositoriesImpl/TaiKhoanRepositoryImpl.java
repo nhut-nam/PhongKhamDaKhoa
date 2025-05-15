@@ -9,6 +9,8 @@ import com.nnhp.pojo.Quantri;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.repositories.TaiKhoanRepository;
 import jakarta.persistence.Query;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.ws.rs.NotFoundException;
 import java.util.List;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +31,16 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
     private LocalSessionFactoryBean factory;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    
+
     @Override
     public Taikhoan getUserByEmail(String email) {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Taikhoan.findByEmail", Taikhoan.class);
         q.setParameter("email", email);
-        Taikhoan account = (Taikhoan) q.getSingleResult();
-        return account;
+        List<Taikhoan> results = q.getResultList();
+        return results.isEmpty() ? null : results.get(0);
     }
-    
+
     @Override
     public Taikhoan getTaikhoanTest(String email) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -55,22 +57,25 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
     }
 
     @Override
-    public Taikhoan addTaiKhoan(Taikhoan tk) {  
-        Session s = this.factory.getObject().getCurrentSession();
-        
-        if (tk.getId() == null) {
-            s.persist(tk);
-        } else {
-            s.merge(tk);
+    public Taikhoan addTaiKhoan(Taikhoan tk) {
+        if (tk == null) {
+            return null;
         }
+        Session s = this.factory.getObject().getCurrentSession();
+
+            s.persist(tk);
+
         s.refresh(tk);
-        
         return tk;
     }
 
     @Override
     public boolean authenticate(String email, String matKhau) {
         Taikhoan tk = this.getUserByEmail(email);
+        if (tk == null) {
+            return false;
+        }
+        
         return this.passwordEncoder.matches(matKhau, tk.getMatKhau());
     }
 
@@ -87,5 +92,17 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
         Query q = s.createNamedQuery("Taikhoan.findById", Taikhoan.class);
         q.setParameter("id", id);
         return (Taikhoan)q.getSingleResult();
+    }
+
+    @Override
+    public Taikhoan addOrUpdateTaiKhoan(Taikhoan tk) {
+        Session s = this.factory.getObject().getCurrentSession();
+        if (tk.getId() == null) {
+            s.persist(tk);
+        } 
+        else {
+            s.merge(tk);
+        }
+        return tk;
     }
 }

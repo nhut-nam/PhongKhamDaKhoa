@@ -59,8 +59,8 @@
                     <td>
                          <a th:if="${taiKhoan.role == 'USER'}" th:href="@{'/tai-khoan/' + ${taiKhoan.email}}" class="btn btn-success">Sửa</a>
                          <a th:if="${taiKhoan.role == 'DOCTOR'}" th:href="@{'/bac-si/' + ${taiKhoan.id}}" class="btn btn-success">Sửa</a>
-                         <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/tai-khoan/}+'\', \'' + ${#encoding.urlEncode(taiKhoan.email)} + '\')'">Xóa</button>
-<!--                         <button  class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/tai-khoan/}+'\','+${#encoding.urlEncode(taiKhoan.email)}+')'">Xóa</button>-->
+<!--                         <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/tai-khoan/}+'\', \'' + ${#encoding.urlEncode(taiKhoan.email)} + '\')'">Xóa</button>
+-->                         <button  class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/tai-khoan/}+'\','+${taiKhoan.id}+')'">Xóa</button>
                     </td>
                 </tr>
                 

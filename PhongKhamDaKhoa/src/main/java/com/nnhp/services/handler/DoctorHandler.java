@@ -4,15 +4,15 @@
  */
 package com.nnhp.services.handler;
 
+import com.nnhp.enums.TrangThaiTaiKhoan;
 import com.nnhp.formaters.Formatter;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Taikhoan;
-import com.nnhp.services.BenhVienService;
-import com.nnhp.servicesImpl.TaiKhoanServiceImpl;
+import com.nnhp.repositories.BenhVienRepository;
+import com.nnhp.repositories.ChuyenKhoaRepository;
+import com.nnhp.services.BacSiThuocChuyenKhoaService;
 import java.text.ParseException;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -23,8 +23,13 @@ import org.springframework.stereotype.Component;
  */
 @Component("DOCTOR")
 public class DoctorHandler implements RoleHandler {
+
     @Autowired
-    private BenhVienService bvService;
+    private BenhVienRepository bvRepo;
+    @Autowired
+    private ChuyenKhoaRepository ckRepo;
+    @Autowired
+    private BacSiThuocChuyenKhoaService bsckService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -42,14 +47,15 @@ public class DoctorHandler implements RoleHandler {
             tk.setNgaySinh(Formatter.DATE_FORMATTER.parse(params.get("ngaySinh")));
             tk.setNgayLamViec(Formatter.DATE_FORMATTER.parse(params.get("ngayLamViec")));
         } catch (ParseException ex) {
-            Logger.getLogger(TaiKhoanServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Ngày không đúng định dạng yyyy-MM-dd", ex);
         }
         tk.setSoDienThoai(params.get("soDienThoai"));
         tk.setRole("DOCTOR");
         tk.setChuyenTri(params.get("chuyenTri"));
         tk.setNgayNghiViec(null);
-        tk.setTrangThai(Boolean.TRUE);
-        tk.setBenhvienId(this.bvService.getBenhVienById(Integer.valueOf(params.get("benhVienId"))));
+        tk.setTrangThai(TrangThaiTaiKhoan.DOI_XAC_NHAN);
+        tk.setBenhvienId(this.bvRepo.getBenhVienById(Integer.parseInt(params.get("benhVien"))));
+
         return tk;
     }
 

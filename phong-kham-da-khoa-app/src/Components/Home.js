@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import '../Styles/Home.css';
+import { MyDispatcherContext, MyUserContext } from '../Configs/MyContexts';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
+    const user = useContext(MyUserContext);
+    const dispatch = useContext(MyDispatcherContext);
     return (
         <main>
             <section className="hero-banner">
@@ -12,7 +16,7 @@ const Home = () => {
                             MedPro cung cấp các giải pháp y tế toàn diện với đội ngũ bác sĩ chuyên môn cao và trang thiết bị hiện đại
                         </p>
                         <div className="hero-buttons">
-                            <a href="#" className="btn-primary">Đặt lịch khám</a>
+                            {user !== null && (user.user.role !== "DOCTOR" && <Link to="#" className="btn-primary">Đặt lịch khám</Link>)}
                             <a href="#" className="btn-secondary">Tìm hiểu thêm</a>
                         </div>
                     </div>

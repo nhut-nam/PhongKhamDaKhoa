@@ -6,6 +6,7 @@ package com.nnhp.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nnhp.enums.Role;
+import com.nnhp.enums.TrangThaiTaiKhoan;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -93,13 +94,23 @@ public class Taikhoan implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "so_dien_thoai")
+    @Column(name = "so_dien_thoai", unique = true)
     private String soDienThoai;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "ten_nguoi_dung")
     private String tenNguoiDung;
+    @Column(name = "trang_thai")
+    private TrangThaiTaiKhoan trangThai;
+
+    public TrangThaiTaiKhoan getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(TrangThaiTaiKhoan trangThai) {
+        this.trangThai = trangThai;
+    }
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "taikhoanId")
     private Collection<Danhgia> danhgiaCollection;
 
@@ -244,5 +255,4 @@ public class Taikhoan implements Serializable {
     public String toString() {
         return "com.nnhp.pojo.Taikhoan[ id=" + id + " ]";
     }
-    
 }

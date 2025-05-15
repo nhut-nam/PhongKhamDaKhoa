@@ -19,4 +19,5 @@ public interface TaiKhoanRepository {
     Taikhoan addTaiKhoan(Taikhoan tk);
     boolean authenticate(String email, String matKhau);
     void deleteUser(int id);
+    Taikhoan addOrUpdateTaiKhoan(Taikhoan tk);
 }

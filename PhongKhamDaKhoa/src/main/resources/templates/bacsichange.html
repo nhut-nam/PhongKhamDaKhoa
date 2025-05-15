@@ -30,7 +30,11 @@
                 <input type="date" class="form-control" id="ngayNghiViec" placeholder="Ngày nghỉ việc" name="ngayNghiViec" th:value="${#dates.format(bacSi.ngayNghiViec, 'yyyy-MM-dd')}"  />
                 <div class ="mt-2">
                 <label for="trangThai" class="form-label">Trạng thái hoạt động:</label>
-                <input type="checkbox" class="form-check-input" id="trangThai" th:field="*{trangThai}" />
+                <select class="form-select" th:field="*{trangThai}">
+                    <option th:value="KICH_HOAT" th:text="'Kích hoạt'"></option>
+                    <option th:value="HUY_KICH_HOAT" th:text="'Hủy kích hoạt'"></option>
+                    <option th:value="DOI_XAC_NHAN" th:text="'Đợi xác nhận'"></option>
+                </select>
                 </div>
                 <label for="tenBenhVien" class="form-label">Tên bệnh viện: </label>
                 <select class="form-select" id="benhVien" th:field="*{benhvienId.id}">
@@ -40,6 +44,16 @@
                             th:text="${bv.tenBenhVien}">
                     </option>
                 </select>
+                <label for="chuyenKhoa" class="form-label">Chuyên khoa:</label>
+                <select class="form-select" name="dsChuyenKhoa" id="chuyenKhoa" multiple size="5">
+                    <option value="" disabled >-- Chọn chuyên khoa --</option>
+                    <option th:each="ck : ${dsChuyenKhoa}"
+                            th:value="${ck.id}"
+                            th:text="${ck.tenChuyenKhoa}"
+                            th:selected="${dsChuyenKhoaDaChon.contains(ck.id)}">
+                    </option>
+                </select>
+
             </div>
             <div class="mb-3 mt-3">
                 <input type="hidden" class="form-control" th:field="*{id}"  />

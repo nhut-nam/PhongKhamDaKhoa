@@ -64,5 +64,12 @@ public class BenhVienRepositoryImpl implements BenhVienRepository{
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Benhvien.class, id);
     }
+
+    @Override
+    public List<Benhvien> getAllBenhVien() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Benhvien.findAll", Benhvien.class);
+        return q.getResultList();
+    }
     
 }

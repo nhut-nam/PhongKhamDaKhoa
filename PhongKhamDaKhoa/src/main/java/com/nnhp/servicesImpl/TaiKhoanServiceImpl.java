@@ -96,7 +96,19 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     }
     
     @Override
-    public void deleteUser(String email) {
-        this.tkRepo.deleteUser(email);
+    public void deleteUser(int id) {
+        this.tkRepo.deleteUser(id);
     }
+
+    @Override
+    public Taikhoan getUserById(int id) {
+        return this.tkRepo.getUserById(id);
+        
+    }
+
+    @Override
+    public Taikhoan addOrUpdateTaiKhoan(Taikhoan tk) {
+        return this.tkRepo.addOrUpdateTaiKhoan(tk);
+    }
+
 }

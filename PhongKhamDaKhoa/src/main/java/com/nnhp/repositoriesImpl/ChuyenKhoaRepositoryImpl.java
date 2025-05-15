@@ -4,11 +4,13 @@
  */
 package com.nnhp.repositoriesImpl;
 
+import com.nnhp.pojo.Benhvienchuyenkhoa;
 import com.nnhp.pojo.Chuyenkhoa;
 import com.nnhp.repositories.ChuyenKhoaRepository;
 import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
@@ -81,6 +83,18 @@ public class ChuyenKhoaRepositoryImpl implements ChuyenKhoaRepository{
         Session s = this.factory.getObject().getCurrentSession();
         Chuyenkhoa c = this.getChuyenKhoaById(id);
         s.remove(c);
+    }
+
+    @Override
+    public List<Chuyenkhoa> getChuyenKhoaByBenhVien(int bvId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Chuyenkhoa> q = b.createQuery(Chuyenkhoa.class);
+        Root<Benhvienchuyenkhoa> root = q.from(Benhvienchuyenkhoa.class);
+        Join<Benhvienchuyenkhoa, Chuyenkhoa> ckJoin = root.join("chuyenkhoaId");
+        q.select(ckJoin).where(b.equal(root.get("benhvienId").get("id"), bvId)).distinct(true);
+        
+        return s.createQuery(q).getResultList();
     }
     
 }
