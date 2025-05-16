@@ -76,7 +76,7 @@ export default function RegisterUser() {
             <div className="register-card">
                 <button
                     className="back-button-icon"
-                    onClick={() => nav("/user-login")}
+                    onClick={() => nav("/login")}
                 >
                     <BiArrowBack size={22} />
                 </button>

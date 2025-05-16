@@ -9,6 +9,7 @@ import { MyDispatcherContext, MyUserContext } from './Configs/MyContexts';
 import { useReducer } from 'react';
 import MyUserReducer from './reducers/MyUserReducer';
 import DoctorRegister from './Components/DoctorRegister';
+import ServicesPage from './Components/ServicesPage';
 
 function App() {
   const [user, dispatch] = useReducer(MyUserReducer, null);
@@ -23,6 +24,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/user-register" element={<UserRegister />} />
             <Route path="/doctor-register" element={<DoctorRegister />} />
+            <Route path="/dich-vu" element={<ServicesPage />} />
         </Routes>
         <Footer />
         </BrowserRouter>

@@ -36,7 +36,7 @@ const Header = () => {
                         <ul>
                             <li><Link to="/">Trang chủ</Link></li>
                             <li><Link to="/about">Giới thiệu</Link></li>
-                            <li><Link to="/services">Dịch vụ</Link></li>
+                            <li><Link to="/dich-vu">Dịch vụ</Link></li>
                             <li><Link to="/news">Tin tức</Link></li>
                             <li><Link to="/contact">Liên hệ</Link></li>
                             {user === null ? <li><Link to="/login">Đăng nhập</Link></li>

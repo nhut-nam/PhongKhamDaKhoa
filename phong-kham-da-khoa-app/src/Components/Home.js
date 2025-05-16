@@ -6,6 +6,18 @@ import { Link } from 'react-router-dom';
 const Home = () => {
     const user = useContext(MyUserContext);
     const dispatch = useContext(MyDispatcherContext);
+    const [searchTerm, setSearchTerm] = React.useState('');
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        // Xử lý tìm kiếm ở đây, ví dụ: chuyển hướng hoặc gọi API
+        alert(`Tìm kiếm: ${searchTerm}`);
+    };
+
     return (
         <main>
             <section className="hero-banner">
@@ -15,6 +27,18 @@ const Home = () => {
                         <p>
                             MedPro cung cấp các giải pháp y tế toàn diện với đội ngũ bác sĩ chuyên môn cao và trang thiết bị hiện đại
                         </p>
+                        <form className="search-bar" onSubmit={handleSearchSubmit}>
+                            <input
+                                type="text"
+                                className="search-input"
+                                placeholder="Tìm kiếm bác sĩ, chuyên khoa, dịch vụ..."
+                                value={searchTerm}
+                                onChange={handleSearchChange}
+                            />
+                            <button type="submit" className="search-button">
+                                Tìm kiếm
+                            </button>
+                        </form>
                         <div className="hero-buttons">
                             {user !== null && (user.user.role !== "DOCTOR" && <Link to="#" className="btn-primary">Đặt lịch khám</Link>)}
                             <a href="#" className="btn-secondary">Tìm hiểu thêm</a>
@@ -28,19 +52,20 @@ const Home = () => {
                     <h2 className="section-title">Dịch vụ của chúng tôi</h2>
                     <div className="services-grid">
                         <div className="service-card">
-                            <i className="fas fa-heartbeat"></i>
-                            <h3>Khám tổng quát</h3>
-                            <p>Kiểm tra sức khỏe toàn diện với các xét nghiệm cơ bản và chuyên sâu</p>
+                            <i className="fas fa-hospital-alt"></i>
+                            <h3>Đặt lịch khám theo cơ sở</h3>
                         </div>
                         <div className="service-card">
-                            <i className="fas fa-procedures"></i>
-                            <h3>Phẫu thuật</h3>
-                            <p>Thực hiện các ca phẫu thuật với công nghệ tiên tiến nhất</p>
+                            <i className="fas fa-stethoscope"></i>
+                            <h3>Đặt lịch khám theo chuyên khoa</h3>
                         </div>
                         <div className="service-card">
-                            <i className="fas fa-tooth"></i>
-                            <h3>Nha khoa</h3>
-                            <p>Chăm sóc răng miệng toàn diện cho cả gia đình</p>
+                            <i className="fas fa-user-md"></i>
+                            <h3>Đặt lịch khám theo bác sĩ</h3>
+                        </div>
+                        <div className="service-card">
+                            <i className="fas fa-video"></i>
+                            <h3>Gọi video với bác sĩ</h3>
                         </div>
                     </div>
                 </div>
