@@ -44,7 +44,7 @@ public class Benhvienchuyenkhoa implements Serializable {
     @ManyToOne(optional = false)
     private Chuyenkhoa chuyenkhoaId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhvienchuyenkhoaId")
-    private Collection<Dichvu> dichvuCollection;
+    private Collection<BenhVienChuyenKhoaDichVu> benhvienchuyenkhoadichvuCollection;
 
     public Benhvienchuyenkhoa() {
     }
@@ -77,12 +77,12 @@ public class Benhvienchuyenkhoa implements Serializable {
         this.chuyenkhoaId = chuyenkhoaId;
     }
 
-    public Collection<Dichvu> getDichvuCollection() {
-        return dichvuCollection;
+    public Collection<BenhVienChuyenKhoaDichVu> getDichvuCollection() {
+        return benhvienchuyenkhoadichvuCollection;
     }
 
-    public void setDichvuCollection(Collection<Dichvu> dichvuCollection) {
-        this.dichvuCollection = dichvuCollection;
+    public void setDichvuCollection(Collection<BenhVienChuyenKhoaDichVu> benhvienchuyenkhoadichvuCollection) {
+        this.benhvienchuyenkhoadichvuCollection = benhvienchuyenkhoadichvuCollection;
     }
 
     @Override

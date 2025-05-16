@@ -4,6 +4,7 @@
  */
 package com.nnhp.pojo;
 
+import com.nnhp.enums.LoaiThanhToan;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -57,9 +58,14 @@ public class Lichkham implements Serializable {
     @Size(max = 255)
     @Column(name = "buoi")
     private String buoi;
-    @JoinColumn(name = "bacsidichvu_id", referencedColumnName = "id")
+    @Column(name = "loai_thanh_toan")
+    private LoaiThanhToan loaiThanhToan;
+    @JoinColumn(name = "benhvienchuyenkhoadichvu_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Bacsidichvu bacsidichvuId;
+    private BenhVienChuyenKhoaDichVu benhvienchuyenkhoadichvuId;
+    @JoinColumn(name = "bacsi_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Bacsi bacsiId;
     @JoinColumn(name = "hoso_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Hoso hosoId;
@@ -113,12 +119,30 @@ public class Lichkham implements Serializable {
         this.buoi = buoi;
     }
 
-    public Bacsidichvu getBacsidichvuId() {
-        return bacsidichvuId;
+    public LoaiThanhToan getLoaiThanhToan() {
+        return loaiThanhToan;
     }
 
-    public void setBacsidichvuId(Bacsidichvu bacsidichvuId) {
-        this.bacsidichvuId = bacsidichvuId;
+    public void setLoaiThanhToan(LoaiThanhToan loaiThanhToan) {
+        this.loaiThanhToan = loaiThanhToan;
+    }
+    
+    
+
+    public BenhVienChuyenKhoaDichVu getBenhvienchuyenkhoadichvuId() {
+        return benhvienchuyenkhoadichvuId;
+    }
+
+    public void setBenhvienchuyenkhoadichvuId(BenhVienChuyenKhoaDichVu benhvienchuyenkhoadichvuId) {
+        this.benhvienchuyenkhoadichvuId = benhvienchuyenkhoadichvuId;
+    }
+
+    public Bacsi getBacsiId() {
+        return bacsiId;
+    }
+
+    public void setBacsiId(Bacsi bacsiId) {
+        this.bacsiId = bacsiId;
     }
 
     public Hoso getHosoId() {

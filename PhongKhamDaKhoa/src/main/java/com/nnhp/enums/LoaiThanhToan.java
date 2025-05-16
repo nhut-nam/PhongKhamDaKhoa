@@ -10,5 +10,6 @@ package com.nnhp.enums;
  */
 public enum LoaiThanhToan {
     THANH_TOAN_TAI_BENH_VIEN,
-    THANH_TOAN_TRUC_TUYEN
+    THANH_TOAN_TRUC_TUYEN,
+    BOTH
 }

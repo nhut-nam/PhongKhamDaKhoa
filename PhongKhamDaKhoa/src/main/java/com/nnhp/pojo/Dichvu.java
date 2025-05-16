@@ -28,11 +28,23 @@ import java.util.Collection;
 @Entity
 @Table(name = "dichvu")
 @NamedQueries({
-    @NamedQuery(name = "Dichvu.findAll", query = "SELECT d FROM Dichvu d"),
-    @NamedQuery(name = "Dichvu.findById", query = "SELECT d FROM Dichvu d WHERE d.id = :id"),
-    @NamedQuery(name = "Dichvu.findByLoaiDichVu", query = "SELECT d FROM Dichvu d WHERE d.loaiDichVu = :loaiDichVu"),
-    @NamedQuery(name = "Dichvu.findByLoaiThanhToan", query = "SELECT d FROM Dichvu d WHERE d.loaiThanhToan = :loaiThanhToan"),
-    @NamedQuery(name = "Dichvu.findByTenDichVu", query = "SELECT d FROM Dichvu d WHERE d.tenDichVu = :tenDichVu")})
+    @NamedQuery(name = "Dichvu.findAll", 
+                query = "SELECT d FROM Dichvu d"),
+
+    @NamedQuery(name = "Dichvu.findById", 
+                query = "SELECT d FROM Dichvu d WHERE d.id = :id"),
+
+    @NamedQuery(name = "Dichvu.findByLoaiDichVu", 
+                query = "SELECT d FROM Dichvu d WHERE d.loaiDichVu = :loaiDichVu"),
+
+    @NamedQuery(name = "Dichvu.findByLoaiThanhToan", 
+                query = "SELECT d FROM Dichvu d WHERE d.loaiThanhToan = :loaiThanhToan"),
+
+    @NamedQuery(name = "Dichvu.findByTenDichVu", 
+                query = "SELECT d FROM Dichvu d WHERE d.tenDichVu = :tenDichVu"),
+
+    @NamedQuery(name = "Dichvu.findByBenhVienChuyenKhoa", 
+                query = "SELECT d FROM Dichvu d WHERE d.benhvienchuyenkhoaId.id = :benhvienChuyenKhoaId")})
 public class Dichvu implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,7 +61,7 @@ public class Dichvu implements Serializable {
     @Column(name = "ten_dich_vu")
     private String tenDichVu;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dichvuId")
-    private Collection<Bacsidichvu> bacsidichvuCollection;
+    private Collection<BenhVienChuyenKhoaDichVu> benhvienchuyenkhoadichvuCollection;
     @JoinColumn(name = "benhvienchuyenkhoa_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Benhvienchuyenkhoa benhvienchuyenkhoaId;
@@ -93,12 +105,12 @@ public class Dichvu implements Serializable {
         this.tenDichVu = tenDichVu;
     }
 
-    public Collection<Bacsidichvu> getBacsidichvuCollection() {
-        return bacsidichvuCollection;
+    public Collection<BenhVienChuyenKhoaDichVu> getBacsidichvuCollection() {
+        return benhvienchuyenkhoadichvuCollection;
     }
 
-    public void setBacsidichvuCollection(Collection<Bacsidichvu> bacsidichvuCollection) {
-        this.bacsidichvuCollection = bacsidichvuCollection;
+    public void setBacsidichvuCollection(Collection<BenhVienChuyenKhoaDichVu> benhvienchuyenkhoadichvuCollection) {
+        this.benhvienchuyenkhoadichvuCollection = benhvienchuyenkhoadichvuCollection;
     }
 
     public Benhvienchuyenkhoa getBenhvienchuyenkhoaId() {
