@@ -13,4 +13,5 @@ import java.util.Map;
  */
 public interface RoleHandler {
     Taikhoan handle(Map<String, String> params);
+    Taikhoan handle(Taikhoan tk);
 }

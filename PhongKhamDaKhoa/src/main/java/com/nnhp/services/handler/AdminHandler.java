@@ -45,4 +45,9 @@ public class AdminHandler implements RoleHandler {
         tk.setTrangThai(TrangThaiTaiKhoan.KICH_HOAT);
         return tk;
     }
+
+    @Override
+    public Taikhoan handle(Taikhoan tk) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

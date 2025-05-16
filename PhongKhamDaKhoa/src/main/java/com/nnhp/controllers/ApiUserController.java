@@ -29,11 +29,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -110,4 +113,12 @@ public class ApiUserController {
         }
         return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.getUserByEmail(principal.getName())), HttpStatus.OK);
     }
+    
+    @DeleteMapping("/tai-khoan/{taiKhoanId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CrossOrigin
+    public void destroy(@PathVariable(value = "taiKhoanId") int id) {
+        this.userDetailsService.deleteUser(id);
+    }
+    
 }

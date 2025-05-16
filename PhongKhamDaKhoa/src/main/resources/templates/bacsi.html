@@ -28,6 +28,14 @@
                     <th>STT</th>
                     <th>Tên bác sĩ</th>
                     <th>Tên bệnh viện</th>
+                    <th>Email</th>
+                    <th>Mật khẩu</th>
+                    <th>Số điện thoại</th>
+                    <th>Ngày sinh</th>
+                    <th>Ngày làm việc</th>
+                    <th>Ngày nghỉ việc</th>
+                    <th>Chuyên trị</th>
+                    <th>Trạng thái hoạt động</th>
                     <th></th>
                     <th>Thao tác</th>
                 </tr>
@@ -36,7 +44,15 @@
                 <tr th:each="bacSi, iterStat : ${dsBacSi}">
                     <td th:text="${iterStat.count}"></td> <!-- Đếm số thứ tự -->
                     <td th:text="${bacSi.getHoNguoiDung()+' '+bacSi.getTenNguoiDung()}"></td>
-                    <td th:text="${bacSi.getBenhVien().getTenBenhVien()}"></td>  
+                    <td th:text="${bacSi.getBenhvienId().getTenBenhVien()}"></td>
+                    <td th:text="${bacSi.getEmail()}"></td>  
+                    <td th:text="${bacSi.getMatKhau()}"></td>  
+                    <td th:text="${bacSi.getSoDienThoai()}"></td>  
+                    <td th:text="${bacSi.getNgaySinh()}"></td>
+                    <td th:text="${bacSi.getNgayLamViec()}"></td>  
+                    <td th:text="${bacSi.getNgayNghiViec()}"></td>  
+                    <td th:text="${bacSi.getChuyenTri()}"></td>  
+                    <td th:text="${bacSi.getTrangThai() ? 'Hoạt động' : 'Không hoạt động'}"></td>
                     <td>
                         <img th:src="${bacSi.getAvatar()}" width="200">
                     </td>

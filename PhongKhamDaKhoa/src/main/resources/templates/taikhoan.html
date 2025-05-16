@@ -1,0 +1,75 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý đặt lịch khám</title>
+    <th:block th:replace="base :: bootstrap"></th:block>
+</head>
+<body>
+    <main class="container">
+        <div th:replace="base :: header"></div>
+        <h2 class="text-center text-info mt-1">Danh sách tài khoản</h2>
+         <form th:action="@{/admin-tai-khoan}" id="searchForm">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3 mt-3">
+                        <input type="text" class="form-control" name="email" placeholder="Email..." />
+                    </div>
+                </div>
+            <div class="mb-3 mt-3">
+                <button class="btn btn-info" type="submit">Tìm kiếm</button>
+            </div>
+            </div>
+        </form>
+        <hr  />   
+        
+        <div class="dropdown mt-2 mb-2">
+        <button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          Thêm tài khoản
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" th:href="@{/bacsichange}">Bác sĩ</a></li>
+          <li><a class="dropdown-item" th:href="@{/taikhoanchange}">Bệnh nhân</a></li>
+        </ul>
+        </div>
+        
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>STT</th>
+                    <th>Email</th>
+                    <th>Họ người dùng</th>
+                    <th>Tên người dùng</th>
+                    <th>Mật khẩu</th>
+                    <th>Ngày sinh</th>
+                    <th>Số điện thoại</th>
+                    <th>Vai trò</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="taiKhoan, iterStat : ${dsTaiKhoan}">
+                    <td th:text="${iterStat.count}"></td> <!-- Đếm số thứ tự -->
+                    <td th:text="${taiKhoan.email}"></td>
+                    <td th:text="${taiKhoan.hoNguoiDung}"></td>
+                    <td th:text="${taiKhoan.tenNguoiDung}"></td>
+                    <td th:text="${taiKhoan.matKhau}"></td>
+                    <td th:text="${taiKhoan.ngaySinh}"></td>
+                    <td th:text="${taiKhoan.soDienThoai}"></td>
+                    <td th:text="${taiKhoan.role}"></td>
+                    <td>
+                         <a th:if="${taiKhoan.role == 'USER'}" th:href="@{'/tai-khoan/' + ${taiKhoan.email}}" class="btn btn-success">Sửa</a>
+                         <a th:if="${taiKhoan.role == 'DOCTOR'}" th:href="@{'/bac-si/' + ${taiKhoan.id}}" class="btn btn-success">Sửa</a>
+<!--                         <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/tai-khoan/}+'\', \'' + ${#encoding.urlEncode(taiKhoan.email)} + '\')'">Xóa</button>
+-->                         <button  class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/tai-khoan/}+'\','+${taiKhoan.id}+')'">Xóa</button>
+                    </td>
+                </tr>
+                
+         
+            </tbody>
+        </table>
+        
+    </main>
+        <script th:src="@{/js/main.js}"></script>
+</body>
+   
+

@@ -5,6 +5,7 @@
 package com.nnhp.services;
 
 import com.nnhp.pojo.Bacsi;
+import com.nnhp.pojo.Chuyenkhoa;
 import java.util.List;
 import java.util.Map;
 
@@ -17,4 +18,5 @@ public interface BacSiService {
     Bacsi getBacSiById(int id);
     Bacsi addOrUpdateBacSi(Bacsi b);
     void deleteBacSi(int id);
+    List<Chuyenkhoa> getChuyenKhoaByBacSiId(int id);
 }

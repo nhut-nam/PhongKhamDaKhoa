@@ -4,6 +4,7 @@
  */
 package com.nnhp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nnhp.enums.Role;
 import com.nnhp.enums.TrangThaiTaiKhoan;
 import jakarta.persistence.Basic;
@@ -28,6 +29,7 @@ import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *

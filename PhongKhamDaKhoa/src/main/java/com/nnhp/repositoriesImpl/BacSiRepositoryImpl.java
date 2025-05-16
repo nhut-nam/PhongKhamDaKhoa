@@ -5,7 +5,9 @@
 package com.nnhp.repositoriesImpl;
 
 import com.nnhp.pojo.Bacsi;
+import com.nnhp.pojo.Bacsithuocchuyenkhoa;
 import com.nnhp.pojo.Benhvien;
+import com.nnhp.pojo.Chuyenkhoa;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.repositories.BacSiRepository;
 import jakarta.persistence.Query;
@@ -46,7 +48,7 @@ public class BacSiRepositoryImpl implements BacSiRepository {
 
         if (params != null) {
             List<Predicate> predicates = new ArrayList<>();
-            Join<Bacsi, Benhvien> bvJoin = root.join("benhVien");
+            Join<Bacsi, Benhvien> bvJoin = root.join("benhvienId");
             Expression<String> fullName = b.concat(b.concat(root.get("hoNguoiDung")," "),root.get("tenNguoiDung"));
             String kw = params.get("kw");
             
@@ -105,5 +107,17 @@ public class BacSiRepositoryImpl implements BacSiRepository {
     Session s = this.factory.getObject().getCurrentSession();
         Bacsi b = this.getBacSiById(id);
         s.remove(b);
+    }
+
+    @Override
+    public List<Chuyenkhoa> getChuyenKhoaByBacSiId(int id) {
+        Bacsi bacSi = this.getBacSiById(id);
+        List<Chuyenkhoa> dsChuyenKhoa = new ArrayList<>();
+
+        for (Bacsithuocchuyenkhoa bck : bacSi.getBacsithuocchuyenkhoaCollection()) {
+            dsChuyenKhoa.add(bck.getChuyenkhoaId());
+        }
+
+    return dsChuyenKhoa;
     }
 }

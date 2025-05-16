@@ -78,4 +78,31 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
         
         return this.passwordEncoder.matches(matKhau, tk.getMatKhau());
     }
+
+    @Override
+    public void deleteUser(int id) {
+       Session s = this.factory.getObject().getCurrentSession();
+       Taikhoan tk = this.getUserById(id);
+       s.remove(tk);
+    }
+
+    @Override
+    public Taikhoan getUserById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Taikhoan.findById", Taikhoan.class);
+        q.setParameter("id", id);
+        return (Taikhoan)q.getSingleResult();
+    }
+
+    @Override
+    public Taikhoan addOrUpdateTaiKhoan(Taikhoan tk) {
+        Session s = this.factory.getObject().getCurrentSession();
+        if (tk.getId() == null) {
+            s.persist(tk);
+        } 
+        else {
+            s.merge(tk);
+        }
+        return tk;
+    }
 }
