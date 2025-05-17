@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import '../Styles/Header.css';
 import { Link } from 'react-router-dom';
 import { MyDispatcherContext, MyUserContext } from '../Configs/MyContexts';
@@ -6,10 +6,19 @@ import { MyDispatcherContext, MyUserContext } from '../Configs/MyContexts';
 const Header = () => {
     const user = useContext(MyUserContext);
     const dispatch = useContext(MyDispatcherContext);
-    const a = useEffect(() => {
-        if (user !== null) {
-            console.log(user.user); }
-    }, [user]);
+    const [open, setOpen] = useState(false);
+    const menuRef = useRef();
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     return (
         <header>
             <div className="header-top">
@@ -28,9 +37,10 @@ const Header = () => {
 
             <div className="header-main">
                 <div className="container">
-                    <div className="logo">
-                        <img src="https://medpro.vn/images/logo.png" alt="MedPro Logo" />
-                    </div>
+                    <Link to="/" className="logo">
+                        <img src="https://res.cloudinary.com/dhsxutqtc/image/upload/v1747485304/hospital-building_krz3yt.png" alt="MedPro Logo" />
+                        <h1 className='logo-title'>MedPro</h1>
+                    </Link>
 
                     <nav className="main-menu">
                         <ul>
@@ -39,9 +49,28 @@ const Header = () => {
                             <li><Link to="/dich-vu">Dịch vụ</Link></li>
                             <li><Link to="/news">Tin tức</Link></li>
                             <li><Link to="/contact">Liên hệ</Link></li>
-                            {user === null ? <li><Link to="/login">Đăng nhập</Link></li>
-                                :<><li><Link to="/user-profile">{user.user.hoNguoiDung + ' ' + user.user.tenNguoiDung}</Link></li> 
-                                <li><Link to="/" onClick={() => dispatch({"type": "logout"})}>Đăng xuất</Link></li></>}
+                            {user === null ? (<li><Link to="/login">Đăng nhập</Link></li>)
+                                : (<><li className="user-dropdown" ref={menuRef}>
+                                    <div className="user-name" onClick={() => setOpen(!open)}>
+                                        👤 {user.user.hoNguoiDung + " " + user.user.tenNguoiDung} ▾
+                                    </div>
+
+                                    {open && (
+                                        <div className="dropdown-menu">
+                                            <p>Xin chào,</p>
+                                            <strong>{user.user.hoNguoiDung + " " + user.user.tenNguoiDung}</strong>
+                                            <hr />
+                                            <Link to="/patient">📁 Hồ sơ bệnh nhân</Link>
+                                            <Link to="/phieu-kham">📄 Phiếu khám bệnh</Link>
+                                            <Link to="/thong-bao">🔔 Thông báo</Link>
+                                            <hr />
+                                            <Link to="/" onClick={() => dispatch({ type: "logout" })} style={{ color: "red" }}>
+                                                🔴 Đăng xuất
+                                            </Link>
+                                            <div className="updated-date">Cập nhật mới nhất: {new Date().toLocaleDateString()}</div>
+                                        </div>
+                                    )}
+                                </li></>)}
                         </ul>
                     </nav>
 

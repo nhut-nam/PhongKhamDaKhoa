@@ -13,8 +13,8 @@ export default function RegisterUser() {
         ngaySinh: "",
         soDienThoai: "",
         ghiChu: "",
+        avatar: "https://res.cloudinary.com/dhsxutqtc/image/upload/v1747400157/DefaultAvatar_xbnyqq.jpg",
         diaChi: "",
-        avatar: "",
         matKhau: "",
         confirmPassword: "",
         role: "USER",
@@ -111,10 +111,6 @@ export default function RegisterUser() {
                     <div className="form-group">
                         <label>Ghi chú</label>
                         <input type="text" name="ghiChu" placeholder="Ghi chú (tuỳ chọn)" value={user.ghiChu} onChange={handleChange} />
-                    </div>
-                    <div className="form-group">
-                        <label>Link ảnh đại diện</label>
-                        <input type="file" name="avatar" placeholder="URL ảnh (tuỳ chọn)" value={user.avatar} onChange={handleChange} />
                     </div>
                     <div className="form-group">
                         <label>Mật khẩu</label>

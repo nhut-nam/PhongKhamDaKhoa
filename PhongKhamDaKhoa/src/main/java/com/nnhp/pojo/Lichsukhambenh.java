@@ -31,8 +31,7 @@ import java.util.Date;
     @NamedQuery(name = "Lichsukhambenh.findAll", query = "SELECT l FROM Lichsukhambenh l"),
     @NamedQuery(name = "Lichsukhambenh.findById", query = "SELECT l FROM Lichsukhambenh l WHERE l.id = :id"),
     @NamedQuery(name = "Lichsukhambenh.findByNgayKham", query = "SELECT l FROM Lichsukhambenh l WHERE l.ngayKham = :ngayKham"),
-    @NamedQuery(name = "Lichsukhambenh.findByChanDoan", query = "SELECT l FROM Lichsukhambenh l WHERE l.chanDoan = :chanDoan"),
-    @NamedQuery(name = "Lichsukhambenh.findByDonThuoc", query = "SELECT l FROM Lichsukhambenh l WHERE l.donThuoc = :donThuoc")})
+    @NamedQuery(name = "Lichsukhambenh.findByChanDoan", query = "SELECT l FROM Lichsukhambenh l WHERE l.chanDoan = :chanDoan")})
 public class Lichsukhambenh implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,9 +46,8 @@ public class Lichsukhambenh implements Serializable {
     @Size(max = 255)
     @Column(name = "chan_doan")
     private String chanDoan;
-    @Size(max = 255)
-    @Column(name = "don_thuoc")
-    private String donThuoc;
+    @Column(name = "ket_qua_xet_nghiem")
+    private String ketQuaXetNghiem;
     @JoinColumn(name = "bacsi_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Bacsi bacsiId;
@@ -88,14 +86,6 @@ public class Lichsukhambenh implements Serializable {
         this.chanDoan = chanDoan;
     }
 
-    public String getDonThuoc() {
-        return donThuoc;
-    }
-
-    public void setDonThuoc(String donThuoc) {
-        this.donThuoc = donThuoc;
-    }
-
     public Bacsi getBacsiId() {
         return bacsiId;
     }
@@ -110,6 +100,14 @@ public class Lichsukhambenh implements Serializable {
 
     public void setHosoId(Hoso hosoId) {
         this.hosoId = hosoId;
+    }
+
+    public String getKetQuaXetNghiem() {
+        return ketQuaXetNghiem;
+    }
+
+    public void setKetQuaXetNghiem(String ketQuaXetNghiem) {
+        this.ketQuaXetNghiem = ketQuaXetNghiem;
     }
 
     @Override

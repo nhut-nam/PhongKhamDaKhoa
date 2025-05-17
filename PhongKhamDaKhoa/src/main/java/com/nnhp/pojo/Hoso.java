@@ -19,6 +19,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
@@ -33,9 +34,7 @@ import java.util.Date;
 @NamedQueries({
     @NamedQuery(name = "Hoso.findAll", query = "SELECT h FROM Hoso h"),
     @NamedQuery(name = "Hoso.findById", query = "SELECT h FROM Hoso h WHERE h.id = :id"),
-    @NamedQuery(name = "Hoso.findByNgayTao", query = "SELECT h FROM Hoso h WHERE h.ngayTao = :ngayTao"),
-    @NamedQuery(name = "Hoso.findByKetQuaXetNghiem", query = "SELECT h FROM Hoso h WHERE h.ketQuaXetNghiem = :ketQuaXetNghiem"),
-    @NamedQuery(name = "Hoso.findByTieuSu", query = "SELECT h FROM Hoso h WHERE h.tieuSu = :tieuSu")})
+    @NamedQuery(name = "Hoso.findByNgayTao", query = "SELECT h FROM Hoso h WHERE h.ngayTao = :ngayTao")})
 public class Hoso implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,12 +46,32 @@ public class Hoso implements Serializable {
     @Column(name = "ngay_tao")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayTao;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ngay_sinh")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ngaySinh;
     @Size(max = 255)
-    @Column(name = "ket_qua_xet_nghiem")
-    private String ketQuaXetNghiem;
-    @Size(max = 255)
-    @Column(name = "tieu_su")
-    private String tieuSu;
+    @Column(name = "dia_chi")
+    private String diaChi;
+    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "email", unique = true)
+    private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "so_dien_thoai", unique = true)
+    private String soDienThoai;
+    @Column(name = "gioi_tinh")
+    private boolean gioiTinh;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "ho_ten")
+    private String hoTen;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hosoId")
     private Collection<Lichsukhambenh> lichsukhambenhCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hosoId")
@@ -84,22 +103,6 @@ public class Hoso implements Serializable {
         this.ngayTao = ngayTao;
     }
 
-    public String getKetQuaXetNghiem() {
-        return ketQuaXetNghiem;
-    }
-
-    public void setKetQuaXetNghiem(String ketQuaXetNghiem) {
-        this.ketQuaXetNghiem = ketQuaXetNghiem;
-    }
-
-    public String getTieuSu() {
-        return tieuSu;
-    }
-
-    public void setTieuSu(String tieuSu) {
-        this.tieuSu = tieuSu;
-    }
-
     public Collection<Lichsukhambenh> getLichsukhambenhCollection() {
         return lichsukhambenhCollection;
     }
@@ -123,6 +126,56 @@ public class Hoso implements Serializable {
     public void setBenhnhanId(Benhnhan benhnhanId) {
         this.benhnhanId = benhnhanId;
     }
+
+    public Date getNgaySinh() {
+        return ngaySinh;
+    }
+
+    public void setNgaySinh(Date ngaySinh) {
+        this.ngaySinh = ngaySinh;
+    }
+
+    public String getDiaChi() {
+        return diaChi;
+    }
+
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSoDienThoai() {
+        return soDienThoai;
+    }
+
+    public void setSoDienThoai(String soDienThoai) {
+        this.soDienThoai = soDienThoai;
+    }
+
+    public boolean isGioiTinh() {
+        return gioiTinh;
+    }
+
+    public void setGioiTinh(boolean gioiTinh) {
+        this.gioiTinh = gioiTinh;
+    }
+
+    public String getHoTen() {
+        return hoTen;
+    }
+
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
+    }
+    
+    
 
     @Override
     public int hashCode() {

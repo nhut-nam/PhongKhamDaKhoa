@@ -34,6 +34,7 @@ public class AdminHandler implements RoleHandler {
         tk.setDiaChi(params.get("diaChi"));
         tk.setEmail(params.get("email"));
         tk.setMatKhau(this.passwordEncoder.encode(params.get("matKhau")));
+        tk.setAvatar(params.get("avatar"));
         tk.setGhiChu(params.get("ghiChu"));
         try {
                 tk.setNgaySinh(Formatter.DATE_FORMATTER.parse(params.get("ngaySinh")));
