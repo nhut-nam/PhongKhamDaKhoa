@@ -2,31 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Quản lý đặt lịch khám</title>
-    <th:block th:replace="base :: bootstrap"></th:block>
+    <th:block th:replace="~{base :: bootstrap}"></th:block>
 </head>
 <body>
     <main class="container">
-        <div th:replace="base :: header"></div>
+        <div th:replace="~{base :: header}"></div>
         <h2 class="text-center text-info mt-1">Danh sách chuyên khoa</h2>
          <form th:action="@{/chuyen-khoa}" id="searchForm">
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-4">
                     <div class="mb-3 mt-3">
-                        <input type="text" class="form-control" name="tenChuyenKhoa" placeholder="Tên chuyên khoa..." />
+                        <input type="text" class="form-control" name="tenChuyenKhoa" placeholder="Tên chuyên khoa..." th:value="${param.tenChuyenKhoa}" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3 mt-3">
+                        <select class="form-select" name="benhVienId">
+                            <option value="">-- Tất cả bệnh viện --</option>
+                            <option th:each="benhVien : ${dsBenhVien}" 
+                                    th:value="${benhVien.id}" 
+                                    th:text="${benhVien.tenBenhVien}"
+                                    th:selected="${param.benhVienId == benhVien.id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3 mt-3">
+                        <select class="form-select" name="orderBy">
+                            <option value="" disabled selected>-- Sắp xếp theo --</option>
+                            <option value="id" th:selected="${param.orderBy == 'id'}">ID</option>
+                            <option value="tenChuyenKhoa" th:selected="${param.orderBy == 'tenChuyenKhoa'}">Tên chuyên khoa</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3 mt-3">
+                        <select class="form-select" name="sort">
+                            <option value="asc" th:selected="${param.sort == 'asc' || param.sort == null}">Tăng dần</option>
+                            <option value="desc" th:selected="${param.sort == 'desc'}">Giảm dần</option>
+                        </select>
                     </div>
                 </div>
             </div>
             <div class="mb-3 mt-3">
                 <button class="btn btn-info" type="submit">Tìm kiếm</button>
+                <a th:href="@{/chuyen-khoa}" class="btn btn-secondary">Làm mới</a>
             </div>
         </form>
         <hr  />    
         <a th:href="@{/chuyenkhoachange}" class="btn btn-info mt-2 mb-2">Thêm chuyên khoa</a>
+        <a th:href="@{/benhvien-chuyenkhoa}" class="btn btn-success mt-2 mb-2 ms-2">Quản lý bệnh viện - chuyên khoa</a>
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>
                     <th>STT</th>
-                    <th>Tên chuyên khoa</th>
+                    <th data-sort="tenChuyenKhoa" style="cursor: pointer;">Tên chuyên khoa <i class="fa fa-sort"></i></th>
+                    <th>Bệnh viện</th>
                     <th>Thao tác</th>
                 </tr>
             </thead>
@@ -35,16 +66,25 @@
                     <td th:text="${iterStat.count}"></td> <!-- Đếm số thứ tự -->
                     <td th:text="${chuyenKhoa.tenChuyenKhoa}"></td>
                     <td>
+                        <ul class="list-unstyled">
+                            <li th:each="bvck : ${dsBVCK}" 
+                                th:if="${bvck.chuyenkhoaId.id == chuyenKhoa.id}" 
+                                th:text="${bvck.benhvienId.tenBenhVien}"></li>
+                        </ul>
+                    </td>
+                    <td>
                          <a th:href="@{'/chuyen-khoa/' + ${chuyenKhoa.id}}" class="btn btn-success">Sửa</a>
                          <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/chuyen-khoa/}+'\','+${chuyenKhoa.id}+')'">Xóa</button>
                     </td>
                 </tr>
-                
-         
+                <tr th:if="${#lists.isEmpty(dsChuyenKhoa)}">
+                    <td colspan="4" class="text-center">Không có dữ liệu</td>
+                </tr>
             </tbody>
         </table>
         
     </main>
         <script th:src="@{/js/main.js}"></script>
 </body>
+</html>
    

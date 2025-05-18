@@ -111,4 +111,9 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         return this.tkRepo.addOrUpdateTaiKhoan(tk);
     }
 
+    @Override
+    public List<Taikhoan> getDsTaiKhoan(Map<String, String> params, String role) {
+        return this.tkRepo.getDsTaiKhoan(params, role);
+    }
+
 }

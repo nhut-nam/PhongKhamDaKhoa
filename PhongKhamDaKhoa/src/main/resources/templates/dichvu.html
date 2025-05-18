@@ -1,0 +1,88 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý đặt lịch khám</title>
+    <th:block th:replace="~{base :: bootstrap}"></th:block>
+</head>
+<body>
+    <main class="container">
+        <div th:replace="~{base :: header}"></div>
+        <h2 class="text-center text-info mt-1">Danh sách dịch vụ</h2>
+         <form th:action="@{/dich-vu}" id="searchForm">
+            <div class="row">
+                <div class="col-4">
+                    <div class="mb-3 mt-3">
+                        <input type="text" class="form-control" name="tenDichVu" placeholder="Tên dịch vụ..." th:value="${param.tenDichVu}" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mb-3 mt-3">
+                        <select class="form-select" name="loaiDichVu">
+                            <option value="" selected>-- Tất cả loại dịch vụ --</option>
+                            <option value="0" th:selected="${param.loaiDichVu == '0'}">Khám tổng quát</option>
+                            <option value="1" th:selected="${param.loaiDichVu == '1'}">Khám chuyên sâu</option>
+                            <option value="2" th:selected="${param.loaiDichVu == '2'}">Tư vấn sức khỏe</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="mb-3 mt-3">
+                        <select class="form-select" name="orderBy">
+                            <option value="" disabled selected>-- Sắp xếp theo --</option>
+                            <option value="id" th:selected="${param.orderBy == 'id'}">ID</option>
+                            <option value="tenDichVu" th:selected="${param.orderBy == 'tenDichVu'}">Tên dịch vụ</option>
+                            <option value="loaiDichVu" th:selected="${param.orderBy == 'loaiDichVu'}">Loại dịch vụ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="mb-3 mt-3">
+                        <select class="form-select" name="sort">
+                            <option value="asc" th:selected="${param.sort == 'asc' || param.sort == null}">Tăng dần</option>
+                            <option value="desc" th:selected="${param.sort == 'desc'}">Giảm dần</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 mt-3">
+                <button class="btn btn-info" type="submit">Tìm kiếm</button>
+                <a th:href="@{/dich-vu}" class="btn btn-secondary">Làm mới</a>
+            </div>
+        </form>
+        <hr  />    
+        <a th:href="@{/dichvuchange}" class="btn btn-info mt-2 mb-2">Thêm dịch vụ</a>
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>STT</th>
+                    <th data-sort="id" style="cursor: pointer;">ID <i class="fa fa-sort"></i></th>
+                    <th data-sort="tenDichVu" style="cursor: pointer;">Tên dịch vụ <i class="fa fa-sort"></i></th>
+                    <th data-sort="loaiDichVu" style="cursor: pointer;">Loại dịch vụ <i class="fa fa-sort"></i></th>
+                    <th>Chuyên khoa</th>
+                    <th>Bệnh viện</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="dichVu, iterStat : ${dsDichVu}">
+                    <td th:text="${iterStat.count}"></td>
+                    <td th:text="${dichVu.id}"></td>
+                    <td th:text="${dichVu.tenDichVu}"></td>
+                    <td>
+                        <span th:if="${dichVu.loaiDichVu == 0}">Khám tổng quát</span>
+                        <span th:if="${dichVu.loaiDichVu == 1}">Khám chuyên sâu</span>
+                        <span th:if="${dichVu.loaiDichVu == 2}">Tư vấn sức khỏe</span>
+                    </td>
+                    <td th:text="${dichVu.benhvienchuyenkhoaId.chuyenkhoaId.tenChuyenKhoa}"></td>
+                    <td th:text="${dichVu.benhvienchuyenkhoaId.benhvienId.tenBenhVien}"></td>
+                    <td>
+                         <a th:href="@{'/dich-vu/' + ${dichVu.id}}" class="btn btn-success">Sửa</a>
+                         <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/dich-vu/}+'\','+${dichVu.id}+')'">Xóa</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html> 

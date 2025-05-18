@@ -1,0 +1,618 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Thống kê hệ thống</title>
+        <th:block th:replace="~{base :: bootstrap}"></th:block>
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+<body>
+    <main class="container">
+        <div th:replace="~{base :: header}"></div>
+        <h2 class="text-center text-info mt-4">Thống kê hệ thống</h2>
+        
+        <!-- Thống kê tổng quát -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Tổng số tài khoản</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${thongKeTongQuat?.soLuongTaiKhoan != null ? thongKeTongQuat.soLuongTaiKhoan : 0}">0</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Tổng số bác sĩ</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${thongKeTongQuat?.soLuongBacSi != null ? thongKeTongQuat.soLuongBacSi : 0}">0</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-header">Tổng số bệnh viện</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${thongKeTongQuat?.soLuongBenhVien != null ? thongKeTongQuat.soLuongBenhVien : 0}">0</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-header">Tổng số chuyên khoa</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${thongKeTongQuat?.soLuongChuyenKhoa != null ? thongKeTongQuat.soLuongChuyenKhoa : 0}">0</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">Tổng số lịch khám</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${thongKeTongQuat?.soLuongLichKham != null ? thongKeTongQuat.soLuongLichKham : 0}">0</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-white bg-purple mb-3" style="background-color: #6f42c1;">
+                    <div class="card-header">Tổng doanh thu</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${tongDoanhThu != null ? #numbers.formatCurrency(tongDoanhThu) : '0 ₫'}">0 ₫</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Thống kê theo thời gian -->
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5>Thống kê lịch khám theo thời gian</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/thong-ke}" method="get" class="mb-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="tuNgay" class="form-label">Từ ngày</label>
+                            <input type="date" class="form-control" id="tuNgay" name="tuNgay" th:value="${tuNgay}">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="denNgay" class="form-label">Đến ngày</label>
+                            <input type="date" class="form-control" id="denNgay" name="denNgay" th:value="${denNgay}">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </form>
+                <canvas id="thongKeTheoThoiGianChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Thống kê doanh thu theo thời gian -->
+        <div class="card mt-4">
+            <div class="card-header bg-success text-white">
+                <h5>Thống kê doanh thu theo thời gian</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="thongKeDoanhThuTheoThoiGianChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Thống kê doanh thu theo năm -->
+        <div class="card mt-4">
+            <div class="card-header bg-purple text-white" style="background-color: #6f42c1;">
+                <h5>Thống kê doanh thu theo năm</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/thong-ke}" method="get" class="mb-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="nam" class="form-label">Chọn năm</label>
+                            <select class="form-select" id="nam" name="nam">
+                                <option value="">Tất cả các năm</option>
+                                <option th:each="year : ${#numbers.sequence(2020, #dates.year(#dates.createNow()))}"
+                                        th:value="${year}"
+                                        th:text="${year}"
+                                        th:selected="${nam != null && nam == year}">
+                                    2024
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="loaiThongKe" class="form-label">Loại thống kê</label>
+                            <select class="form-select" id="loaiThongKe" name="loaiThongKe">
+                                <option th:value="month" th:selected="${loaiThongKe == 'month'}">Tháng</option>
+                                <option th:value="quarter" th:selected="${loaiThongKe == 'quarter'}">Quý</option>
+                                <option th:value="year" th:selected="${loaiThongKe == 'year'}">Năm</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">Xem thống kê</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="mb-3">
+                    <h5>
+                        Thống kê doanh thu theo 
+                        <span th:text="${loaiThongKe == 'month' ? 'tháng' : 
+                                        (loaiThongKe == 'quarter' ? 'quý' : 
+                                        (loaiThongKe == 'year' ? 'năm' : 'tháng'))}">
+                            tháng
+                        </span>
+                        <span th:if="${nam != null}"> - Năm <span th:text="${nam}">2024</span></span>
+                    </h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th th:if="${loaiThongKe == 'month'}">Tháng</th>
+                                <th th:if="${loaiThongKe == 'quarter'}">Quý</th>
+                                <th th:if="${loaiThongKe == 'year'}">Năm</th>
+                                <th th:if="${loaiThongKe != 'month' and loaiThongKe != 'quarter' and loaiThongKe != 'year'}">Tháng</th>
+                                <th>Số lượng khám</th>
+                                <th>Tổng doanh thu</th>
+                                <th>Doanh thu trung bình/lượt khám</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${thongKeDoanhThuTheoNam != null}" th:each="thongKe : ${thongKeDoanhThuTheoNam}">
+                                <td th:text="${thongKe[0]}">Tháng</td>
+                                <td th:text="${#numbers.formatInteger(thongKe[1], 0, 'POINT')}">100</td>
+                                <td th:text="${#numbers.formatCurrency(thongKe[2])}">20,000,000 ₫</td>
+                                <td th:text="${thongKe[1] > 0 ? #numbers.formatCurrency(thongKe[2] / thongKe[1]) : '0 ₫'}">200,000 ₫</td>
+                            </tr>
+                            <tr th:if="${thongKeDoanhThuTheoNam == null || #lists.isEmpty(thongKeDoanhThuTheoNam)}">
+                                <td colspan="4" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <canvas id="thongKeDoanhThuTheoNamChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Thống kê theo trạng thái -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5>Thống kê theo trạng thái</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="thongKeTheoTrangThaiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Thống kê theo bệnh viện -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-warning text-white">
+                        <h5>Thống kê theo bệnh viện</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="thongKeTheoBenhVienChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Thống kê doanh thu theo bệnh viện -->
+        <div class="card mt-4">
+            <div class="card-header bg-warning text-white">
+                <h5>Thống kê doanh thu theo bệnh viện</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="thongKeDoanhThuTheoBenhVienChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Thống kê theo bác sĩ -->
+        <div class="card mt-4 mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5>Thống kê theo bác sĩ</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>ID</th>
+                                <th>Họ và tên</th>
+                                <th>Số lượng lịch khám</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${thongKeTheoBacSi != null}" th:each="bacSi, iterStat : ${thongKeTheoBacSi}">
+                                <td th:text="${iterStat.count}">1</td>
+                                <td th:text="${bacSi != null ? bacSi[0] : ''}"></td>
+                                <td th:text="${bacSi != null ? (bacSi[1] + ' ' + bacSi[2]) : ''}"></td>
+                                <td th:text="${bacSi != null ? bacSi[3] : 0}"></td>
+                            </tr>
+                            <tr th:if="${thongKeTheoBacSi == null || #lists.isEmpty(thongKeTheoBacSi)}">
+                                <td colspan="4" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Thống kê doanh thu theo bác sĩ -->
+        <div class="card mt-4 mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5>Thống kê doanh thu theo bác sĩ</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>ID</th>
+                                <th>Họ và tên</th>
+                                <th>Doanh thu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${thongKeDoanhThuTheoBacSi != null}" th:each="bacSi, iterStat : ${thongKeDoanhThuTheoBacSi}">
+                                <td th:text="${iterStat.count}">1</td>
+                                <td th:text="${bacSi != null ? bacSi[0] : ''}"></td>
+                                <td th:text="${bacSi != null ? (bacSi[1] + ' ' + bacSi[2]) : ''}"></td>
+                                <td th:text="${bacSi != null ? #numbers.formatCurrency(bacSi[3]) : 0}"></td>
+                            </tr>
+                            <tr th:if="${thongKeDoanhThuTheoBacSi == null || #lists.isEmpty(thongKeDoanhThuTheoBacSi)}">
+                                <td colspan="4" class="text-center">Không có dữ liệu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script th:inline="javascript">
+        // Dữ liệu cho biểu đồ thống kê theo trạng thái
+        const thongKeTheoTrangThaiData = /*[[${thongKeTheoTrangThai != null ? thongKeTheoTrangThai : new java.util.ArrayList()}]]*/ [];
+        const trangThaiLabels = ['Đã khám xong', 'Đã đặt', 'Đã hủy', 'Vắng mặt', 'Đã xác nhận'];
+        const trangThaiColors = ['#28a745', '#007bff', '#dc3545', '#ffc107', '#17a2b8'];
+        
+        // Chuyển đổi dữ liệu để hiển thị trên biểu đồ
+        const labels = [];
+        const data = [];
+        const backgroundColors = [];
+        
+        if (thongKeTheoTrangThaiData && thongKeTheoTrangThaiData.length > 0) {
+            thongKeTheoTrangThaiData.forEach(item => {
+                if (item && item.length >= 2) {
+                    const trangThai = item[0];
+                    const soLuong = item[1];
+                    if (trangThai >= 0 && trangThai < trangThaiLabels.length) {
+                        labels.push(trangThaiLabels[trangThai]);
+                        data.push(soLuong);
+                        backgroundColors.push(trangThaiColors[trangThai]);
+                    }
+                }
+            });
+        }
+        
+        // Vẽ biểu đồ thống kê theo trạng thái
+        if (document.getElementById('thongKeTheoTrangThaiChart')) {
+            new Chart(document.getElementById('thongKeTheoTrangThaiChart'), {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Thống kê lịch khám theo trạng thái'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Dữ liệu cho biểu đồ thống kê theo bệnh viện
+        const thongKeTheoBenhVienData = /*[[${thongKeTheoBenhVien != null ? thongKeTheoBenhVien : new java.util.ArrayList()}]]*/ [];
+        const benhVienLabels = [];
+        const benhVienData = [];
+        
+        if (thongKeTheoBenhVienData && thongKeTheoBenhVienData.length > 0) {
+            thongKeTheoBenhVienData.forEach(item => {
+                if (item && item.length >= 3) {
+                    benhVienLabels.push(item[1]);
+                    benhVienData.push(item[2]);
+                }
+            });
+        }
+        
+        // Vẽ biểu đồ thống kê theo bệnh viện
+        if (document.getElementById('thongKeTheoBenhVienChart')) {
+            new Chart(document.getElementById('thongKeTheoBenhVienChart'), {
+                type: 'bar',
+                data: {
+                    labels: benhVienLabels,
+                    datasets: [{
+                        label: 'Số lượng lịch khám',
+                        data: benhVienData,
+                        backgroundColor: '#ffc107'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Thống kê lịch khám theo bệnh viện'
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Dữ liệu cho biểu đồ thống kê theo thời gian
+        const thongKeTheoThoiGianData = /*[[${thongKeTheoThoiGian != null ? thongKeTheoThoiGian : new java.util.ArrayList()}]]*/ [];
+        const thoiGianLabels = [];
+        const thoiGianData = [];
+        
+        if (thongKeTheoThoiGianData && thongKeTheoThoiGianData.length > 0) {
+            thongKeTheoThoiGianData.forEach(item => {
+                if (item && item.length >= 2) {
+                    // Format lại ngày từ Date thành dd/MM/yyyy
+                    try {
+                        const date = new Date(item[0]);
+                        const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+                        thoiGianLabels.push(formattedDate);
+                        thoiGianData.push(item[1]);
+                    } catch (e) {
+                        console.error("Lỗi khi xử lý dữ liệu ngày tháng:", e);
+                    }
+                }
+            });
+        }
+        
+        // Vẽ biểu đồ thống kê theo thời gian
+        if (document.getElementById('thongKeTheoThoiGianChart')) {
+            new Chart(document.getElementById('thongKeTheoThoiGianChart'), {
+                type: 'line',
+                data: {
+                    labels: thoiGianLabels,
+                    datasets: [{
+                        label: 'Số lượng lịch khám',
+                        data: thoiGianData,
+                        borderColor: '#17a2b8',
+                        backgroundColor: 'rgba(23, 162, 184, 0.2)',
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Thống kê lịch khám theo thời gian'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Dữ liệu cho biểu đồ thống kê doanh thu theo thời gian
+        const thongKeDoanhThuTheoThoiGianData = /*[[${thongKeDoanhThuTheoThoiGian != null ? thongKeDoanhThuTheoThoiGian : new java.util.ArrayList()}]]*/ [];
+        const doanhThuThoiGianLabels = [];
+        const doanhThuThoiGianData = [];
+        
+        if (thongKeDoanhThuTheoThoiGianData && thongKeDoanhThuTheoThoiGianData.length > 0) {
+            thongKeDoanhThuTheoThoiGianData.forEach(item => {
+                if (item && item.length >= 2) {
+                    try {
+                        const date = new Date(item[0]);
+                        const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+                        doanhThuThoiGianLabels.push(formattedDate);
+                        doanhThuThoiGianData.push(item[1]);
+                    } catch (e) {
+                        console.error("Lỗi khi xử lý dữ liệu ngày tháng:", e);
+                    }
+                }
+            });
+        }
+        
+        // Vẽ biểu đồ thống kê doanh thu theo thời gian
+        if (document.getElementById('thongKeDoanhThuTheoThoiGianChart')) {
+            new Chart(document.getElementById('thongKeDoanhThuTheoThoiGianChart'), {
+                type: 'line',
+                data: {
+                    labels: doanhThuThoiGianLabels,
+                    datasets: [{
+                        label: 'Doanh thu',
+                        data: doanhThuThoiGianData,
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Thống kê doanh thu theo thời gian'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'VND'
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Dữ liệu cho biểu đồ thống kê doanh thu theo bệnh viện
+        const thongKeDoanhThuTheoBenhVienData = /*[[${thongKeDoanhThuTheoBenhVien != null ? thongKeDoanhThuTheoBenhVien : new java.util.ArrayList()}]]*/ [];
+        const doanhThuBenhVienLabels = [];
+        const doanhThuBenhVienData = [];
+        
+        if (thongKeDoanhThuTheoBenhVienData && thongKeDoanhThuTheoBenhVienData.length > 0) {
+            thongKeDoanhThuTheoBenhVienData.forEach(item => {
+                if (item && item.length >= 3) {
+                    doanhThuBenhVienLabels.push(item[1]);
+                    doanhThuBenhVienData.push(item[2]);
+                }
+            });
+        }
+        
+        // Vẽ biểu đồ thống kê doanh thu theo bệnh viện
+        if (document.getElementById('thongKeDoanhThuTheoBenhVienChart')) {
+            new Chart(document.getElementById('thongKeDoanhThuTheoBenhVienChart'), {
+                type: 'bar',
+                data: {
+                    labels: doanhThuBenhVienLabels,
+                    datasets: [{
+                        label: 'Doanh thu',
+                        data: doanhThuBenhVienData,
+                        backgroundColor: '#ffc107'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Thống kê doanh thu theo bệnh viện'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'VND'
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Dữ liệu cho biểu đồ thống kê doanh thu theo năm
+        const thongKeDoanhThuTheoNamData = /*[[${thongKeDoanhThuTheoNam != null ? thongKeDoanhThuTheoNam : new java.util.ArrayList()}]]*/ [];
+        const doanhThuNamLabels = [];
+        const doanhThuNamData = [];
+        
+        if (thongKeDoanhThuTheoNamData && thongKeDoanhThuTheoNamData.length > 0) {
+            thongKeDoanhThuTheoNamData.forEach(item => {
+                if (item && item.length >= 2) {
+                    let label = '';
+                    switch (loaiThongKe) {
+                        case 'month':
+                            label = 'Tháng ' + item[0];
+                            break;
+                        case 'quarter':
+                            label = 'Quý ' + item[0];
+                            break;
+                        case 'year':
+                            label = 'Năm ' + item[0];
+                            break;
+                        default:
+                            label = item[0];
+                    }
+                    doanhThuNamLabels.push(label);
+                    doanhThuNamData.push(item[2]);
+                }
+            });
+        }
+        
+        // Vẽ biểu đồ thống kê doanh thu theo năm
+        if (document.getElementById('thongKeDoanhThuTheoNamChart')) {
+            new Chart(document.getElementById('thongKeDoanhThuTheoNamChart'), {
+                type: 'bar',
+                data: {
+                    labels: doanhThuNamLabels,
+                    datasets: [{
+                        label: 'Doanh thu',
+                        data: doanhThuNamData,
+                        backgroundColor: '#6f42c1',
+                        borderColor: '#6f42c1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Thống kê doanh thu theo ' + (
+                        loaiThongKe === 'month' ? 'tháng' :
+                        loaiThongKe === 'quarter' ? 'quý' :
+                        'năm'
+                        )}
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'VND'
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

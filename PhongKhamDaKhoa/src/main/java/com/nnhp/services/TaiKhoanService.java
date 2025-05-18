@@ -24,4 +24,5 @@ public interface TaiKhoanService extends UserDetailsService {
     void deleteUser(int id);
     Taikhoan getUserById(int id);
     Taikhoan addOrUpdateTaiKhoan(Taikhoan tk);
+    List<Taikhoan> getDsTaiKhoan(Map<String, String> params, String role) ;
 }

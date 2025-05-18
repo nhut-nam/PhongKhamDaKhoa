@@ -50,7 +50,7 @@
                     <option th:each="ck : ${dsChuyenKhoa}"
                             th:value="${ck.id}"
                             th:text="${ck.tenChuyenKhoa}"
-                            th:selected="${dsChuyenKhoaDaChon.contains(ck.id)}">
+                            th:selected="${dsChuyenKhoaDaChon != null and dsChuyenKhoaDaChon.contains(ck.id)}"
                     </option>
                 </select>
 
