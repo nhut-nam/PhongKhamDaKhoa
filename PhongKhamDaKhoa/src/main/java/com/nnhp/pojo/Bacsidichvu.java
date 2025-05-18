@@ -33,7 +33,6 @@ public class Bacsidichvu implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private double giaTien;
     @ManyToOne(optional = false)
     @JoinColumn(name = "bacsi_Id", referencedColumnName = "id")
     private Bacsi bacsiId;
@@ -48,14 +47,6 @@ public class Bacsidichvu implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public double getGiaTien() {
-        return giaTien;
-    }
-
-    public void setGiaTien(double giaTien) {
-        this.giaTien = giaTien;
     }
 
     public Bacsi getBacSi() {

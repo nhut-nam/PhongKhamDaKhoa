@@ -24,12 +24,14 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -103,6 +105,8 @@ public class Taikhoan implements Serializable {
     private String tenNguoiDung;
     @Column(name = "trang_thai")
     private TrangThaiTaiKhoan trangThai;
+    @Transient
+    private MultipartFile file;
 
     public TrangThaiTaiKhoan getTrangThai() {
         return trangThai;
@@ -255,4 +259,14 @@ public class Taikhoan implements Serializable {
     public String toString() {
         return "com.nnhp.pojo.Taikhoan[ id=" + id + " ]";
     }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+    
+    
 }

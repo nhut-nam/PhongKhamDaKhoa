@@ -24,7 +24,7 @@ export default function DoctorRegister() {
         soDienThoai: "",
         diaChi: "",
         ghiChu: "",
-        avatar: "",
+        avatar: "https://res.cloudinary.com/dhsxutqtc/image/upload/v1747400157/DefaultAvatar_xbnyqq.jpg",
         matKhau: "",
         confirmPassword: "",
         benhVien: "",
@@ -160,10 +160,6 @@ export default function DoctorRegister() {
                     <div className="form-group">
                         <label>Ghi chú</label>
                         <input type="text" name="ghiChu" placeholder="Ghi chú (tuỳ chọn)" value={user.ghiChu} onChange={handleChange} />
-                    </div>
-                    <div className="form-group">
-                        <label>Ảnh đại diện</label>
-                        <input type="file" name="avatar" placeholder="URL ảnh (tuỳ chọn)" value={user.avatar} onChange={handleChange} />
                     </div>
                     <div className="form-group">
                         <label>Bệnh viện</label>

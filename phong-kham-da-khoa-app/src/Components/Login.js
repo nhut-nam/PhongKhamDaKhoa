@@ -24,7 +24,6 @@ function LoginPage() {
         setMsg("Tài khoản của bạn đã bị khóa hoặc đang chờ xác nhận");
         return;
       }
-      console.log(res);
       cookie.save('token', res.data.token);
       let u = await authApis().get(endpoints['current-user']);
       dispatch({
@@ -55,7 +54,7 @@ function LoginPage() {
             </label>
             <input
               type="email"
-              placeholder="Nhập số điện thoại"
+              placeholder="Nhập email"
               className="login-input"
               name="email"
               value={user.email}

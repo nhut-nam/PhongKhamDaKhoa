@@ -30,6 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,19 +57,19 @@ public class ApiUserController {
     
     @PostMapping(path = "/benh-nhan", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<TaiKhoanDTO> createUser(@RequestParam Map<String, String> params) {
+    public ResponseEntity<?> createUser(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.addTaiKhoan(params, Role.USER)), HttpStatus.CREATED);
     }
     
     @PostMapping(path = "/quan-tri", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
-    public ResponseEntity<TaiKhoanDTO> createAdmin(@RequestParam Map<String, String> params) {
+    public ResponseEntity<?> createAdmin(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.addTaiKhoan(params, Role.ADMIN)), HttpStatus.CREATED);
     }
     
     @PostMapping(path = "/bac-si", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
-    public ResponseEntity<TaiKhoanDTO> createDoctor(@RequestBody Map<String, String> params) {
+    @CrossOrigin    
+    public ResponseEntity<?> createDoctor(@RequestBody Map<String, String> params) {
         Bacsi bs = (Bacsi) this.userDetailsService.addTaiKhoan(params, Role.DOCTOR);
         String chuoi = params.get("chuyenKhoa"); // ví dụ: "[1,2]"
         chuoi = chuoi.replaceAll("[\\[\\]\\s]", ""); // bỏ [ ], và khoảng trắng
@@ -120,5 +121,4 @@ public class ApiUserController {
     public void destroy(@PathVariable(value = "taiKhoanId") int id) {
         this.userDetailsService.deleteUser(id);
     }
-    
 }

@@ -1,0 +1,88 @@
+PatientProfile.css
+.container-home {
+  display: flex;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.breadcrumb {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.breadcrumb-separator {
+  margin: 0 5px;
+}
+
+.breadcrumb-current {
+  font-weight: bold;
+  color: #00bfff;
+}
+.add-button {
+  text-decoration: none;
+}
+.add-button {
+  width: 100%;
+  background-color: #00bfff;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.icon {
+  margin-right: 8px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.menu-item.active {
+  background-color: #e6f7ff;
+  border-left: 4px solid #00bfff;
+  font-weight: bold;
+}
+
+.notification .badge {
+  background-color: red;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.main {
+  flex-grow: 1;
+  padding: 40px;
+  text-align: center;
+}
+
+.empty-message {
+  color: #999;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.empty-image img {
+  max-width: 300px;
+  opacity: 0.8;
+}
