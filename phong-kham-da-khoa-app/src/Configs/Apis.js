@@ -12,9 +12,10 @@ export const endpoints = {
   'getChuyenKhoa': "ds-chuyen-khoa",
   'getChuyenKhoaByBenhVien': "benh-vien/%s/chuyen-khoa",
   'addBacSiChuyenKhoa': "/addBacSiChuyenKhoa",
-  'getUserById': "user/",
-  'updateUser': "user/update",
-  'deleteUser': "user/delete/",
+  'addPatientRecord': "/tao-ho-so",
+  'getHoSoList': "/get-ds-ho-so",
+  'getHoSo': "/get-ho-so",
+  'deleteHoSo': "/xoa-ho-so",
 };
 
 export const authApis = () => {

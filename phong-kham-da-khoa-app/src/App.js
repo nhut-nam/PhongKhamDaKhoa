@@ -11,7 +11,7 @@ import MyUserReducer from './reducers/MyUserReducer';
 import DoctorRegister from './Components/DoctorRegister';
 import ServicesPage from './Components/ServicesPage';
 import UserProfile from './Components/UserProfile';
-import PatientRecord from './Components/PatientRecord';
+import Patient from './Components/Patient';
 import AddPatientRecord from './Components/AddPatientRecord';
 
 function init(initialUser) {
@@ -45,7 +45,7 @@ function App() {
             <Route path="/user-register" element={<UserRegister />} />
             <Route path="/doctor-register" element={<DoctorRegister />} />
             <Route path="/dich-vu" element={<ServicesPage />} />
-            <Route path="/patient" element={<PatientRecord />} />
+            <Route path="/patient" element={<Patient />} />
             <Route path="/tao-ho-so" element={<AddPatientRecord />} />
         </Routes>
         <Footer />

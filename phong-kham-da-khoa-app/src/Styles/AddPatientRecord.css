@@ -1,4 +1,5 @@
 .form-container {
+  position: relative;
   max-width: 600px;
   margin: 30px auto;
   padding: 24px;
@@ -11,9 +12,11 @@
 .form-container h2 {
   text-align: center;
   margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-form {
+.form-container form {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -46,4 +49,23 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.back-button-icon {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  padding: 4px;
 }

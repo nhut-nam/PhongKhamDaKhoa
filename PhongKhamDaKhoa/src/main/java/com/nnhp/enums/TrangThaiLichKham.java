@@ -10,8 +10,8 @@ package com.nnhp.enums;
  */
 public enum TrangThaiLichKham {
     DA_KHAM_XONG,
-    DA_DAT,
+    DA_THANH_TOAN,
     DA_HUY,
     VANG_MAT,
-    DA_XAC_NHAN
+    CHUA_THANH_TOAN
 }

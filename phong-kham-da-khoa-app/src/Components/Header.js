@@ -8,6 +8,20 @@ const Header = () => {
     const dispatch = useContext(MyDispatcherContext);
     const [open, setOpen] = useState(false);
     const menuRef = useRef();
+    const [avatar, setAvatar] = useState(null);
+
+    const handleAvatarChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAvatar(reader.result); // hiển thị ảnh preview
+                // TODO: Gửi ảnh lên server tại đây nếu cần
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -57,12 +71,30 @@ const Header = () => {
 
                                     {open && (
                                         <div className="dropdown-menu">
-                                            <p>Xin chào,</p>
-                                            <strong>{user.user.hoNguoiDung + " " + user.user.tenNguoiDung}</strong>
+                                            <div className="user-info">
+                                                <div className="avatar-wrapper" onClick={() => document.getElementById("avatarInput").click()}>
+                                                    <img
+                                                        src={avatar || user.user.avatar || '/default-avatar.png'}
+                                                        alt="Avatar"
+                                                        className="avatar"
+                                                    />
+                                                    <input
+                                                        type="file"
+                                                        id="avatarInput"
+                                                        accept="image/*"
+                                                        style={{ display: "none" }}
+                                                        onChange={(e) => handleAvatarChange(e)}
+                                                    />
+                                                </div>
+                                                <div className="greeting">
+                                                    <p className="hello">Xin chào,</p>
+                                                    <strong className="username">{user.user.hoNguoiDung + " " + user.user.tenNguoiDung}</strong>
+                                                </div>
+                                            </div>
                                             <hr />
-                                            <Link to="/patient">📁 Hồ sơ bệnh nhân</Link>
-                                            <Link to="/phieu-kham">📄 Phiếu khám bệnh</Link>
-                                            <Link to="/thong-bao">🔔 Thông báo</Link>
+                                            <Link to="/patient?key=ho-so-benh-nhan">📁 Hồ sơ bệnh nhân</Link>
+                                            <Link to="/patient?key=phieu-kham-benh">📄 Phiếu khám bệnh</Link>
+                                            <Link to="/patient?key=thong-bao">🔔 Thông báo</Link>
                                             <hr />
                                             <Link to="/" onClick={() => dispatch({ type: "logout" })} style={{ color: "red" }}>
                                                 🔴 Đăng xuất

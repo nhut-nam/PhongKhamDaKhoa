@@ -1,88 +1,91 @@
-PatientProfile.css
-.container-home {
-  display: flex;
-  font-family: Arial, sans-serif;
-}
-
-.sidebar {
-  width: 250px;
-  background-color: #f8f8f8;
-  padding: 20px;
-  border-right: 1px solid #ddd;
-}
-
-.breadcrumb {
-  margin-bottom: 20px;
-  font-size: 14px;
-  color: #666;
-}
-
-.breadcrumb-separator {
-  margin: 0 5px;
-}
-
-.breadcrumb-current {
-  font-weight: bold;
-  color: #00bfff;
-}
-.add-button {
-  text-decoration: none;
-}
-.add-button {
-  width: 100%;
-  background-color: #00bfff;
-  color: white;
-  border: none;
-  padding: 10px;
-  font-size: 16px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.icon {
-  margin-right: 8px;
-}
-
-.menu {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.menu-item {
-  padding: 8px;
-  cursor: pointer;
-}
-
-.menu-item.active {
-  background-color: #e6f7ff;
-  border-left: 4px solid #00bfff;
-  font-weight: bold;
-}
-
-.notification .badge {
-  background-color: red;
-  color: white;
-  border-radius: 10px;
-  padding: 2px 6px;
-  font-size: 12px;
-  margin-left: 5px;
-}
-
-.main {
-  flex-grow: 1;
-  padding: 40px;
-  text-align: center;
+.main h2 {
+    margin-bottom: 12px;
+    color: #222;
 }
 
 .empty-message {
-  color: #999;
-  font-size: 18px;
-  margin-bottom: 20px;
+    color: #555;
+    margin: 12px 0;
+    text-align: center;
 }
 
 .empty-image img {
-  max-width: 300px;
-  opacity: 0.8;
+    width: 120px;
+    opacity: 0.7;
+    margin-top: 20px;
+}
+
+.patient-profile {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.info-section {
+    margin-bottom: 15px;
+}
+
+.info-label {
+    font-weight: bold;
+    display: inline-block;
+    width: 120px;
+}
+
+.highlight {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.record-container {
+    text-align: left !important;
+    margin: 20px;
+    border: #222 solid 1px;
+    padding: 20px;
+    border-radius: 16px;
+    background: #f6f6f6;
+    box-shadow: 0 8px 32px rgba(44, 62, 80, 0.18), 0 3px 12px rgba(44, 62, 80, 0.12);
+    text-align: left !important;
+    width: 100vh;
+}
+
+.record-button {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.record-button .btn-primary {
+    background-color: #3498db;
+    color: #fff;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.08);
+}
+
+.record-button .btn-primary:hover {
+    background-color: #217dbb;
+}
+
+.delete-link {
+    color: #e74c3c !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    transition: color 0.2s !important;
 }

@@ -37,7 +37,7 @@ import java.util.Date;
     @NamedQuery(name = "Hoso.findByNgayTao", query = "SELECT h FROM Hoso h WHERE h.ngayTao = :ngayTao")})
 public class Hoso implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -58,12 +58,12 @@ public class Hoso implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "email", unique = true)
+    @Column(name = "email")
     private String email;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "so_dien_thoai", unique = true)
+    @Column(name = "so_dien_thoai")
     private String soDienThoai;
     @Column(name = "gioi_tinh")
     private boolean gioiTinh;
@@ -103,6 +103,10 @@ public class Hoso implements Serializable {
         this.ngayTao = ngayTao;
     }
 
+    public void setNgaySinh(Date ngaySinh) {
+        this.ngaySinh = ngaySinh;
+    }
+
     public Collection<Lichsukhambenh> getLichsukhambenhCollection() {
         return lichsukhambenhCollection;
     }
@@ -129,10 +133,6 @@ public class Hoso implements Serializable {
 
     public Date getNgaySinh() {
         return ngaySinh;
-    }
-
-    public void setNgaySinh(Date ngaySinh) {
-        this.ngaySinh = ngaySinh;
     }
 
     public String getDiaChi() {
@@ -174,13 +174,13 @@ public class Hoso implements Serializable {
     public void setHoTen(String hoTen) {
         this.hoTen = hoTen;
     }
-    
+
     
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -191,7 +191,7 @@ public class Hoso implements Serializable {
             return false;
         }
         Hoso other = (Hoso) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -199,7 +199,20 @@ public class Hoso implements Serializable {
 
     @Override
     public String toString() {
-        return "com.nnhp.pojo.Hoso[ id=" + id + " ]";
+        return "com.nnhp.pojo.Hoso[ id=" + getId() + " ]";
     }
-    
+
+    /**
+     * @return the serialVersionUID
+     */
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
 }

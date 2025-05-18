@@ -1,0 +1,67 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.nnhp.controllers;
+
+import com.nnhp.pojo.Benhnhan;
+import com.nnhp.pojo.HoSoDTO;
+import com.nnhp.services.HoSoService;
+import com.nnhp.services.TaiKhoanService;
+import java.util.List;
+import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ *
+ * @author namnh
+ */
+@RestController
+@RequestMapping("/api")
+public class ApiHoSoController {
+    @Autowired
+    private HoSoService hsService;
+    @Autowired
+    private TaiKhoanService tkService;
+    
+    @PostMapping(path = "/tao-ho-so", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<HoSoDTO> addHoSo(@RequestBody Map<String, Object> params) {
+        Integer userId = Integer.valueOf(params.get("user_id").toString());
+        Benhnhan bn = (Benhnhan) this.tkService.getUserById(userId);
+        return new ResponseEntity<>(HoSoDTO.convertToDTO(this.hsService.addHoSo(params, bn)), HttpStatus.CREATED);
+    }
+    
+    @GetMapping("/get-ds-ho-so/{userId}")
+    @CrossOrigin
+    public ResponseEntity<List<HoSoDTO>> getHoSoList(@PathVariable(name = "userId") String userId) {
+        Integer id = Integer.valueOf(userId);
+        return new ResponseEntity<>(HoSoDTO.convertToDTOList(this.hsService.getHoSoList(id)), HttpStatus.OK);
+    }
+    
+    @DeleteMapping("xoa-ho-so/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CrossOrigin
+    public void deleteHoSo(@PathVariable(name = "id") Integer id) {
+        this.hsService.deleteHoSo(id);
+    }
+    
+    @GetMapping("/get-ho-so/{id}")
+    @CrossOrigin
+    public ResponseEntity<HoSoDTO> getHoSo(@PathVariable(name = "id") Integer id) {
+        return new ResponseEntity<>(HoSoDTO.convertToDTO(this.hsService.getHoSoById(id)), HttpStatus.OK);
+    }
+}
