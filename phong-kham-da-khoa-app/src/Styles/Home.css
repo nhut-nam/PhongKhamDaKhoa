@@ -80,6 +80,7 @@
   transition: transform 0.3s, box-shadow 0.3s;
   width: 100%;
   max-width: 320px;
+  text-decoration: none;
 }
 
 .service-card:hover {

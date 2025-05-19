@@ -63,7 +63,7 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
         }
         Session s = this.factory.getObject().getCurrentSession();
 
-            s.persist(tk);
+        s.persist(tk);
 
         s.refresh(tk);
         return tk;

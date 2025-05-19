@@ -22,6 +22,10 @@ public class HoSoDTO {
     private String diaChi;
     private boolean gioiTinh;
 
+    public HoSoDTO() {
+    }
+    
+
     public HoSoDTO(Integer id, String email, Date ngayTao, Date ngaySinh, String soDienThoai, String hoTen, String diaChi, boolean gioiTinh) {
         this.id = id;
         this.email = email;
@@ -39,6 +43,18 @@ public class HoSoDTO {
     
     public static List<HoSoDTO> convertToDTOList(List<Hoso> hss) {
         return hss.stream().map(HoSoDTO::convertToDTO).collect(Collectors.toList());
+    }
+    
+    public static Hoso updateAttribute(Hoso hsOld, HoSoDTO hsDTO) {
+        hsOld.setId(hsDTO.getId());
+        hsOld.setEmail(hsDTO.getEmail());
+        hsOld.setDiaChi(hsDTO.getDiaChi());
+        hsOld.setGioiTinh(hsDTO.isGioiTinh());
+        hsOld.setHoTen(hsDTO.getHoTen());
+        hsOld.setSoDienThoai(hsDTO.getSoDienThoai());
+        hsOld.setNgaySinh(hsDTO.getNgaySinh());
+        hsOld.setNgayTao(hsDTO.getNgayTao());
+        return hsOld;
     }
 
     /**

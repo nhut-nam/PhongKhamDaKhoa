@@ -6,16 +6,17 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BiArrowBack } from 'react-icons/bi';
 
 function AddPatientRecord() {
-    const user = useContext(MyUserContext)
+    const user = useContext(MyUserContext);
+    // Đổi tên biến trong state cho đồng nhất với backend (camelCase)
     const [p] = useSearchParams();
     const [form, setForm] = useState({
-        gioi_tinh: '',
+        gioiTinh: '',
         id: '',
-        ngay_sinh: '',
-        dia_chi: '',
+        ngaySinh: '',
+        diaChi: '',
         email: '',
-        ho_ten: '',
-        so_dien_thoai: '',
+        hoTen: '',
+        soDienThoai: '',
         user_id: user.user.id
     });
     const nav = useNavigate();
@@ -27,11 +28,11 @@ function AddPatientRecord() {
                 setForm({
                     ...form,
                     id: response.data.id,
-                    ho_ten: response.data.hoTen,
-                    so_dien_thoai: response.data.soDienThoai,
-                    gioi_tinh: response.data.gioiTinh === false ? 0 : 1,
-                    ngay_sinh: response.data.ngaySinh,
-                    dia_chi: response.data.diaChi,
+                    hoTen: response.data.hoTen,
+                    soDienThoai: response.data.soDienThoai,
+                    gioiTinh: response.data.gioiTinh === false ? 0 : 1,
+                    ngaySinh: toDateInputValue(response.data.ngaySinh),
+                    diaChi: response.data.diaChi,
                     email: response.data.email
                 });
             } catch (error) {
@@ -72,6 +73,27 @@ function AddPatientRecord() {
                 console.error('Lỗi:', error);
             }
         };
+        const updatePatientRecord = async () => {
+            try {
+                let response = await Apis.put(endpoints['updateHoSo'],
+                    JSON.stringify({
+                        ...form
+                    })
+                    , {
+                        headers: {
+                            'Content-Type': "application/json",
+                        }
+                    });
+                console.log('Kết quả:', response.data);
+                nav("/patient?key=ho-so-benh-nhan");
+            } catch (error) {
+                console.error('Lỗi:', error);
+            }
+        }
+        if (p.get("id") !== null) {
+            updatePatientRecord();
+            return;
+        }
         addPatientRecord();
     };
 
@@ -95,26 +117,50 @@ function AddPatientRecord() {
                 <BiArrowBack size={22} />
             </button>
 
-            <h2 className="form-title">Tạo hồ sơ bệnh nhân</h2>
+            <h2 className="form-title">{p.get("id") ? "Cập nhật hồ sơ bệnh nhân" : "Tạo hồ sơ bệnh nhân"}</h2>
             <form onSubmit={handleSubmit}>
                 <label>
                     Họ tên:
-                    <input type="text" name="ho_ten" placeholder='Nhập họ tên' value={form.ho_ten} onChange={handleChange} required />
+                    <input
+                        type="text"
+                        name="hoTen"
+                        placeholder="Nhập họ tên"
+                        value={form.hoTen}
+                        onChange={handleChange}
+                        required
+                    />
                 </label>
 
                 <label>
                     Email:
-                    <input type="email" name="email" placeholder='Nhập email để nhận thông báo' value={form.email} onChange={handleChange} />
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Nhập email để nhận thông báo"
+                        value={form.email}
+                        onChange={handleChange}
+                    />
                 </label>
 
                 <label>
                     Số điện thoại:
-                    <input type="text" name="so_dien_thoai" placeholder='Nhập số điện thoại' value={form.so_dien_thoai} onChange={handleChange} />
+                    <input
+                        type="text"
+                        name="soDienThoai"
+                        placeholder="Nhập số điện thoại"
+                        value={form.soDienThoai}
+                        onChange={handleChange}
+                    />
                 </label>
 
                 <label>
                     Giới tính:
-                    <select name="gioi_tinh" value={form.gioi_tinh} onChange={handleChange} required>
+                    <select
+                        name="gioiTinh"
+                        value={form.gioiTinh}
+                        onChange={handleChange}
+                        required
+                    >
                         <option value="">Chọn</option>
                         <option value="0">Nam</option>
                         <option value="1">Nữ</option>
@@ -125,19 +171,27 @@ function AddPatientRecord() {
                     Ngày sinh:
                     <input
                         type="date"
-                        name="ngay_sinh"
-                        placeholder='Nhập ngày sinh'
-                        value={p.get("id") ? toDateInputValue(form.ngay_sinh) : form.ngay_sinh}
+                        name="ngaySinh"
+                        placeholder="Nhập ngày sinh"
+                        value={form.ngaySinh}
                         onChange={handleChange}
                     />
                 </label>
 
                 <label>
                     Địa chỉ:
-                    <input type="text" name="dia_chi" placeholder='Nhập địa chỉ' value={form.dia_chi} onChange={handleChange} />
+                    <input
+                        type="text"
+                        name="diaChi"
+                        placeholder="Nhập địa chỉ"
+                        value={form.diaChi}
+                        onChange={handleChange}
+                    />
                 </label>
 
-                <button type="submit">Tạo hồ sơ</button>
+                <button type="submit">
+                    {p.get("id") ? "Cập nhật hồ sơ" : "Tạo hồ sơ"}
+                </button>
             </form>
         </div>
     );

@@ -16,6 +16,7 @@ export const endpoints = {
   'getHoSoList': "/get-ds-ho-so",
   'getHoSo': "/get-ho-so",
   'deleteHoSo': "/xoa-ho-so",
+  'updateHoSo': "/sua-ho-so"
 };
 
 export const authApis = () => {

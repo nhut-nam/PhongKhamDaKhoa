@@ -60,5 +60,10 @@ public class HoSoServiceImpl implements HoSoService {
     public Hoso getHoSoById(int id) {
         return this.hsRepo.getHoSoById(id);
     }
+
+    @Override
+    public Hoso updateHoSO(Hoso hs) {
+        return this.hsRepo.updateHoSo(hs);
+    }
     
 }

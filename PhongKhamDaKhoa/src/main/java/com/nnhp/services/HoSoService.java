@@ -18,4 +18,5 @@ public interface HoSoService {
     List<Hoso> getHoSoList(int id);
     void deleteHoSo(int id);
     Hoso getHoSoById(int id);
+    Hoso updateHoSO(Hoso hs);
 }

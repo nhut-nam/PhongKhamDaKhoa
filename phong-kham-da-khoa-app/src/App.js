@@ -13,6 +13,8 @@ import ServicesPage from './Components/ServicesPage';
 import UserProfile from './Components/UserProfile';
 import Patient from './Components/Patient';
 import AddPatientRecord from './Components/AddPatientRecord';
+import MedicalFacilityCard from './Components/MedicalFacilityCard';
+import MedicalFacilityList from './Components/MedicalFacilityList';
 
 function init(initialUser) {
   if (!initialUser) {
@@ -47,6 +49,7 @@ function App() {
             <Route path="/dich-vu" element={<ServicesPage />} />
             <Route path="/patient" element={<Patient />} />
             <Route path="/tao-ho-so" element={<AddPatientRecord />} />
+            <Route path="/dat-kham-theo-co-so" element={<MedicalFacilityList />} />
         </Routes>
         <Footer />
         </BrowserRouter>

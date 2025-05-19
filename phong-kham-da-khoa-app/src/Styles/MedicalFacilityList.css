@@ -1,0 +1,32 @@
+.facility-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: #f0f8fc;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #005b8f;
+}
+
+.search-input-facility {
+  width: 100%;
+  max-width: 500px;
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  font-size: 1rem;
+  outline: none;
+  margin-bottom: 30px;
+}
+
+.facility-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 24px;
+  justify-content: center;
+}

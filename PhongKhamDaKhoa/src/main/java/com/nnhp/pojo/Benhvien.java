@@ -44,6 +44,8 @@ public class Benhvien implements Serializable {
     @Size(max = 255)
     @Column(name = "ten_benh_vien")
     private String tenBenhVien;
+    @Column(name = "avatar")
+    private String avatar;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhvienId")
     private Collection<Bacsi> bacsiCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhvienId")
@@ -54,6 +56,14 @@ public class Benhvien implements Serializable {
 
     public Benhvien(Integer id) {
         this.id = id;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Integer getId() {

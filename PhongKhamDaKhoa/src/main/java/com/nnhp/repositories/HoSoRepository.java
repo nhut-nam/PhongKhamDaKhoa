@@ -16,4 +16,5 @@ public interface HoSoRepository {
     List<Hoso> getHoSoList(int id);
     void deleteHoSo(int id);
     Hoso getHoSoById(int id);
+    Hoso updateHoSo(Hoso hs);
 }

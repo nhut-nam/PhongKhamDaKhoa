@@ -1,0 +1,82 @@
+.facility-card {
+  background: #fff;
+  display: flex;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  gap: 16px;
+  align-items: flex-start;
+  transition: box-shadow 0.3s ease;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.facility-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.facility-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+}
+
+.facility-info {
+  flex: 1;
+}
+
+.facility-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.facility-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.verified-icon {
+  color: #00aaff;
+  font-size: 1rem;
+}
+
+.facility-address {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 6px 0;
+  text-align: left;
+}
+
+.facility-rating {
+  font-size: 1rem;
+  color: #ff9900;
+  margin-bottom: 12px;
+}
+
+.facility-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-outline {
+  padding: 6px 12px;
+  border: 1.5px solid #00bfff;
+  color: #00bfff;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-filled {
+  padding: 6px 12px;
+  background: #00bfff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

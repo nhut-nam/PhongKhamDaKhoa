@@ -51,22 +51,22 @@ const Home = () => {
                 <div className="container">
                     <h2 className="section-title">Dịch vụ của chúng tôi</h2>
                     <div className="services-grid">
-                        <div className="service-card">
+                        <Link to="/dat-kham-theo-co-so" className="service-card">
                             <i className="fas fa-hospital-alt"></i>
                             <h3>Đặt lịch khám theo cơ sở</h3>
-                        </div>
-                        <div className="service-card">
+                        </Link>
+                        <Link to="/dat-kham-theo-chuyen-khoa" className="service-card">
                             <i className="fas fa-stethoscope"></i>
                             <h3>Đặt lịch khám theo chuyên khoa</h3>
-                        </div>
-                        <div className="service-card">
+                        </Link>
+                        <Link to="/dat-kham-theo-bac-si" className="service-card">
                             <i className="fas fa-user-md"></i>
                             <h3>Đặt lịch khám theo bác sĩ</h3>
-                        </div>
-                        <div className="service-card">
+                        </Link>
+                        <Link to="/dat-kham-theo-video" className="service-card">
                             <i className="fas fa-video"></i>
                             <h3>Gọi video với bác sĩ</h3>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </section>

@@ -6,6 +6,7 @@ package com.nnhp.controllers;
 
 import com.nnhp.pojo.Benhnhan;
 import com.nnhp.pojo.HoSoDTO;
+import com.nnhp.pojo.Hoso;
 import com.nnhp.services.HoSoService;
 import com.nnhp.services.TaiKhoanService;
 import java.util.List;
@@ -19,9 +20,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -63,5 +64,13 @@ public class ApiHoSoController {
     @CrossOrigin
     public ResponseEntity<HoSoDTO> getHoSo(@PathVariable(name = "id") Integer id) {
         return new ResponseEntity<>(HoSoDTO.convertToDTO(this.hsService.getHoSoById(id)), HttpStatus.OK);
+    }
+    
+    @PutMapping("/sua-ho-so")
+    @CrossOrigin
+    public ResponseEntity<?> updateHoSo(@RequestBody HoSoDTO hsDTO) {
+        Hoso hs = this.hsService.getHoSoById(hsDTO.getId());
+        Hoso hsNew = HoSoDTO.updateAttribute(hs, hsDTO);
+        return new ResponseEntity<>(HoSoDTO.convertToDTO(this.hsService.updateHoSO(hsNew)), HttpStatus.OK);
     }
 }

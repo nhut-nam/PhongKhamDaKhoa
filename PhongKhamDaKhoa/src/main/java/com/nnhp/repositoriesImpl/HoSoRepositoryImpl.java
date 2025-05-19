@@ -60,4 +60,13 @@ public class HoSoRepositoryImpl implements HoSoRepository {
         Session s = this.factory.getObject().getCurrentSession();
         return s.get(Hoso.class, id);
     }
+
+    @Override
+    public Hoso updateHoSo(Hoso hs) {
+        if (hs == null) 
+            return null;
+        Session s = this.factory.getObject().getCurrentSession();
+        s.merge(hs);
+        return hs;
+    }
 }
