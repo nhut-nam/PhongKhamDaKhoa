@@ -41,14 +41,29 @@
             </div>
             
             <div class="mb-3">
-                <label for="tieuSu" class="form-label">Tiểu sử bệnh</label>
-                <textarea class="form-control" id="tieuSu" th:field="*{tieuSu}" rows="3" placeholder="Nhập tiểu sử bệnh"></textarea>
+                <label for="hoTen" class="form-label">Họ tên</label>
+                <input type="text" class="form-control" id="hoTen" th:field="*{hoTen}" placeholder="Nhập họ tên">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Nhập email">
+            </div>
+
+            <div class="mb-3">
+                <label for="soDienThoai" class="form-label">Số điện thoại</label>
+                <input type="tel" class="form-control" id="soDienThoai" th:field="*{soDienThoai}" placeholder="Nhập số điện thoại">
+            </div>
+
+            <div class="mb-3">
+                <label for="diaChi" class="form-label">Địa chỉ</label>
+                <input type="text" class="form-control" id="diaChi" th:field="*{diaChi}" placeholder="Nhập địa chỉ">
             </div>
             
             <div class="mb-3">
-                <label for="ketQuaXetNghiem" class="form-label">Kết quả xét nghiệm</label>
-                <textarea class="form-control" id="ketQuaXetNghiem" th:field="*{ketQuaXetNghiem}" rows="3" placeholder="Nhập kết quả xét nghiệm"></textarea>
-            </div>
+            <label for="ngaySinh" class="form-label">Ngày sinh</label>
+                <input type="datetime-local" class="form-control" id="ngaySinh" name="ngaySinh" th:value="${hoSo.ngaySinh != null ? #dates.format(hoSo.ngaySinh, 'yyyy-MM-dd''T''HH:mm') : ''}">
+            </div>  
             
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Lưu</button>

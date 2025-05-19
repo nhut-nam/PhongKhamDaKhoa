@@ -1,0 +1,101 @@
+/* ===== Container Tổng ===== */
+.container-home {
+  display: flex;
+  width: 70%;
+  margin: 0 auto;
+  padding: 40px 0;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  gap: 24px;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.breadcrumb {
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+.breadcrumb-item,
+.breadcrumb-current {
+  font-weight: 500;
+}
+
+.breadcrumb-separator {
+  margin: 0 4px;
+}
+
+/* Nút Thêm hồ sơ */
+.add-button {
+  display: flex;
+  align-items: center;
+  background-color: #e0f3ff;
+  color: #007bff;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.add-button:hover {
+  background-color: #c9e8ff;
+}
+
+/* Menu bên trái */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  color: #333;
+}
+
+.menu-item:hover {
+  background-color: #f0f0f0;
+}
+
+.menu-item.active {
+  background-color: #d8f0ff;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.menu-item.notification .badge {
+  background-color: red;
+  color: white;
+  border-radius: 8px;
+  font-size: 10px;
+  padding: 2px 6px;
+  margin-left: 6px;
+}
+
+/* ===== Phần chính ===== */
+.main {
+  flex: 1;
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Canh giữa nội dung, đổi thành flex-start nếu muốn canh trái */
+  align-items: center;
+  text-align: center;
+}

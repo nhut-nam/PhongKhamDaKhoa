@@ -4,12 +4,18 @@
  */
 package com.nnhp.servicesImpl;
 
+import java.util.ArrayList;
+import com.nnhp.formaters.Formatter;
+import com.nnhp.pojo.Benhnhan;
 import com.nnhp.pojo.Hoso;
 import com.nnhp.repositories.HoSoRepository;
 import com.nnhp.services.HoSoService;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +56,30 @@ public class HoSoServiceImpl implements HoSoService {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public Hoso addHoSo(Map<String, Object> params, Benhnhan bn) {
+        Hoso hs = new Hoso();
+        boolean gioiTinh = Integer.parseInt((String)params.get("gioi_tinh")) == 1;
+        hs.setGioiTinh(gioiTinh);
+        try {
+                hs.setNgaySinh(Formatter.DATE_FORMATTER.parse((String)params.get("ngay_sinh")));
+            } catch (ParseException ex) {
+                Logger.getLogger(TaiKhoanServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        hs.setNgayTao(new Date());
+        hs.setDiaChi((String)params.get("dia_chi"));
+        hs.setEmail((String)params.get("email"));
+        hs.setHoTen((String)params.get("ho_ten"));
+        hs.setSoDienThoai((String)params.get("so_dien_thoai"));
+        hs.setBenhnhanId(bn);
+        return this.hoSoRepo.addHoSo(hs);
+    }
+
+    @Override
+    public List<Hoso> getHoSoList(int id) {
+        return this.hoSoRepo.getHoSoList(id);
     }
 
     @Override

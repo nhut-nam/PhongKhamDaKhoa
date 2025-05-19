@@ -4,16 +4,16 @@
  */
 package com.nnhp.repositoriesImpl;
 
+import jakarta.persistence.Query;
+import jakarta.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.Map;
 import com.nnhp.pojo.Hoso;
 import com.nnhp.repositories.HoSoRepository;
-import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -23,10 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  *
  * @author hoang
+=======
+ * @author namnh
  */
 @Repository
 @Transactional
 public class HoSoRepositoryImpl implements HoSoRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
     
@@ -48,13 +51,26 @@ public class HoSoRepositoryImpl implements HoSoRepository {
                     predicates.add(b.equal(root.get("benhnhanId").get("id"), Integer.parseInt(benhnhanId)));
                 }
 
-                // Tìm theo tiêu sử bệnh
-                String tieuSu = params.get("tieuSu");
-                if (tieuSu != null && !tieuSu.isEmpty()) {
-                    predicates.add(b.like(root.get("tieuSu"), String.format("%%%s%%", tieuSu)));
+                // Tìm theo hoten,email,sdt
+                String email = params.get("email");
+                String hoTen = params.get("hoTen");
+                String sdt = params.get("soDienThoai");
+                String diaChi = params.get("diaChi");
+                
+                 if (email != null && !email.isEmpty()) {
+                    predicates.add(b.like(root.get("email"), "%" + email + "%"));
+                }
+                if (hoTen != null && !hoTen.isEmpty()) {
+                    predicates.add(b.like(root.get("hoTen"), "%" + hoTen + "%"));
+                }
+                if (sdt != null && !sdt.isEmpty()) {
+                    predicates.add(b.like(root.get("soDienThoai"), "%" + sdt + "%"));
+                }
+                if (diaChi != null && !diaChi.isEmpty()) {
+                    predicates.add(b.like(root.get("diaChi"), "%" + diaChi + "%"));
                 }
 
-                q.where(predicates.toArray(Predicate[]::new));
+                q.where(predicates.toArray(new Predicate[0]));
 
                 // Sắp xếp kết quả
                 String orderBy = params.get("orderBy");
@@ -104,6 +120,26 @@ public class HoSoRepositoryImpl implements HoSoRepository {
             ex.printStackTrace();
             return null;
         }
+        }
+
+    @Override
+    public Hoso addHoSo(Hoso hs) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        s.persist(hs);
+
+        s.refresh(hs);
+        return hs;
+    }
+
+    @Override
+    public List<Hoso> getHoSoList(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Hoso> q = b.createQuery(Hoso.class);
+        Root<Hoso> root = q.from(Hoso.class);
+        q.select(root).where(b.equal(root.get("benhnhanId").get("id"), id));
+        return s.createQuery(q).getResultList();
     }
 
     @Override
@@ -131,3 +167,5 @@ public class HoSoRepositoryImpl implements HoSoRepository {
         }
     }
 } 
+
+
