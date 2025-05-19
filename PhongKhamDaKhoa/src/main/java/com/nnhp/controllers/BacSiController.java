@@ -89,9 +89,9 @@ public class BacSiController {
         b.setNgayNghiViec(Formatter.DATE_FORMATTER.parse(ngayNghiViec));
         }
         b.setMatKhau(this.passwordEncoder.encode(b.getMatKhau()));
-        
+        System.out.print(dsChuyenKhoa);
         if(dsChuyenKhoa!=null && !dsChuyenKhoa.isEmpty())
-        {
+        {   
             Collection<Bacsithuocchuyenkhoa> dsBsCk = new ArrayList<>();
             for (Integer id : dsChuyenKhoa) {
                 Chuyenkhoa ck = chuyenKhoaService.getChuyenKhoaById(id);
@@ -103,6 +103,10 @@ public class BacSiController {
             }
         }
         b.setBacsithuocchuyenkhoaCollection(dsBsCk);
+        }
+        else {
+            
+            b.setBacsithuocchuyenkhoaCollection(new ArrayList<>());
         }
         
         this.bacSiService.addOrUpdateBacSi(b);

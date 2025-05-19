@@ -1,41 +1,81 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Trang chủ quản trị</title>
-    <th:block th:replace="base :: bootstrap"></th:block>
+        <title>Quản lý đặt lịch khám</title>
+    <th:block th:replace="~{base :: bootstrap}"></th:block>
 </head>
 <body>
-    <div th:replace="base :: header"></div>
-
     <main class="container">
-
-        <form th:action="@{/}">
-            <div class="mb-3 mt-3">
-                <input type="text" class="form-control" name="kw" placeholder="Từ khóa=" />
+        <div th:replace="~{base :: header}"></div>
+        <h1 class="text-center text-info mt-4">TRANG CHỦ</h1>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Quản lý bệnh viện</h2>
+                        <p class="card-text">Quản lý thông tin các bệnh viện trong hệ thống.</p>
+                        <a th:href="@{/benh-vien}" class="btn btn-primary">Xem bệnh viện</a>
+                    </div>
+                </div>
             </div>
-           
-        </form>
-         <div class="row mt-4">
-            <div class="col-md-4 mb-3">
-                <a th:href="@{/chuyen-khoa}" class="btn btn-primary w-100">🔬 Quản lý chuyên khoa</a>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Quản lý chuyên khoa</h2>
+                        <p class="card-text">Quản lý danh sách các chuyên khoa y tế.</p>
+                        <a th:href="@{/chuyen-khoa}" class="btn btn-primary">Xem chuyên khoa</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <a th:href="@{/bac-si}" class="btn btn-primary w-100">👨‍⚕️ Quản lý bác sĩ</a>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Quản lý tài khoản</h2>
+                        <p class="card-text">Quản lý thông tin tài khoản bác sĩ và bệnh nhân.</p>
+                        <a th:href="@{/admin-tai-khoan}" class="btn btn-primary">Xem tài khoản</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <a th:href="@{/lich-kham}" class="btn btn-primary w-100">📅 Quản lý lịch khám</a>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Quản lý dịch vụ</h2>
+                        <p class="card-text">Quản lý các dịch vụ y tế của phòng khám.</p>
+                        <a th:href="@{/dich-vu}" class="btn btn-primary">Xem dịch vụ</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <a th:href="@{/admin-tai-khoan}" class="btn btn-primary w-100">👤 Quản lý tài khoản</a>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Lịch khám</h2>
+                        <p class="card-text">Xem và quản lý lịch khám bệnh của các bệnh nhân.</p>
+                        <a th:href="@{/lich-kham}" class="btn btn-primary">Xem lịch khám</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <a th:href="@{/thong-ke}" class="btn btn-primary w-100">📊 Thống kê hệ thống</a>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Hồ sơ bệnh nhân</h2>
+                        <p class="card-text">Quản lý hồ sơ bệnh nhân và lịch sử khám.</p>
+                        <a th:href="@{/ho-so}" class="btn btn-primary">Xem hồ sơ</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <hr  />    
     </main>
-
-    <div th:replace="base :: footer"></div>
-
 </body>
+    <footer th:fragment="footer" class="text-center">
+        <div class="mt-4 p-5 bg-primary text-white rounded">
+            <h1>Ứng dụng đặt lịch khám</h1>
+            <p>Nguyễn Hoàng Phúc &copy; 2025</p>
+        </div>
+    </footer>
 </html>

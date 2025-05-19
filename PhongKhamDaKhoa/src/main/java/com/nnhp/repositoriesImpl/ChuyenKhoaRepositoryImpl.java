@@ -52,7 +52,12 @@ public class ChuyenKhoaRepositoryImpl implements ChuyenKhoaRepository{
 
             String orderBy = params.get("orderBy");
             if (orderBy != null && !orderBy.isEmpty()) {
-                q.orderBy(b.asc(root.get(orderBy)));
+                String sort = params.get("sort");
+                if (sort != null && sort.equalsIgnoreCase("desc")) {
+                    q.orderBy(b.desc(root.get(orderBy)));
+                } else {
+                    q.orderBy(b.asc(root.get(orderBy)));
+                }
             }
         }
 

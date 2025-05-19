@@ -4,8 +4,10 @@
  */
 package com.nnhp.repositories;
 
+import com.nnhp.enums.Role;
 import com.nnhp.pojo.Taikhoan;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -20,4 +22,5 @@ public interface TaiKhoanRepository {
     boolean authenticate(String email, String matKhau);
     void deleteUser(int id);
     Taikhoan addOrUpdateTaiKhoan(Taikhoan tk);
+    List<Taikhoan> getDsTaiKhoan(Map<String, String> params, String role);
 }

@@ -4,6 +4,7 @@
  */
 package com.nnhp.servicesImpl;
 
+import java.util.ArrayList;
 import com.nnhp.formaters.Formatter;
 import com.nnhp.pojo.Benhnhan;
 import com.nnhp.pojo.Hoso;
@@ -20,12 +21,42 @@ import org.springframework.stereotype.Service;
 
 /**
  *
- * @author namnh
+ * @author hoang
  */
 @Service
 public class HoSoServiceImpl implements HoSoService {
     @Autowired
-    private HoSoRepository hsRepo;
+    private HoSoRepository hoSoRepo;
+    
+    @Override
+    public List<Hoso> getDsHoSo(Map<String, String> params) {
+        try {
+            return this.hoSoRepo.getDsHoSo(params);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public Hoso getHoSoById(int id) {
+        try {
+            return this.hoSoRepo.getHoSoById(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Hoso addOrUpdateHoSo(Hoso hoSo) {
+        try {
+            return this.hoSoRepo.addOrUpdateHoSo(hoSo);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 
     @Override
     public Hoso addHoSo(Map<String, Object> params, Benhnhan bn) {
@@ -43,27 +74,35 @@ public class HoSoServiceImpl implements HoSoService {
         hs.setHoTen((String)params.get("ho_ten"));
         hs.setSoDienThoai((String)params.get("so_dien_thoai"));
         hs.setBenhnhanId(bn);
-        return this.hsRepo.addHoSo(hs);
+        return this.hoSoRepo.addHoSo(hs);
     }
 
     @Override
     public List<Hoso> getHoSoList(int id) {
-        return this.hsRepo.getHoSoList(id);
+        return this.hoSoRepo.getHoSoList(id);
     }
 
     @Override
     public void deleteHoSo(int id) {
-        this.hsRepo.deleteHoSo(id);
-    }
-
-    @Override
-    public Hoso getHoSoById(int id) {
-        return this.hsRepo.getHoSoById(id);
+        try {
+            this.hoSoRepo.deleteHoSo(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
     public Hoso updateHoSO(Hoso hs) {
-        return this.hsRepo.updateHoSo(hs);
+        return this.hoSoRepo.updateHoSo(hs);
     }
     
-}
+    @Override
+    public boolean kiemTraHoSoTonTai(int id) {
+        try {
+            return this.hoSoRepo.kiemTraHoSoTonTai(id);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+} 

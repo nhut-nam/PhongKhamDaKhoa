@@ -1,0 +1,63 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý đặt lịch khám</title>
+    <th:block th:replace="~{base :: bootstrap}"></th:block>
+</head>
+<body>
+    <main class="container">
+        <div th:replace="~{base :: header}"></div>
+        <h2 class="text-center text-info mt-1">Thêm/Cập nhật dịch vụ</h2>
+        
+        <!-- Hiển thị thông báo lỗi nếu có -->
+        <div th:if="${param.error}" class="alert alert-danger">
+            <span th:if="${param.error[0] == 'true'}">Có lỗi xảy ra khi lưu dịch vụ. Vui lòng thử lại!</span>
+        </div>
+        
+        <form th:object="${dichVu}" th:action="@{/dich-vu/add}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            
+            <div class="mb-3 mt-3">
+                <label for="tenDichVu" class="form-label">Tên dịch vụ</label>
+                <input type="text" class="form-control" id="tenDichVu" placeholder="Tên dịch vụ" th:field="*{tenDichVu}" required>
+            </div>
+            
+            <div class="mb-3">
+                <label for="loaiDichVu" class="form-label">Loại dịch vụ</label>
+                <select class="form-select" id="loaiDichVu" th:field="*{loaiDichVu}" required>
+                    <option value="">-- Chọn loại dịch vụ --</option>
+                    <option value="0">Khám tổng quát</option>
+                    <option value="1">Khám chuyên sâu</option>
+                    <option value="2">Tư vấn sức khỏe</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="loaiThanhToan" class="form-label">Loại thanh toán</label>
+                <select class="form-select" id="loaiThanhToan" th:field="*{loaiThanhToan}" required>
+                    <option value="">-- Chọn loại thanh toán --</option>
+                    <option value="0">Thanh toán tại bệnh viện</option>
+                    <option value="1">Thanh toán trực tuyến</option>
+                    <option value="2">Cả hai hình thức</option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <label for="benhvienchuyenkhoaId" class="form-label">Bệnh viện - Chuyên khoa</label>
+                <select class="form-select" id="benhvienchuyenkhoaId" th:field="*{benhvienchuyenkhoaId}" required>
+                    <option value="">-- Chọn bệnh viện - chuyên khoa --</option>
+                    <option th:each="bvck : ${dsBenhVienChuyenKhoa}" 
+                            th:value="${bvck.id}" 
+                            th:text="${bvck.benhvienId != null ? (bvck.benhvienId.tenBenhVien + ' - ' + (bvck.chuyenkhoaId != null ? bvck.chuyenkhoaId.tenChuyenKhoa : 'Không có chuyên khoa')) : 'Không có thông tin bệnh viện'}">
+                    </option>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a th:href="@{/dich-vu}" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </main>
+</body>
+</html> 

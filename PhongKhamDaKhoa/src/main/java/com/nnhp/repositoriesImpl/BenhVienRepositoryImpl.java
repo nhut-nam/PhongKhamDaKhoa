@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import org.hibernate.Session;
 import jakarta.persistence.Query;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
@@ -46,12 +45,22 @@ public class BenhVienRepositoryImpl implements BenhVienRepository{
             if (kw != null && !kw.isEmpty()) {
                 predicates.add(b.like(root.get("tenBenhVien"), String.format("%%%s%%", kw)));
             }
+            
+            String diaChi = params.get("diaChi");
+            if (diaChi != null && !diaChi.isEmpty()) {
+                predicates.add(b.like(root.get("diaChi"), String.format("%%%s%%", diaChi)));
+            }
 
             q.where(predicates.toArray(Predicate[]::new));
 
             String orderBy = params.get("orderBy");
             if (orderBy != null && !orderBy.isEmpty()) {
-                q.orderBy(b.asc(root.get(orderBy)));
+                String sort = params.get("sort");
+                if (sort != null && sort.equalsIgnoreCase("desc")) {
+                    q.orderBy(b.desc(root.get(orderBy)));
+                } else {
+                    q.orderBy(b.asc(root.get(orderBy)));
+                }
             }
         }
 
@@ -72,4 +81,21 @@ public class BenhVienRepositoryImpl implements BenhVienRepository{
         return q.getResultList();
     }
     
+    @Override
+    public Benhvien addOrUpdateBenhVien(Benhvien bv) {
+        Session s = this.factory.getObject().getCurrentSession();
+        if (bv.getId() == null) {
+            s.persist(bv);
+        } else {
+            s.merge(bv);
+        }
+        return bv;
+    }
+    
+    @Override
+    public void deleteBenhVien(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Benhvien bv = this.getBenhVienById(id);
+        s.remove(bv);
+    }
 }

@@ -83,7 +83,17 @@ public class BacSiRepositoryImpl implements BacSiRepository {
             Benhvien benhVien = s.get(Benhvien.class, b.getBenhvienId().getId());
             b.setBenhvienId(benhVien);
         }
-
+        
+        if (b.getId() != null) {
+        // Nếu là cập nhật, xoá các chuyên khoa cũ
+        Bacsi bacSiCu = s.get(Bacsi.class, b.getId());
+        if (bacSiCu != null && bacSiCu.getBacsithuocchuyenkhoaCollection() != null) {
+            for (Bacsithuocchuyenkhoa bsck : bacSiCu.getBacsithuocchuyenkhoaCollection()) {
+                s.remove(bsck);  // Xóa từng bản ghi trong bảng trung gian
+            }
+        }
+    }
+        
         // Thêm hoặc cập nhật
         if (b.getId() == null) {
             s.persist(b);

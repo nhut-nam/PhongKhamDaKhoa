@@ -1,0 +1,75 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý hồ sơ bệnh nhân</title>
+    <th:block th:replace="~{base :: bootstrap}"></th:block>
+</head>
+<body>
+    <main class="container">
+        <div th:replace="~{base :: header}"></div>
+        <h2 class="text-center text-info mt-1">Thêm/Cập nhật hồ sơ bệnh nhân</h2>
+        
+        <!-- Hiển thị thông báo lỗi nếu có -->
+        <div th:if="${param.error}" class="alert alert-danger">
+            <span th:if="${param.error[0] == 'true'}">Có lỗi xảy ra khi lưu hồ sơ. Vui lòng thử lại!</span>
+            <span th:if="${param.error[0] == 'no_patient'}">Vui lòng chọn bệnh nhân!</span>
+            <span th:if="${param.error[0] == 'invalid_patient'}">Bệnh nhân không tồn tại trong hệ thống!</span>
+            <span th:if="${param.error[0] == 'save_failed'}">Không thể lưu hồ sơ. Vui lòng thử lại!</span>
+            <span th:if="${param.error[0] == 'exception'}">Đã xảy ra lỗi. Vui lòng kiểm tra lại thông tin!</span>
+        </div>
+        
+        <form th:object="${hoSo}" th:action="@{/ho-so/add}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            
+            <div class="mb-3 mt-3">
+                <label for="ngayTaoStr" class="form-label">Ngày tạo</label>
+                <input type="datetime-local" class="form-control" id="ngayTaoStr" name="ngayTao" th:value="${hoSo.ngayTao != null ? #dates.format(hoSo.ngayTao, 'yyyy-MM-dd''T''HH:mm') : ''}" readonly>
+                <small class="text-muted">Ngày tạo được thiết lập tự động</small>
+            </div>
+            
+            <div class="mb-3">
+                <label for="benhnhanId" class="form-label">Bệnh nhân</label>
+                <select class="form-select" id="benhnhanId" th:field="*{benhnhanId}" required>
+                    <option value="">-- Chọn bệnh nhân --</option>
+                    <option th:each="benhnhan : ${dsBenhNhan}" 
+                            th:value="${benhnhan.id}" 
+                            th:text="${benhnhan.hoNguoiDung + ' ' + benhnhan.tenNguoiDung + ' - ' + benhnhan.email}"
+                            th:selected="${hoSo.benhnhanId != null && hoSo.benhnhanId.id == benhnhan.id}">
+                    </option>
+                </select>
+                <small class="text-muted">Chọn bệnh nhân để liên kết với hồ sơ này</small>
+            </div>
+            
+            <div class="mb-3">
+                <label for="hoTen" class="form-label">Họ tên</label>
+                <input type="text" class="form-control" id="hoTen" th:field="*{hoTen}" placeholder="Nhập họ tên">
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Nhập email">
+            </div>
+
+            <div class="mb-3">
+                <label for="soDienThoai" class="form-label">Số điện thoại</label>
+                <input type="tel" class="form-control" id="soDienThoai" th:field="*{soDienThoai}" placeholder="Nhập số điện thoại">
+            </div>
+
+            <div class="mb-3">
+                <label for="diaChi" class="form-label">Địa chỉ</label>
+                <input type="text" class="form-control" id="diaChi" th:field="*{diaChi}" placeholder="Nhập địa chỉ">
+            </div>
+            
+            <div class="mb-3">
+            <label for="ngaySinh" class="form-label">Ngày sinh</label>
+                <input type="datetime-local" class="form-control" id="ngaySinh" name="ngaySinh" th:value="${hoSo.ngaySinh != null ? #dates.format(hoSo.ngaySinh, 'yyyy-MM-dd''T''HH:mm') : ''}">
+            </div>  
+            
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a th:href="@{/ho-so}" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </main>
+</body>
+</html> 

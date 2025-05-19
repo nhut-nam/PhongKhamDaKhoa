@@ -4,14 +4,22 @@
  */
 package com.nnhp.repositoriesImpl;
 
+import com.nnhp.enums.Role;
 import com.nnhp.pojo.Benhnhan;
 import com.nnhp.pojo.Quantri;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.repositories.TaiKhoanRepository;
+import com.nnhp.services.handler.RoleHandler;
 import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.NotFoundException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -31,7 +39,8 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
     private LocalSessionFactoryBean factory;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
+    private Map<String, RoleHandler> handlerMap;
+    
     @Override
     public Taikhoan getUserByEmail(String email) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -104,5 +113,50 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
             s.merge(tk);
         }
         return tk;
+    }
+
+    @Override
+    public List<Taikhoan> getDsTaiKhoan(Map<String, String> params, String role) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Taikhoan> q = b.createQuery(Taikhoan.class);
+        Root<Taikhoan> root = q.from(Taikhoan.class);
+        q.select(root);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (params != null) {
+            // Lọc theo từ khóa (email, họ, tên)
+            String kw = params.get("kw");
+            if (kw != null && !kw.isEmpty()) {
+                String pattern = "%" + kw.toLowerCase() + "%";
+                List<Predicate> orPredicates = new ArrayList<>();
+                orPredicates.add(b.like(b.lower(root.get("email")), pattern));
+                orPredicates.add(b.like(b.lower(root.get("tenNguoiDung")), pattern));
+                orPredicates.add(b.like(b.lower(root.get("hoNguoiDung")), pattern));
+                orPredicates.add(b.like(b.lower(root.get("soDienThoai")), pattern));
+                predicates.add(b.or(orPredicates.toArray(new Predicate[0])));
+            }
+            
+            // Sắp xếp kết quả
+            String orderBy = params.get("orderBy");
+            if (orderBy != null && !orderBy.isEmpty()) {
+                String sort = params.get("sort");
+                if (sort != null && sort.equalsIgnoreCase("desc")) {
+                    q.orderBy(b.desc(root.get(orderBy)));
+                } else {
+                    q.orderBy(b.asc(root.get(orderBy)));
+                }
+            }
+        }
+
+        if (role != null && !role.isEmpty()) {
+            predicates.add(b.equal(root.get("role"), role));
+        }
+
+        q.where(predicates.toArray(new Predicate[0]));
+
+        Query query = s.createQuery(q);
+        return query.getResultList();
     }
 }

@@ -2,41 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Quản lý đặt lịch khám</title>
-    <th:block th:replace="base :: bootstrap"></th:block>
+    <th:block th:replace="~{base :: bootstrap}"></th:block>
 </head>
 <body>
     <main class="container">
-        <div th:replace="base :: header"></div>
+        <div th:replace="~{base :: header}"></div>
         <h1 class="text-center text-info mt-1">QUẢN LÝ TÀI KHOẢN</h1>
-        <form  method="post" th:action="@{/tai-khoan/add}" th:object="${taiKhoan}">
+        
+        <!-- Hiển thị thông báo lỗi nếu có -->
+        <div th:if="${param.error}" class="alert alert-danger">
+            <span th:if="${param.error[0] == 'duplicate_phone'}">Số điện thoại đã tồn tại trong hệ thống!</span>
+            <span th:if="${param.error[0] == 'duplicate_email'}">Email đã tồn tại trong hệ thống!</span>
+            <span th:if="${param.error[0] == 'database'}">Lỗi cơ sở dữ liệu. Vui lòng thử lại!</span>
+            <span th:if="${param.error[0] == 'unknown'}">Đã xảy ra lỗi không xác định. Vui lòng thử lại sau!</span>
+        </div>
+        
+        <form method="post" th:action="@{/tai-khoan/add}" th:object="${taiKhoan}">
             <div class="mb-3 mt-3">
                 <label for="email" class="form-label">Email: </label>
-                <input type="email" class="form-control" id="email" placeholder="Email" th:field="*{email}"  />
+                <input type="email" class="form-control" id="email" placeholder="Email" th:field="*{email}" required />
+                
                 <label for="hoNguoiDung" class="form-label">Họ người dùng: </label>
-                <input type="text" class="form-control" id="hoNguoiDung" placeholder="Họ người dùng" th:field="*{hoNguoiDung}"  />
+                <input type="text" class="form-control" id="hoNguoiDung" placeholder="Họ người dùng" th:field="*{hoNguoiDung}" required />
+                
                 <label for="tenNguoiDung" class="form-label">Tên người dùng: </label>
-                <input type="text" class="form-control" id="tenNguoiDung" placeholder="Tên người dùng" th:field="*{tenNguoiDung}"  />
+                <input type="text" class="form-control" id="tenNguoiDung" placeholder="Tên người dùng" th:field="*{tenNguoiDung}" required />
+                
                 <label for="matKhau" class="form-label">Mật khẩu: </label>
-                <input type="text" class="form-control" id="matKhau" placeholder="Mật khẩu" th:field="*{matKhau}"  />
+                <input type="text" class="form-control" id="matKhau" placeholder="Mật khẩu" th:field="*{matKhau}" required />
+                
                 <label for="ngaySinh" class="form-label">Ngày sinh: </label>
-                <input type="date" class="form-control" id="ngaySinh" placeholder="Ngày sinh" name="ngaySinh" th:value="${#dates.format(taiKhoan.ngaySinh, 'yyyy-MM-dd')}"/>
+                <input type="date" class="form-control" id="ngaySinh" placeholder="Ngày sinh" name="ngaySinh" th:value="${#dates.format(taiKhoan.ngaySinh, 'yyyy-MM-dd')}" required />
+                
                 <label for="soDienThoai" class="form-label">Số điện thoại: </label>
-                <input type="text" class="form-control" id="soDienThoai" placeholder="Số điện thoại" th:field="*{soDienThoai}"  />
+                <input type="text" class="form-control" id="soDienThoai" placeholder="Số điện thoại" th:field="*{soDienThoai}" required />
+                
+                <label for="role" class="form-label">Vai trò: </label>
+                <select class="form-select" id="role" name="role">
+                    <option value="USER" th:selected="${taiKhoan.role == 'USER' || taiKhoan.role == null}">Bệnh nhân (USER)</option>
+                    <option value="DOCTOR" th:selected="${taiKhoan.role == 'DOCTOR'}">Bác sĩ (DOCTOR)</option>
+                </select>
+                
+                <label for="diaChi" class="form-label">Địa chỉ: </label>
+                <input type="text" class="form-control" id="diaChi" placeholder="Địa chỉ" th:field="*{diaChi}" />
+                
                 <label for="ghiChu" class="form-label">Ghi chú: </label>
-                <input type="text" class="form-control" id="ghiChu" placeholder="Ghi chú" th:field="*{ghiChu}"  />
-                          
+                <input type="text" class="form-control" id="ghiChu" placeholder="Ghi chú" th:field="*{ghiChu}" />
             </div>
+            
             <div class="mb-3 mt-3">
-                <input type="hidden" class="form-control" th:field="*{id}"  />
+                <input type="hidden" class="form-control" th:field="*{id}" />
                 <button class="btn btn-success mt-1" type="submit">
                     <span th:if="${taiKhoan.id == null}">Thêm tài khoản</span>
                     <span th:unless="${taiKhoan.id == null}">Cập nhật tài khoản</span>
                 </button>
+                <a th:href="@{/admin-tai-khoan}" class="btn btn-secondary">Quay lại</a>
             </div>
         </form>
 
-        <div th:replace="base :: footer"></div>
+        <div th:replace="~{base :: footer}"></div>
     </main>
 </body>
+</html>
 
 

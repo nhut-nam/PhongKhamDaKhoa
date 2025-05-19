@@ -1,0 +1,19 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Lỗi</title>
+    <th:block th:replace="~{base :: bootstrap}"></th:block>
+</head>
+<body>
+    <main class="container">
+        <div th:replace="~{base :: header}"></div>
+        <div class="alert alert-danger mt-4">
+            <h3 class="text-center">Đã xảy ra lỗi!</h3>
+            <p class="text-center" th:text="${errorMessage}">Đã có lỗi xảy ra trong hệ thống. Vui lòng liên hệ quản trị viên.</p>
+        </div>
+        <div class="text-center mt-3">
+            <a href="/" class="btn btn-primary">Về trang chủ</a>
+        </div>
+    </main>
+</body>
+</html> 

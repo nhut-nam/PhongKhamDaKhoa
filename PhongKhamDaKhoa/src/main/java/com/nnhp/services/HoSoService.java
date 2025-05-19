@@ -11,12 +11,17 @@ import java.util.Map;
 
 /**
  *
- * @author namnh
+<<<<<<< HEAD
+ * @author hoang
  */
 public interface HoSoService {
-    Hoso addHoSo(Map<String, Object> params, Benhnhan bn);
-    List<Hoso> getHoSoList(int id);
-    void deleteHoSo(int id);
+    List<Hoso> getDsHoSo(Map<String, String> params);
     Hoso getHoSoById(int id);
+    Hoso addOrUpdateHoSo(Hoso hoSo);
+    void deleteHoSo(int id);
+    boolean kiemTraHoSoTonTai(int id);
+    List<Hoso> getHoSoList(int id);
+    Hoso addHoSo(Map<String, Object> params, Benhnhan bn);
     Hoso updateHoSO(Hoso hs);
-}
+} 
+
