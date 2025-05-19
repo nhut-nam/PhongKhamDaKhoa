@@ -5,16 +5,19 @@
 package com.nnhp.pojo;
 
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  *
@@ -26,6 +29,9 @@ import java.io.Serializable;
     @NamedQuery(name = "Quantri.findAll", query = "SELECT q FROM Quantri q"),
     @NamedQuery(name = "Quantri.findById", query = "SELECT q FROM Quantri q WHERE q.id = :id")})
 public class Quantri extends Taikhoan implements Serializable {
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "quantriId")
+    private Collection<TinTuc> tintucCollection;
 
     public Quantri() {
     }
