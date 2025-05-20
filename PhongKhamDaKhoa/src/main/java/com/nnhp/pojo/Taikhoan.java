@@ -105,6 +105,8 @@ public class Taikhoan implements Serializable {
     private String tenNguoiDung;
     @Column(name = "trang_thai")
     private TrangThaiTaiKhoan trangThai;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "taikhoanId")
+    private Collection<TaiKhoanTinTuc> taikhoantintucCollection;
     @Transient
     private MultipartFile file;
 
@@ -234,6 +236,16 @@ public class Taikhoan implements Serializable {
     public void setDanhgiaCollection(Collection<Danhgia> danhgiaCollection) {
         this.danhgiaCollection = danhgiaCollection;
     }
+
+    public Collection<TaiKhoanTinTuc> getTaikhoantintucCollection() {
+        return taikhoantintucCollection;
+    }
+
+    public void setTaikhoantintucCollection(Collection<TaiKhoanTinTuc> taikhoantintucCollection) {
+        this.taikhoantintucCollection = taikhoantintucCollection;
+    }
+    
+    
 
     @Override
     public int hashCode() {

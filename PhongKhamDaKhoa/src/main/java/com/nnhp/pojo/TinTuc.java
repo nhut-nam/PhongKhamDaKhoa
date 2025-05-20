@@ -4,6 +4,7 @@
  */
 package com.nnhp.pojo;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,8 +12,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  *
@@ -30,11 +33,8 @@ public class TinTuc implements Serializable {
     private String noiDung;
     @Column(name = "ngay_dang", nullable = false)
     private String ngayDang;
-    @Column(name = "trang_thai")
-    private boolean trangThai;
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "quantri_id", referencedColumnName = "id")
-    private Quantri quantriId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tintucId")
+    private Collection<TaiKhoanTinTuc> taikhoantintucCollection;
 
     public TinTuc() {
     }
@@ -75,21 +75,4 @@ public class TinTuc implements Serializable {
         this.ngayDang = ngayDang;
     }
 
-    public boolean isTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(boolean trangThai) {
-        this.trangThai = trangThai;
-    }
-
-    public Quantri getQuantriId() {
-        return quantriId;
-    }
-
-    public void setQuantriId(Quantri quantriId) {
-        this.quantriId = quantriId;
-    }
-    
-    
 }

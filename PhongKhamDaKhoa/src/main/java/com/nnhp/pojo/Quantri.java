@@ -30,8 +30,6 @@ import java.util.Collection;
     @NamedQuery(name = "Quantri.findById", query = "SELECT q FROM Quantri q WHERE q.id = :id")})
 public class Quantri extends Taikhoan implements Serializable {
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "quantriId")
-    private Collection<TinTuc> tintucCollection;
 
     public Quantri() {
     }
