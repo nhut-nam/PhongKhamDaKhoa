@@ -15,26 +15,29 @@ import java.util.stream.Collectors;
  */
 public class BacSiDTO extends TaiKhoanDTO {
     private int benhVienId;
-    private List<Integer> chuyenKhoasId;
     private Date ngayLamViec;
     private Date ngayNghiViec;
 
     public BacSiDTO(Integer id, String email, String diaChi, String avatar, String hoNguoiDung, 
             String tenNguoiDung, String soDienThoai, Date ngaySinh, String role,
-            int benhVienId, List<Integer> chuyenKhoasId, TrangThaiTaiKhoan trangThai, Date ngayLamViec, Date ngayNghiViec) {
+            int benhVienId, TrangThaiTaiKhoan trangThai, Date ngayLamViec, Date ngayNghiViec) {
         super(id, email, diaChi, avatar, hoNguoiDung, tenNguoiDung, soDienThoai, ngaySinh, role, trangThai);
         this.benhVienId = benhVienId;
-        this.chuyenKhoasId = chuyenKhoasId;
         this.ngayLamViec = ngayLamViec;
         this.ngayNghiViec = ngayNghiViec;
     }
     
     public static BacSiDTO convertToDTO(Bacsi bs) {
-        List<Integer> cks = bs.getBacsithuocchuyenkhoaCollection().stream().map(bsck -> bsck.getChuyenkhoaId().getId()).collect(Collectors.toList());
         return new BacSiDTO(bs.getId(), bs.getEmail(), bs.getDiaChi(), bs.getAvatar(), bs.getHoNguoiDung()
                 , bs.getTenNguoiDung(), bs.getSoDienThoai(), bs.getNgaySinh(), bs.getRole(), bs.getBenhvienId().getId()
-                , cks, bs.getTrangThai(), bs.getNgayLamViec(), bs.getNgayNghiViec());
+                ,bs.getTrangThai(), bs.getNgayLamViec(), bs.getNgayNghiViec());
     }
+    
+    public static List<BacSiDTO> convertToDTOList(List<Bacsi> bacsiList) {
+    return bacsiList.stream()
+                    .map(BacSiDTO::convertToDTO)
+                    .collect(Collectors.toList());
+}
 
     /**
      * @return the benhVienId
@@ -48,20 +51,6 @@ public class BacSiDTO extends TaiKhoanDTO {
      */
     public void setBenhVienId(int benhVienId) {
         this.benhVienId = benhVienId;
-    }
-
-    /**
-     * @return the chuyenKhoasId
-     */
-    public List<Integer> getChuyenKhoasId() {
-        return chuyenKhoasId;
-    }
-
-    /**
-     * @param chuyenKhoasId the chuyenKhoasId to set
-     */
-    public void setChuyenKhoasId(List<Integer> chuyenKhoasId) {
-        this.chuyenKhoasId = chuyenKhoasId;
     }
 
     /**

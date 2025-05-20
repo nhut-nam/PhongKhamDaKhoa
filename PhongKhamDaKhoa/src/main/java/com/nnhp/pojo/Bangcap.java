@@ -4,9 +4,12 @@
  */
 package com.nnhp.pojo;
 
+import com.nnhp.enums.TrangThaiBangCap;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,9 +20,11 @@ import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -43,7 +48,8 @@ public class Bangcap implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "trang_thai")
-    private Short trangThai;
+    @Enumerated(EnumType.STRING)
+    private TrangThaiBangCap trangThai;
     @Column(name = "ngay_cap")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayCap;
@@ -53,10 +59,13 @@ public class Bangcap implements Serializable {
     @Size(max = 255)
     @Column(name = "co_quan_cap")
     private String coQuanCap;
+    @Column(name = "hinh_mat_truoc")
+    private String hinhMatTruoc;
     @JoinColumn(name = "bacsi_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Bacsi bacsiId;
-
+    @Transient
+    private MultipartFile fileHinhMatTruoc;
     public Bangcap() {
     }
 
@@ -72,11 +81,11 @@ public class Bangcap implements Serializable {
         this.id = id;
     }
 
-    public Short getTrangThai() {
+    public TrangThaiBangCap getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(Short trangThai) {
+    public void setTrangThai(TrangThaiBangCap trangThai) {
         this.trangThai = trangThai;
     }
 
@@ -110,6 +119,22 @@ public class Bangcap implements Serializable {
 
     public void setBacsiId(Bacsi bacsiId) {
         this.bacsiId = bacsiId;
+    }
+
+    public String getHinhMatTruoc() {
+        return hinhMatTruoc;
+    }
+
+    public void setHinhMatTruoc(String hinhMatTruoc) {
+        this.hinhMatTruoc = hinhMatTruoc;
+    }
+
+    public MultipartFile getFileHinhMatTruoc() {
+        return fileHinhMatTruoc;
+    }
+
+    public void setFileHinhMatTruoc(MultipartFile fileHinhMatTruoc) {
+        this.fileHinhMatTruoc = fileHinhMatTruoc;
     }
 
     @Override

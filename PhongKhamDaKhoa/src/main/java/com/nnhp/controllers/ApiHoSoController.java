@@ -38,7 +38,7 @@ public class ApiHoSoController {
     @Autowired
     private TaiKhoanService tkService;
     
-    @PostMapping(path = "/tao-ho-so", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/secure/tao-ho-so", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<HoSoDTO> addHoSo(@RequestBody Map<String, Object> params) {
         Integer userId = Integer.valueOf(params.get("user_id").toString());
@@ -46,27 +46,27 @@ public class ApiHoSoController {
         return new ResponseEntity<>(HoSoDTO.convertToDTO(this.hsService.addHoSo(params, bn)), HttpStatus.CREATED);
     }
     
-    @GetMapping("/get-ds-ho-so/{userId}")
+    @GetMapping("/secure/get-ds-ho-so/{userId}")
     @CrossOrigin
     public ResponseEntity<List<HoSoDTO>> getHoSoList(@PathVariable(name = "userId") String userId) {
         Integer id = Integer.valueOf(userId);
         return new ResponseEntity<>(HoSoDTO.convertToDTOList(this.hsService.getHoSoList(id)), HttpStatus.OK);
     }
     
-    @DeleteMapping("xoa-ho-so/{id}")
+    @DeleteMapping("/secure/xoa-ho-so/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CrossOrigin
     public void deleteHoSo(@PathVariable(name = "id") Integer id) {
         this.hsService.deleteHoSo(id);
     }
     
-    @GetMapping("/get-ho-so/{id}")
+    @GetMapping("/secure/get-ho-so/{id}")
     @CrossOrigin
     public ResponseEntity<HoSoDTO> getHoSo(@PathVariable(name = "id") Integer id) {
         return new ResponseEntity<>(HoSoDTO.convertToDTO(this.hsService.getHoSoById(id)), HttpStatus.OK);
     }
     
-    @PutMapping("/sua-ho-so")
+    @PutMapping("/secure/sua-ho-so")
     @CrossOrigin
     public ResponseEntity<?> updateHoSo(@RequestBody HoSoDTO hsDTO) {
         Hoso hs = this.hsService.getHoSoById(hsDTO.getId());

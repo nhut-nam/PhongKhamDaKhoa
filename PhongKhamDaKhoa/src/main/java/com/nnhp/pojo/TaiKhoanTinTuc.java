@@ -71,6 +71,4 @@ public class TaiKhoanTinTuc implements Serializable {
     public void setTrangThai(boolean trangThai) {
         this.trangThai = trangThai;
     }
-    
-    
 }
