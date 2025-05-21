@@ -35,7 +35,7 @@ const SelectSpecialty = () => {
 
       <div className="specialty-panel">
         <div className="panel-header">Vui lòng chọn chuyên khoa</div>
-        <div className="search-bar">
+        <div className="search-bar-select-specialty">
           <input
             type="text"
             placeholder="Tìm nhanh chuyên khoa"

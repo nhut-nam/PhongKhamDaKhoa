@@ -60,6 +60,9 @@ public class Lichkham implements Serializable {
     private String buoi;
     @Column(name = "loai_thanh_toan")
     private LoaiThanhToan loaiThanhToan;
+    @Column(name = "ngay_tao")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ngayTao;
     @JoinColumn(name = "benhvienchuyenkhoadichvu_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private BenhVienChuyenKhoaDichVu benhvienchuyenkhoadichvuId;
@@ -160,6 +163,16 @@ public class Lichkham implements Serializable {
     public void setThongtinthanhtoanCollection(Collection<Thongtinthanhtoan> thongtinthanhtoanCollection) {
         this.thongtinthanhtoanCollection = thongtinthanhtoanCollection;
     }
+
+    public Date getNgayTao() {
+        return ngayTao;
+    }
+
+    public void setNgayTao(Date ngayTao) {
+        this.ngayTao = ngayTao;
+    }
+    
+    
 
     @Override
     public int hashCode() {
