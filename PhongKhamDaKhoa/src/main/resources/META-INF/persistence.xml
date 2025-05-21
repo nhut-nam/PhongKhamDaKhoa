@@ -22,6 +22,5 @@
     <class>com.nnhp.pojo.Thongtinthanhtoan</class>
     <class>com.nnhp.pojo.Chuyenkhoa</class>
     <class>com.nnhp.pojo.Benhvienchuyenkhoa</class>
-    <class>com.nnhp.pojo.Dichvu</class>
   </persistence-unit>
 </persistence>

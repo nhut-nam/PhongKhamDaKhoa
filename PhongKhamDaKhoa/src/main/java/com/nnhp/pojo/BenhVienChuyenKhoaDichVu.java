@@ -33,9 +33,6 @@ import java.io.Serializable;
     
     @NamedQuery(name = "BenhVienChuyenKhoaDichVu.findByChuyenKhoa", 
                 query = "SELECT b FROM BenhVienChuyenKhoaDichVu b WHERE b.benhvienchuyenkhoaId.id = :chuyenKhoaId"),
-    
-    @NamedQuery(name = "BenhVienChuyenKhoaDichVu.findByDichVu", 
-                query = "SELECT b FROM BenhVienChuyenKhoaDichVu b WHERE b.dichvuId.id = :dichVuId")
 })
 public class BenhVienChuyenKhoaDichVu implements Serializable {
     @Id

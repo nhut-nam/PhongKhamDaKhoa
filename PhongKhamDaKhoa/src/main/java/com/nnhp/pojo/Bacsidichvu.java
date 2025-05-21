@@ -26,9 +26,7 @@ import java.io.Serializable;
 
     @NamedQuery(name = "Bacsidichvu.findByBacSi", 
                 query = "SELECT b FROM Bacsidichvu b WHERE b.bacsiId.id = :bacSiId"),
-
-    @NamedQuery(name = "Bacsidichvu.findByDichVu", 
-                query = "SELECT b FROM Bacsidichvu b WHERE b.benhvienchuyenkhoadichvuId.dichvuId.id = :dichVuId")})
+})
 public class Bacsidichvu implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
