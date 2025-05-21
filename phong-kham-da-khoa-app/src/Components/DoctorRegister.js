@@ -31,6 +31,10 @@ export default function DoctorRegister() {
         chuyenKhoa: [],
         chuyenTri: "",
         ngayLamViec: "",
+        ngayCap: "",
+        ngayHetHan: "",
+        coQuanCap: "",
+        hinhMatTruoc: "",
         role: "DOCTOR"
     });
 
@@ -55,8 +59,7 @@ export default function DoctorRegister() {
         const addUser = async () => {
             try {
                 setLoading(true);
-                console.log(user);
-                let res = await Apis.post(endpoints['doctor-register'], 
+                let res = await Apis.post(endpoints['doctor-register'],
                     JSON.stringify({
                         email: user.email,
                         hoNguoiDung: user.hoNguoiDung,
@@ -77,8 +80,20 @@ export default function DoctorRegister() {
                             "Content-Type": "application/json"
                         },
                     });
+                let formData = new FormData();
+                formData.append("userId", res.data.id);
+                formData.append("coQuanCap", user.coQuanCap);
+                formData.append("ngayCap", user.ngayCap);
+                formData.append("ngayHetHan", user.ngayHetHan);
+                formData.append("hinhMatTruoc", user.hinhMatTruoc);
+
+                let resBangCap = await Apis.post(endpoints['addBangCap'],
+                    formData, {
+                        headers: {
+                            "Content-Type": "multipart/form-data"
+                        },
+                    });
                 setUser(res.data);
-                console.log(res.data);
                 nav("/login");
             } catch (ex) {
                 console.error(ex);
@@ -205,6 +220,66 @@ export default function DoctorRegister() {
                                 return { value: id, label: found?.tenChuyenKhoa };
                             })}
                         />
+                    </div>
+                    <div className="form-group">
+                        <label>Cơ quan cấp bằng</label>
+                        <input
+                            type="text"
+                            name="bangcap.coQuanCap"
+                            placeholder="Cơ quan cấp bằng"
+                            value={user.coQuanCap}
+                            onChange={(e) => {
+                                setUser((prev) => ({
+                                    ...prev,
+                                    coQuanCap: e.target.value
+                                }));
+                            }}
+                            required
+                        />
+                        <label>Hình mặt trước</label>
+                        <input
+                            type="file"
+                            name="bangcap.hinhMatTruoc"
+                            placeholder="Hình mặt trước"
+                            onChange={(e) => {
+                                setUser((prev) => ({
+                                    ...prev,
+                                    hinhMatTruoc: e.target.files[0]
+                                }));
+                            }}
+                            required
+                        />
+                        <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
+                            <div style={{ flex: 1 }}>
+                                <label style={{ fontSize: "0.9em" }}>Ngày cấp</label>
+                                <input
+                                    type="date"
+                                    name="bangcap.ngayCap"
+                                    value={user.ngayCap}
+                                    onChange={(e) => {
+                                        setUser((prev) => ({
+                                            ...prev,
+                                            ngayCap: e.target.value
+                                        }));
+                                    }}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div style={{ flex: 1 }}>
+                            <label style={{ fontSize: "0.9em" }}>Ngày hết hạn</label>
+                            <input
+                                type="date"
+                                name="bangcap.ngayHetHan"
+                                value={user.ngayHetHan}
+                                onChange={(e) => {
+                                    setUser((prev) => ({
+                                        ...prev,
+                                        ngayHetHan: e.target.value
+                                    }));
+                                }}
+                            />
+                        </div>
                     </div>
                     <div className="form-group">
                         <label>Chuyên trị</label>

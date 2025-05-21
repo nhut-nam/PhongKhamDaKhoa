@@ -1,5 +1,6 @@
 import React from 'react';
 import '../Styles/MedicalFacilityCard.css';
+import { Link } from 'react-router-dom';
 
 const MedicalFacilityCard = ({ logo, tenBenhVien, diaChi }) => {
   return (
@@ -12,7 +13,7 @@ const MedicalFacilityCard = ({ logo, tenBenhVien, diaChi }) => {
         <p className="facility-address">📍 {diaChi}</p>
         <div className="facility-buttons">
           <button className="btn-outline">Xem chi tiết</button>
-          <button className="btn-filled">Đặt khám ngay</button>
+          <Link to={`/dat-kham/${tenBenhVien}`} className="btn-filled">Đặt khám ngay</Link>
         </div>
       </div>
     </div>

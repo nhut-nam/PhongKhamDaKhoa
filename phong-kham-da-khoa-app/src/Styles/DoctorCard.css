@@ -1,0 +1,52 @@
+.doctor-card {
+  display: flex;
+  align-items: flex-start;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.doctor-image {
+  width: 96px;
+  height: 96px;
+  border-radius: 9999px;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.doctor-info {
+  flex: 1;
+}
+
+.doctor-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1d4ed8;
+  margin-bottom: 0.25rem;
+}
+
+.doctor-location {
+  color: #374151;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.book-button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #0ea5e9;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.book-button:hover {
+  background-color: #0284c7;
+}

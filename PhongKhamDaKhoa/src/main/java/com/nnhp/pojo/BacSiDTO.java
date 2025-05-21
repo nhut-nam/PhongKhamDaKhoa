@@ -14,54 +14,45 @@ import java.util.stream.Collectors;
  * @author namnh
  */
 public class BacSiDTO extends TaiKhoanDTO {
-    private int benhVienId;
-    private List<Integer> chuyenKhoasId;
+    private BenhVienDTO benhVien;
+    private String chuyenTri;
     private Date ngayLamViec;
     private Date ngayNghiViec;
 
     public BacSiDTO(Integer id, String email, String diaChi, String avatar, String hoNguoiDung, 
             String tenNguoiDung, String soDienThoai, Date ngaySinh, String role,
-            int benhVienId, List<Integer> chuyenKhoasId, TrangThaiTaiKhoan trangThai, Date ngayLamViec, Date ngayNghiViec) {
+            BenhVienDTO benhVien, TrangThaiTaiKhoan trangThai, String chuyenTri, Date ngayLamViec, Date ngayNghiViec) {
         super(id, email, diaChi, avatar, hoNguoiDung, tenNguoiDung, soDienThoai, ngaySinh, role, trangThai);
-        this.benhVienId = benhVienId;
-        this.chuyenKhoasId = chuyenKhoasId;
+        this.benhVien = benhVien;
+        this.chuyenTri = chuyenTri;
         this.ngayLamViec = ngayLamViec;
         this.ngayNghiViec = ngayNghiViec;
     }
     
     public static BacSiDTO convertToDTO(Bacsi bs) {
-        List<Integer> cks = bs.getBacsithuocchuyenkhoaCollection().stream().map(bsck -> bsck.getChuyenkhoaId().getId()).collect(Collectors.toList());
         return new BacSiDTO(bs.getId(), bs.getEmail(), bs.getDiaChi(), bs.getAvatar(), bs.getHoNguoiDung()
-                , bs.getTenNguoiDung(), bs.getSoDienThoai(), bs.getNgaySinh(), bs.getRole(), bs.getBenhvienId().getId()
-                , cks, bs.getTrangThai(), bs.getNgayLamViec(), bs.getNgayNghiViec());
+                , bs.getTenNguoiDung(), bs.getSoDienThoai(), bs.getNgaySinh(), bs.getRole(), BenhVienDTO.convertToBenhVienDTO(bs.getBenhvienId())
+                ,bs.getTrangThai(), bs.getChuyenTri(), bs.getNgayLamViec(), bs.getNgayNghiViec());
+    }
+    
+    public static List<BacSiDTO> convertToDTOList(List<Bacsi> bacsiList) {
+    return bacsiList.stream()
+                    .map(BacSiDTO::convertToDTO)
+                    .collect(Collectors.toList());
+}
+
+    /**
+     * @return the benhVien
+     */
+    public BenhVienDTO getBenhVien() {
+        return benhVien;
     }
 
     /**
-     * @return the benhVienId
+     * @param benhVien the benhVienId to set
      */
-    public int getBenhVienId() {
-        return benhVienId;
-    }
-
-    /**
-     * @param benhVienId the benhVienId to set
-     */
-    public void setBenhVienId(int benhVienId) {
-        this.benhVienId = benhVienId;
-    }
-
-    /**
-     * @return the chuyenKhoasId
-     */
-    public List<Integer> getChuyenKhoasId() {
-        return chuyenKhoasId;
-    }
-
-    /**
-     * @param chuyenKhoasId the chuyenKhoasId to set
-     */
-    public void setChuyenKhoasId(List<Integer> chuyenKhoasId) {
-        this.chuyenKhoasId = chuyenKhoasId;
+    public void setBenhVienId(BenhVienDTO benhVien) {
+        this.benhVien = benhVien;
     }
 
     /**
@@ -90,6 +81,14 @@ public class BacSiDTO extends TaiKhoanDTO {
      */
     public void setNgayNghiViec(Date ngayNghiViec) {
         this.ngayNghiViec = ngayNghiViec;
+    }
+
+    public String getChuyenTri() {
+        return chuyenTri;
+    }
+
+    public void setChuyenTri(String chuyenTri) {
+        this.chuyenTri = chuyenTri;
     }
     
     

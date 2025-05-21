@@ -11,6 +11,8 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,7 +53,8 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "Taikhoan.findByHoNguoiDung", query = "SELECT t FROM Taikhoan t WHERE t.hoNguoiDung = :hoNguoiDung"),
     @NamedQuery(name = "Taikhoan.findByMatKhau", query = "SELECT t FROM Taikhoan t WHERE t.matKhau = :matKhau"),
     @NamedQuery(name = "Taikhoan.findBySoDienThoai", query = "SELECT t FROM Taikhoan t WHERE t.soDienThoai = :soDienThoai"),
-    @NamedQuery(name = "Taikhoan.findByTenNguoiDung", query = "SELECT t FROM Taikhoan t WHERE t.tenNguoiDung = :tenNguoiDung")})
+    @NamedQuery(name = "Taikhoan.findByTenNguoiDung", query = "SELECT t FROM Taikhoan t WHERE t.tenNguoiDung = :tenNguoiDung"),
+    @NamedQuery(name = "Taikhoan.findByEmailByTrangThai", query = "SELECT u FROM Taikhoan u WHERE u.email = :email AND u.trangThai = :trangThai")})
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Taikhoan implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -103,8 +106,11 @@ public class Taikhoan implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "ten_nguoi_dung")
     private String tenNguoiDung;
+    @Enumerated(EnumType.STRING)
     @Column(name = "trang_thai")
     private TrangThaiTaiKhoan trangThai;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "taikhoanId")
+    private Collection<TaiKhoanTinTuc> taikhoantintucCollection;
     @Transient
     private MultipartFile file;
 
@@ -234,6 +240,16 @@ public class Taikhoan implements Serializable {
     public void setDanhgiaCollection(Collection<Danhgia> danhgiaCollection) {
         this.danhgiaCollection = danhgiaCollection;
     }
+
+    public Collection<TaiKhoanTinTuc> getTaikhoantintucCollection() {
+        return taikhoantintucCollection;
+    }
+
+    public void setTaikhoantintucCollection(Collection<TaiKhoanTinTuc> taikhoantintucCollection) {
+        this.taikhoantintucCollection = taikhoantintucCollection;
+    }
+    
+    
 
     @Override
     public int hashCode() {

@@ -8,6 +8,7 @@ import com.nnhp.pojo.Benhvienchuyenkhoa;
 import com.nnhp.repositories.BenhVienChuyenKhoaRepository;
 import com.nnhp.services.BenhVienChuyenKhoaService;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,4 +60,9 @@ public class BenhVienChuyenKhoaServiceImpl implements BenhVienChuyenKhoaService 
     public Boolean tonTaiBenhVienIdChuyenKhoaId(int benhVienId, int chuyenKhoaId) {
         return this.bvckRepository.tonTaiBenhVienIdChuyenKhoaId(benhVienId, chuyenKhoaId);
     }
-} 
+
+    @Override
+    public List<Benhvienchuyenkhoa> getDsBenhVienChuyenKhoa(Map<String, String> params) {
+        return this.bvckRepository.getDsBenhVien(params);
+    }
+}

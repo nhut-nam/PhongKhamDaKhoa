@@ -5,9 +5,11 @@
 package com.nnhp.repositoriesImpl;
 
 import com.nnhp.enums.Role;
+import com.nnhp.enums.TrangThaiTaiKhoan;
 import com.nnhp.pojo.Benhnhan;
 import com.nnhp.pojo.Quantri;
 import com.nnhp.pojo.Taikhoan;
+import com.nnhp.pojo.ThongBao;
 import com.nnhp.repositories.TaiKhoanRepository;
 import com.nnhp.services.handler.RoleHandler;
 import jakarta.persistence.Query;
@@ -40,6 +42,16 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     private Map<String, RoleHandler> handlerMap;
+    
+    @Override
+    public Taikhoan getUserByEmailByTrangThai(String email, TrangThaiTaiKhoan trangThai) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Taikhoan.findByEmailByTrangThai", Taikhoan.class);
+        q.setParameter("email", email);
+        q.setParameter("trangThai", trangThai);
+        List<Taikhoan> results = q.getResultList();
+        return results.isEmpty() ? null : results.get(0);
+    }
     
     @Override
     public Taikhoan getUserByEmail(String email) {
@@ -79,13 +91,23 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
     }
 
     @Override
-    public boolean authenticate(String email, String matKhau) {
+    public ThongBao authenticate(String email, String matKhau) {
         Taikhoan tk = this.getUserByEmail(email);
         if (tk == null) {
-            return false;
+            return new ThongBao("Tài khoản hoặc mật khẩu không đúng", false);
+        }
+        boolean auth = this.passwordEncoder.matches(matKhau, tk.getMatKhau());
+        if (tk.getTrangThai() == TrangThaiTaiKhoan.HUY_KICH_HOAT) {
+            return new ThongBao("Tài khoản của bạn bị vô hiệu hóa", false);
+        }
+        if (tk.getTrangThai() == TrangThaiTaiKhoan.DOI_XAC_NHAN) {
+            return new ThongBao("Tài khoản của bạn đang trong quá trình xác nhận", false);
+        }
+        if (auth == false) {
+            return new ThongBao("Tài khoản hoặc mật khẩu sai", false);
         }
         
-        return this.passwordEncoder.matches(matKhau, tk.getMatKhau());
+        return new ThongBao("Đăng nhập thành công", auth);
     }
 
     @Override

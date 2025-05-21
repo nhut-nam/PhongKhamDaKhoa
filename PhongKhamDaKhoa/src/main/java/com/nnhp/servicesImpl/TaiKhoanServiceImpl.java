@@ -11,6 +11,8 @@ import com.nnhp.pojo.Benhvien;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.repositories.BacSiRepository;
 import com.nnhp.repositories.BenhVienRepository;
+import com.nnhp.pojo.Taikhoan;
+import com.nnhp.pojo.ThongBao;
 import com.nnhp.repositories.TaiKhoanRepository;
 import com.nnhp.services.TaiKhoanService;
 import com.nnhp.services.handler.RoleHandler;
@@ -71,6 +73,11 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     }
 
     @Override
+    public Taikhoan getUserByEmailByTrangThai(String email, TrangThaiTaiKhoan trangThai) {
+        return this.tkRepo.getUserByEmailByTrangThai(email, trangThai);
+    }
+    
+    @Override
     public Taikhoan getUserByEmail(String email) {
         return this.tkRepo.getUserByEmail(email);
     }
@@ -100,7 +107,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     }
     
     @Override
-    public boolean authenticate(String email, String matKhau) {
+    public ThongBao authenticate(String email, String matKhau) {
         return this.tkRepo.authenticate(email, matKhau);
     }
     

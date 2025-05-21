@@ -44,7 +44,7 @@ public class UserHandler implements RoleHandler {
             }
         tk.setSoDienThoai(params.get("soDienThoai"));
         tk.setTrangThai(TrangThaiTaiKhoan.KICH_HOAT);
-        tk.setRole("USER");
+        tk.setRole("ROLE_USER");
         return tk;
     }
     

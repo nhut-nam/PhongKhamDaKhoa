@@ -12,11 +12,14 @@ export const endpoints = {
   'getChuyenKhoa': "ds-chuyen-khoa",
   'getChuyenKhoaByBenhVien': "benh-vien/%s/chuyen-khoa",
   'addBacSiChuyenKhoa': "/addBacSiChuyenKhoa",
-  'addPatientRecord': "/tao-ho-so",
-  'getHoSoList': "/get-ds-ho-so",
-  'getHoSo': "/get-ho-so",
-  'deleteHoSo': "/xoa-ho-so",
-  'updateHoSo': "/sua-ho-so"
+  'addPatientRecord': "/secure/tao-ho-so",
+  'getHoSoList': "/secure/get-ds-ho-so",
+  'getHoSo': "/secure/get-ho-so",
+  'deleteHoSo': "/secure/xoa-ho-so",
+  'updateHoSo': "/secure/sua-ho-so",
+  'getDoctorList': "/ds-bac-si",
+  'addBangCap': "/tao-bang-cap",
+  'getBenhVienChuyenKhoa': "/benh-vien-chuyen-khoa",
 };
 
 export const authApis = () => {

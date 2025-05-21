@@ -15,8 +15,15 @@ import Patient from './Components/Patient';
 import AddPatientRecord from './Components/AddPatientRecord';
 import MedicalFacilityCard from './Components/MedicalFacilityCard';
 import MedicalFacilityList from './Components/MedicalFacilityList';
+<<<<<<< HEAD
 import ChatPage from './Components/ChatPage';
 
+=======
+import Search from './Components/Search';
+import BookingPage from './Components/BookingPage';
+import Specialty from './Components/Specialty';
+import SelectSpecialty from './Components/SelectSpecialty';
+>>>>>>> 178d4c1a5b108a2bf276720debe60a6963967617
 
 function init(initialUser) {
   if (!initialUser) {
@@ -52,7 +59,12 @@ function App() {
             <Route path="/patient" element={<Patient />} />
             <Route path="/tao-ho-so" element={<AddPatientRecord />} />
             <Route path="/dat-kham-theo-co-so" element={<MedicalFacilityList />} />
+<<<<<<< HEAD
             <Route path="/chat-truc-tuyen" element={<ChatPage />} />
+=======
+            <Route path="/tim-kiem?" element={<Search />} />
+            <Route path="/dat-lich-kham/chuyen-khoa" element={<SelectSpecialty />} />
+>>>>>>> 178d4c1a5b108a2bf276720debe60a6963967617
         </Routes>
         <Footer />
         </BrowserRouter>

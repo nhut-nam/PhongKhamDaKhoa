@@ -9,7 +9,7 @@ package com.nnhp.enums;
  * @author namnh
  */
 public enum LoaiDichVu {
-    NGOAIGIO,
-    TRONGGIO,
-    GOIVIDEO
+    KHAM_DICH_VU,
+    KHAM_THUONG,
+    GOI_VIDEO
 }

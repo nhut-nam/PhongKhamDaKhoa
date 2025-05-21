@@ -1,21 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import '../Styles/Home.css';
 import { MyDispatcherContext, MyUserContext } from '../Configs/MyContexts';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const user = useContext(MyUserContext);
     const dispatch = useContext(MyDispatcherContext);
-    const [searchTerm, setSearchTerm] = React.useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const type = 'facility';
+    const nav = useNavigate();
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
-    };
-
-    const handleSearchSubmit = (e) => {
-        e.preventDefault();
-        // Xử lý tìm kiếm ở đây, ví dụ: chuyển hướng hoặc gọi API
-        alert(`Tìm kiếm: ${searchTerm}`);
     };
 
     return (
@@ -27,7 +23,7 @@ const Home = () => {
                         <p>
                             MedPro cung cấp các giải pháp y tế toàn diện với đội ngũ bác sĩ chuyên môn cao và trang thiết bị hiện đại
                         </p>
-                        <form className="search-bar" onSubmit={handleSearchSubmit}>
+                        <form className="search-bar">
                             <input
                                 type="text"
                                 className="search-input"
@@ -35,12 +31,11 @@ const Home = () => {
                                 value={searchTerm}
                                 onChange={handleSearchChange}
                             />
-                            <button type="submit" className="search-button">
+                            <button onClick={(e) => {e.preventDefault(); nav(`/tim-kiem?type=${type}&kw=${searchTerm}`)}} type="submit" className="search-button">  
                                 Tìm kiếm
                             </button>
                         </form>
                         <div className="hero-buttons">
-                            {user !== null && (user.user.role !== "DOCTOR" && <Link to="#" className="btn-primary">Đặt lịch khám</Link>)}
                             <a href="#" className="btn-secondary">Tìm hiểu thêm</a>
                         </div>
                     </div>

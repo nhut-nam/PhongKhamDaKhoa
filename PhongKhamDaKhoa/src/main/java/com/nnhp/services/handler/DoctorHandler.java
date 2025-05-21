@@ -4,14 +4,19 @@
  */
 package com.nnhp.services.handler;
 
+import com.cloudinary.Cloudinary;
+import com.nnhp.enums.TrangThaiBangCap;
 import com.nnhp.enums.TrangThaiTaiKhoan;
 import com.nnhp.formaters.Formatter;
 import com.nnhp.pojo.Bacsi;
+import com.nnhp.pojo.Bangcap;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.repositories.BenhVienRepository;
 import com.nnhp.repositories.ChuyenKhoaRepository;
 import com.nnhp.services.BacSiThuocChuyenKhoaService;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,6 +35,8 @@ public class DoctorHandler implements RoleHandler {
     private ChuyenKhoaRepository ckRepo;
     @Autowired
     private BacSiThuocChuyenKhoaService bsckService;
+    @Autowired
+    private Cloudinary cloudinary;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -51,20 +58,20 @@ public class DoctorHandler implements RoleHandler {
             throw new IllegalArgumentException("Ngày không đúng định dạng yyyy-MM-dd", ex);
         }
         tk.setSoDienThoai(params.get("soDienThoai"));
-        tk.setRole("DOCTOR");
+        tk.setRole("ROLE_DOCTOR");
         tk.setChuyenTri(params.get("chuyenTri"));
         tk.setNgayNghiViec(null);
         tk.setTrangThai(TrangThaiTaiKhoan.DOI_XAC_NHAN);
         tk.setBenhvienId(this.bvRepo.getBenhVienById(Integer.parseInt(params.get("benhVien"))));
-
         return tk;
     }
 
     @Override
     public Taikhoan handle(Taikhoan tk) {
         Bacsi bs = new Bacsi();
-        if(tk.getId()!=null)
+        if (tk.getId() != null) {
             bs.setId(tk.getId());
+        }
         bs.setHoNguoiDung(tk.getHoNguoiDung());
         bs.setTenNguoiDung(tk.getTenNguoiDung());
         bs.setDiaChi(tk.getDiaChi());
@@ -74,6 +81,6 @@ public class DoctorHandler implements RoleHandler {
         bs.setNgaySinh(tk.getNgaySinh());
         bs.setSoDienThoai(tk.getSoDienThoai());
         bs.setRole("DOCTOR");
-        return bs; 
+        return bs;
     }
 }

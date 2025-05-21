@@ -20,10 +20,6 @@ function LoginPage() {
       let res = await Apis.post(endpoints['login'], {
       ...user
       });
-      if (user.trangThai === "DOI_XAC_NHAN" || user.trangThai === "HUY_KICH_HOAT") {
-        setMsg("Tài khoản của bạn đã bị khóa hoặc đang chờ xác nhận");
-        return;
-      }
       cookie.save('token', res.data.token);
       let u = await authApis().get(endpoints['current-user']);
       dispatch({

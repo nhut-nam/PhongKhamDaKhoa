@@ -6,6 +6,7 @@ package com.nnhp.repositories;
 
 import com.nnhp.pojo.Benhvienchuyenkhoa;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -19,4 +20,5 @@ public interface BenhVienChuyenKhoaRepository {
     List<Benhvienchuyenkhoa> getByBenhVienId(int benhVienId);
     List<Benhvienchuyenkhoa> getByChuyenKhoaId(int chuyenKhoaId);
     Boolean tonTaiBenhVienIdChuyenKhoaId(int benhVienId, int chuyenKhoaId);
+    List<Benhvienchuyenkhoa> getDsBenhVien(Map<String, String> params);
 } 

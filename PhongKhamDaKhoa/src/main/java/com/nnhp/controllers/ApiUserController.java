@@ -5,6 +5,7 @@
 package com.nnhp.controllers;
 
 import com.nnhp.enums.Role;
+import com.nnhp.enums.TrangThaiTaiKhoan;
 import com.nnhp.pojo.BacSiDTO;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Benhvien;
@@ -36,9 +37,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -94,7 +97,8 @@ public class ApiUserController {
     @PostMapping("/login")
     @CrossOrigin
     public ResponseEntity<?> login(@RequestBody Taikhoan tk) {
-        if (this.userDetailsService.authenticate(tk.getEmail(), tk.getMatKhau())) {
+        ThongBao tb = this.userDetailsService.authenticate(tk.getEmail(), tk.getMatKhau());
+        if (tb.isStatus()) {
             try {
                 String token = JwtUtils.generateToken(tk.getEmail());
                 return ResponseEntity.ok().body(Collections.singletonMap("token", token));
@@ -102,7 +106,7 @@ public class ApiUserController {
                 return ResponseEntity.status(500).body("Lỗi khi tạo JWT");
             }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ThongBao("Sai thông tin tài khoản", false));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(tb);
     }
     
     @RequestMapping("/secure/profile")

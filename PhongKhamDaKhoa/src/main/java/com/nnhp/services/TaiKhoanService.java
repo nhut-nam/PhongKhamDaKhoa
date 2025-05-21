@@ -5,7 +5,9 @@
 package com.nnhp.services;
 
 import com.nnhp.enums.Role;
+import com.nnhp.enums.TrangThaiTaiKhoan;
 import com.nnhp.pojo.Taikhoan;
+import com.nnhp.pojo.ThongBao;
 import java.util.List;
 import java.util.Map;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,8 +20,9 @@ public interface TaiKhoanService extends UserDetailsService {
     Taikhoan getTaiKhoanTest();
     List<Taikhoan> getTaiKhoanList();
     Taikhoan getUserByEmail(String email);
+    Taikhoan getUserByEmailByTrangThai(String email, TrangThaiTaiKhoan trangThai);
     Taikhoan addTaiKhoan(Map<String, String> params, Role role);
-    boolean authenticate(String email, String matKhau);
+    ThongBao authenticate(String email, String matKhau);
     Taikhoan addTaiKhoan(Taikhoan tk);
     void deleteUser(int id);
     Taikhoan getUserById(int id);

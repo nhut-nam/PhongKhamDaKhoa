@@ -4,9 +4,12 @@
  */
 package com.nnhp.pojo;
 
+import com.nnhp.enums.LoaiDichVu;
 import com.nnhp.enums.LoaiThanhToan;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,6 +18,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -29,9 +33,6 @@ import java.io.Serializable;
     
     @NamedQuery(name = "BenhVienChuyenKhoaDichVu.findByChuyenKhoa", 
                 query = "SELECT b FROM BenhVienChuyenKhoaDichVu b WHERE b.benhvienchuyenkhoaId.id = :chuyenKhoaId"),
-    
-    @NamedQuery(name = "BenhVienChuyenKhoaDichVu.findByDichVu", 
-                query = "SELECT b FROM BenhVienChuyenKhoaDichVu b WHERE b.dichvuId.id = :dichVuId")
 })
 public class BenhVienChuyenKhoaDichVu implements Serializable {
     @Id
@@ -39,14 +40,18 @@ public class BenhVienChuyenKhoaDichVu implements Serializable {
     private int id;
     @Column(name = "gia_tien")
     private double giaTien;
-    @Column(name = "loai_thanh_toan")
-    private LoaiThanhToan loaiThanhToan;
     @ManyToOne
     @JoinColumn(name = "benhvienchuyenkhoaiId")
     private Benhvienchuyenkhoa benhvienchuyenkhoaId;
-    @ManyToOne
-    @JoinColumn(name = "dichvuId")
-    private Dichvu dichvuId;
+    @Column(name = "loai_dich_vu")
+    @Enumerated(EnumType.STRING)
+    private LoaiDichVu loaiDichVu;
+    @Column(name = "loai_thanh_toan")
+    @Enumerated(EnumType.STRING)
+    private LoaiThanhToan loaiThanhToan;
+    @Size(max = 255)
+    @Column(name = "ten_dich_vu")
+    private String tenDichVu;
 
     // Getter & Setter
     public int getId() {
@@ -73,20 +78,36 @@ public class BenhVienChuyenKhoaDichVu implements Serializable {
         this.benhvienchuyenkhoaId = benhvienchuyenkhoaId;
     }
 
-    public Dichvu getDichVu() {
-        return dichvuId;
-    }
-
-    public void setDichVu(Dichvu dichvuId) {
-        this.dichvuId = dichvuId;
-    }
-
     public LoaiThanhToan getLoaiThanhToan() {
         return loaiThanhToan;
     }
 
     public void setLoaiThanhToan(LoaiThanhToan loaiThanhToan) {
         this.loaiThanhToan = loaiThanhToan;
+    }
+
+    public Benhvienchuyenkhoa getBenhvienchuyenkhoaId() {
+        return benhvienchuyenkhoaId;
+    }
+
+    public void setBenhvienchuyenkhoaId(Benhvienchuyenkhoa benhvienchuyenkhoaId) {
+        this.benhvienchuyenkhoaId = benhvienchuyenkhoaId;
+    }
+
+    public LoaiDichVu getLoaiDichVu() {
+        return loaiDichVu;
+    }
+
+    public void setLoaiDichVu(LoaiDichVu loaiDichVu) {
+        this.loaiDichVu = loaiDichVu;
+    }
+
+    public String getTenDichVu() {
+        return tenDichVu;
+    }
+
+    public void setTenDichVu(String tenDichVu) {
+        this.tenDichVu = tenDichVu;
     }
     
     

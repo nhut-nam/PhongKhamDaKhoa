@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class BenhVienRepositoryImpl implements BenhVienRepository{
+    private static final int PAGE_SIZE = 8;
     @Autowired
     private LocalSessionFactoryBean factory;
     
@@ -63,8 +64,16 @@ public class BenhVienRepositoryImpl implements BenhVienRepository{
                 }
             }
         }
+        
 
         Query query = s.createQuery(q);
+        if (params != null && params.containsKey("page")) {
+            int page = Integer.parseInt(params.get("page"));
+            int start = (page - 1) * PAGE_SIZE;
+
+            query.setMaxResults(PAGE_SIZE);
+            query.setFirstResult(start);
+        }
         return query.getResultList();
     }
 
