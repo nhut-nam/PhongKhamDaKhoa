@@ -19,9 +19,9 @@
                     <div class="mb-3 mt-3">
                         <select class="form-select" name="loaiDichVu">
                             <option value="" selected>-- Tất cả loại dịch vụ --</option>
-                            <option value="0" th:selected="${param.loaiDichVu == '0'}">Khám tổng quát</option>
-                            <option value="1" th:selected="${param.loaiDichVu == '1'}">Khám chuyên sâu</option>
-                            <option value="2" th:selected="${param.loaiDichVu == '2'}">Tư vấn sức khỏe</option>
+                            <option value="0" th:selected="${param.loaiDichVu == '0'}">Ngoài giờ</option>
+                            <option value="1" th:selected="${param.loaiDichVu == '1'}">Trong giờ</option>
+                            <option value="2" th:selected="${param.loaiDichVu == '2'}">Gọi video</option>
                         </select>
                     </div>
                 </div>
@@ -69,9 +69,9 @@
                     <td th:text="${dichVu.id}"></td>
                     <td th:text="${dichVu.tenDichVu}"></td>
                     <td>
-                        <span th:if="${dichVu.loaiDichVu == 0}">Khám tổng quát</span>
-                        <span th:if="${dichVu.loaiDichVu == 1}">Khám chuyên sâu</span>
-                        <span th:if="${dichVu.loaiDichVu == 2}">Tư vấn sức khỏe</span>
+                        <span th:if="${dichVu.loaiDichVu == 0}">Ngoài giờ</span>
+                        <span th:if="${dichVu.loaiDichVu == 1}">Trong giờ</span>
+                        <span th:if="${dichVu.loaiDichVu == 2}">Gọi video</span>
                     </td>
                     <td th:text="${dichVu.benhvienchuyenkhoaId.chuyenkhoaId.tenChuyenKhoa}"></td>
                     <td th:text="${dichVu.benhvienchuyenkhoaId.benhvienId.tenBenhVien}"></td>

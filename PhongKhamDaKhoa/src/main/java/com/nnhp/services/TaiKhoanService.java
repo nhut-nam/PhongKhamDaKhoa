@@ -23,6 +23,6 @@ public interface TaiKhoanService extends UserDetailsService {
     Taikhoan addTaiKhoan(Taikhoan tk);
     void deleteUser(int id);
     Taikhoan getUserById(int id);
-    Taikhoan addOrUpdateTaiKhoan(Taikhoan tk);
+    Taikhoan addOrUpdateTaiKhoan(Taikhoan tk, Integer benhVienId);
     List<Taikhoan> getDsTaiKhoan(Map<String, String> params, String role) ;
 }

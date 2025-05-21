@@ -53,7 +53,15 @@ public class SpringSecurityConfigs {
             Exception {
                 http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+                .authorizeHttpRequests(auth
+                        -> auth.requestMatchers("/", "/index", "/benh-vien", "/chuyen-khoa", "/lich-kham", "/dich-vu", "/ho-so", "/admin-tai-khoan", "/thong-ke", "/benhvien-chuyenkhoa").hasRole("ADMIN")
+                        .anyRequest().permitAll())
+                        .formLogin(form -> form.loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error=true").permitAll())
+                        .logout(logout -> logout.logoutSuccessUrl("/login").permitAll());
+                              
         return http.build();
     }
 

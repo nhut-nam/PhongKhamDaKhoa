@@ -35,15 +35,16 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" th:href="@{/}">Trang chủ</a>
-                        <a class="nav-link" th:href="@{/benh-vien}">Quản lý bệnh viện</a>
-                        <a class="nav-link" th:href="@{/chuyen-khoa}">Quản lý chuyên khoa</a>
-                        <a class="nav-link" th:href="@{/benhvien-chuyenkhoa}">Bệnh viện - Chuyên khoa</a>
-                        <a class="nav-link" th:href="@{/admin-tai-khoan}">Quản lý tài khoản</a>
-                        <a class="nav-link" th:href="@{/dich-vu}">Quản lý dịch vụ</a>
-                        <a class="nav-link" th:href="@{/lich-kham}">Lịch khám</a>
-                        <a class="nav-link" th:href="@{/ho-so}">Hồ sơ bệnh nhân</a>
-                        <a class="nav-link" th:href="@{/thong-ke}">Thống kê</a>
+                        <a class="nav-link" th:href="@{/}" sec:authorize="isAuthenticated()">Trang chủ</a>
+                        <a class="nav-link" th:href="@{/benh-vien}" sec:authorize="isAuthenticated()">Quản lý bệnh viện</a>
+                        <a class="nav-link" th:href="@{/chuyen-khoa}" sec:authorize="isAuthenticated()">Quản lý chuyên khoa</a>
+                        <a class="nav-link" th:href="@{/benhvien-chuyenkhoa}" sec:authorize="isAuthenticated()">Bệnh viện - Chuyên khoa</a>
+                        <a class="nav-link" th:href="@{/admin-tai-khoan}" sec:authorize="isAuthenticated()">Quản lý tài khoản</a>
+                        <a class="nav-link" th:href="@{/dich-vu}" sec:authorize="isAuthenticated()">Quản lý dịch vụ</a>
+                        <a class="nav-link" th:href="@{/lich-kham}" sec:authorize="isAuthenticated()">Lịch khám</a>
+                        <a class="nav-link" th:href="@{/ho-so}" sec:authorize="isAuthenticated()">Hồ sơ bệnh nhân</a>
+                        <a class="nav-link" th:href="@{/thong-ke}" sec:authorize="isAuthenticated()">Thống kê</a>
+                        <a class="nav-link" th:href="@{/logout}" sec:authorize="isAuthenticated()">Đăng xuất</a>
                     </div>
                 </div>
             </div>

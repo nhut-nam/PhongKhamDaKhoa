@@ -1,5 +1,9 @@
-//
-//import com.nnhp.repositoryImpl.TaiKhoanRepositoryImpl;
+//import com.nnhp.configs.SpringSecurityConfigs;
+//import com.nnhp.services.EmailService;
+//import com.nnhp.servicesImpl.EmailServiceImpl;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.ApplicationContext;
+//import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 //
 ///*
 // * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -12,13 +16,8 @@
 // */
 //public class main {
 //    public static void main (String[] args) throws ClassNotFoundException {
-//        
-//        Class.forName("com.nnhp.configs.WebAppContextConfigs");
-//        
-//        TaiKhoanRepositoryImpl tkRepository = new TaiKhoanRepositoryImpl();
-//        
-//        tkRepository.getTaikhoanTest("");
-//        
-//        System.out.println("sucessed running: ");
+//       ApplicationContext context = new AnnotationConfigApplicationContext(SpringSecurityConfigs.class);
+//       EmailService emailService = context.getBean(EmailServiceImpl.class);
+//       emailService.sendEmail("2251052096phuc@ou.edu.vn", "Tesst", "Tesst");
 //    }
 //}

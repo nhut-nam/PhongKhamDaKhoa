@@ -70,7 +70,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="taiKhoan, iterStat : ${dsTaiKhoan}">
+                <tr th:each="taiKhoan, iterStat : ${dsTaiKhoan}" th:if="${taiKhoan.role != 'ADMIN'}">
                     <td th:text="${iterStat.count}"></td> <!-- Đếm số thứ tự -->
                     <td th:text="${taiKhoan.email}"></td>
                     <td th:text="${taiKhoan.hoNguoiDung}"></td>

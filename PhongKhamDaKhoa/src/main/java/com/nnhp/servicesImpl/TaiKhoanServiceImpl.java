@@ -5,7 +5,12 @@
 package com.nnhp.servicesImpl;
 
 import com.nnhp.enums.Role;
+import com.nnhp.enums.TrangThaiTaiKhoan;
+import com.nnhp.pojo.Bacsi;
+import com.nnhp.pojo.Benhvien;
 import com.nnhp.pojo.Taikhoan;
+import com.nnhp.repositories.BacSiRepository;
+import com.nnhp.repositories.BenhVienRepository;
 import com.nnhp.repositories.TaiKhoanRepository;
 import com.nnhp.services.TaiKhoanService;
 import com.nnhp.services.handler.RoleHandler;
@@ -31,6 +36,10 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     @Autowired
     private TaiKhoanRepository tkRepo;
     private Map<String, RoleHandler> handlerMap;
+    @Autowired
+    private BenhVienRepository benhVienRepo;
+    @Autowired
+    private BacSiRepository bacSiRepo;
     
     @Autowired
     public TaiKhoanServiceImpl(List<RoleHandler> handlers) {
@@ -82,7 +91,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     public Taikhoan addTaiKhoan(Taikhoan tk) {
         String roleName = tk.getRole();
         RoleHandler handler = handlerMap.get(roleName.toUpperCase());
-        
+        tk.setTrangThai(TrangThaiTaiKhoan.KICH_HOAT);
         if (handler == null)
             throw new IllegalArgumentException("Không hỗ trợ role: " + tk.getRole());
         
@@ -107,8 +116,36 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     }
 
     @Override
-    public Taikhoan addOrUpdateTaiKhoan(Taikhoan tk) {
-        return this.tkRepo.addOrUpdateTaiKhoan(tk);
+    public Taikhoan addOrUpdateTaiKhoan(Taikhoan tk, Integer benhVienId) {
+        if(tk.getRole().equalsIgnoreCase("DOCTOR"))
+        {   
+            Bacsi bs = new Bacsi();
+            bs.setId(tk.getId());
+            bs.setEmail(tk.getEmail());
+            bs.setNgaySinh(tk.getNgaySinh());
+            bs.setSoDienThoai(tk.getSoDienThoai());
+            bs.setHoNguoiDung(tk.getHoNguoiDung());
+            bs.setTenNguoiDung(tk.getTenNguoiDung());
+            bs.setMatKhau(tk.getMatKhau());
+            bs.setDiaChi(tk.getDiaChi());
+            bs.setGhiChu(tk.getGhiChu());
+            bs.setRole(tk.getRole());
+            if(bs.getTrangThai()==null)
+            bs.setTrangThai(TrangThaiTaiKhoan.DOI_XAC_NHAN);
+            Benhvien benhVien = benhVienRepo.getBenhVienById(benhVienId);
+            bs.setBenhvienId(benhVien);
+            return this.bacSiRepo.addOrUpdateBacSi(bs);
+        }
+        if(tk.getTrangThai()==null)
+        tk.setTrangThai(TrangThaiTaiKhoan.KICH_HOAT);
+        String roleName = tk.getRole();
+        RoleHandler handler = handlerMap.get(roleName.toUpperCase());
+        
+        if (handler == null)
+            throw new IllegalArgumentException("Không hỗ trợ role: " + roleName);
+        
+        Taikhoan newTk = handler.handle(tk);
+        return this.tkRepo.addOrUpdateTaiKhoan(newTk);
     }
 
     @Override

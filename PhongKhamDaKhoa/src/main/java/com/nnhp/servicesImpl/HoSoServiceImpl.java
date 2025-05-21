@@ -61,18 +61,18 @@ public class HoSoServiceImpl implements HoSoService {
     @Override
     public Hoso addHoSo(Map<String, Object> params, Benhnhan bn) {
         Hoso hs = new Hoso();
-        boolean gioiTinh = Integer.parseInt((String)params.get("gioi_tinh")) == 1;
+        boolean gioiTinh = Integer.parseInt((String)params.get("gioiTinh")) == 1;
         hs.setGioiTinh(gioiTinh);
         try {
-                hs.setNgaySinh(Formatter.DATE_FORMATTER.parse((String)params.get("ngay_sinh")));
+                hs.setNgaySinh(Formatter.DATE_FORMATTER.parse((String)params.get("ngaySinh")));
             } catch (ParseException ex) {
                 Logger.getLogger(TaiKhoanServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         hs.setNgayTao(new Date());
-        hs.setDiaChi((String)params.get("dia_chi"));
+        hs.setDiaChi((String)params.get("diaChi"));
         hs.setEmail((String)params.get("email"));
-        hs.setHoTen((String)params.get("ho_ten"));
-        hs.setSoDienThoai((String)params.get("so_dien_thoai"));
+        hs.setHoTen((String)params.get("hoTen"));
+        hs.setSoDienThoai((String)params.get("soDienThoai"));
         hs.setBenhnhanId(bn);
         return this.hoSoRepo.addHoSo(hs);
     }

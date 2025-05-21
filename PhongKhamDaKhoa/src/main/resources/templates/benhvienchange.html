@@ -7,8 +7,7 @@
 <body>
     <main class="container">
         <div th:replace="~{base :: header}"></div>
-        <h2 class="text-center text-info mt-1">Thêm/Cập nhật bệnh viện</h2>
-        <form th:object="${benhVien}" th:action="@{/benh-vien/add}" method="post">
+        <form th:object="${benhVien}" th:action="@{/benh-vien/add}" method="post" enctype="multipart/form-data">
             <input type="hidden" th:field="*{id}" />
             <div class="mb-3 mt-3">
                 <label for="tenBenhVien" class="form-label">Tên bệnh viện</label>
@@ -18,11 +17,22 @@
                 <label for="diaChi" class="form-label">Địa chỉ</label>
                 <input type="text" class="form-control" id="diaChi" placeholder="Địa chỉ" th:field="*{diaChi}" required>
             </div>
+             <div class="mb-3 mt-3">
+                <label for="avatar" class="form-label">Ảnh bệnh viện: </label>
+                <input type="file" class="form-control" th:field="*{file}"  />
+                <img th:if="${benhVien.avatar != null}" th:src="${benhVien.avatar}" width="200" />
+            </div>
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Lưu</button>
+                <input type="hidden" class="form-control" th:field="*{id}"  />
+                <input type="hidden" class="form-control" th:field="*{avatar}"  />
+                <button class="btn btn-success mt-1" type="submit">
+                    <span th:if="${benhVien.id == null}">Thêm bệnh viện</span>
+                    <span th:unless="${benhVien.id == null}">Cập nhật bệnh viện</span>
+                </button>
                 <a th:href="@{/benh-vien}" class="btn btn-secondary">Hủy</a>
             </div>
         </form>
+        <div th:replace="~{base :: footer}"></div>
     </main>
 </body>
 </html> 

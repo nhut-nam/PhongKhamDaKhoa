@@ -1,0 +1,23 @@
+.message-item {
+  display: flex;
+  margin: 8px;
+}
+
+.message-item.left {
+  justify-content: flex-start;
+}
+
+.message-item.right {
+  justify-content: flex-end;
+}
+
+.message-bubble {
+  max-width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #e6e6e6;
+}
+
+.message-item.right .message-bubble {
+  background-color: #d1e7dd;
+}

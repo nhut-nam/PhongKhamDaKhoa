@@ -15,6 +15,7 @@
             <span th:if="${param.error[0] == 'duplicate_email'}">Email đã tồn tại trong hệ thống!</span>
             <span th:if="${param.error[0] == 'database'}">Lỗi cơ sở dữ liệu. Vui lòng thử lại!</span>
             <span th:if="${param.error[0] == 'unknown'}">Đã xảy ra lỗi không xác định. Vui lòng thử lại sau!</span>
+            <span th:if="${param.error[0] == 'benhvien_required'}">Đã xảy ra lỗi vui lòng chọn bệnh viện cho bác sĩ!</span>
         </div>
         
         <form method="post" th:action="@{/tai-khoan/add}" th:object="${taiKhoan}">
@@ -43,6 +44,14 @@
                     <option value="DOCTOR" th:selected="${taiKhoan.role == 'DOCTOR'}">Bác sĩ (DOCTOR)</option>
                 </select>
                 
+                <div class="mb-3 mt-3" id="benhVienSection" style="display: none;">
+                    <label for="benhVien" class="form-label">Bệnh viện: </label>
+                    <select class="form-select" id="benhVien" name="benhVienId">
+                        <option value="">-- Chọn bệnh viện --</option>
+                        <option th:each="bv : ${dsBenhVien}" th:value="${bv.id}" th:text="${bv.tenBenhVien}"></option>
+                    </select>
+                </div>
+
                 <label for="diaChi" class="form-label">Địa chỉ: </label>
                 <input type="text" class="form-control" id="diaChi" placeholder="Địa chỉ" th:field="*{diaChi}" />
                 
@@ -62,6 +71,37 @@
 
         <div th:replace="~{base :: footer}"></div>
     </main>
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const roleSelect = document.getElementById("role");
+        const benhVienSection = document.getElementById("benhVienSection");
+        const benhVienSelect = document.getElementById("benhVien");
+        const form = document.querySelector("form");
+
+        function toggleBenhVienSection() {
+            const selectedRole = roleSelect.value;
+            if (selectedRole === "DOCTOR") {
+                benhVienSection.style.display = "block";
+            } else {
+                benhVienSection.style.display = "none";
+            }
+        }
+
+        toggleBenhVienSection();
+
+        roleSelect.addEventListener("change", toggleBenhVienSection);
+
+        form.addEventListener("submit", function (e) {
+            const selectedRole = roleSelect.value;
+            if (selectedRole === "DOCTOR" && (!benhVienSelect.value || benhVienSelect.value === "")) {
+                e.preventDefault();
+                alert("Vui lòng chọn bệnh viện cho bác sĩ!");
+                benhVienSelect.focus();
+            }
+        });
+    });
+</script>
 </body>
 </html>
 

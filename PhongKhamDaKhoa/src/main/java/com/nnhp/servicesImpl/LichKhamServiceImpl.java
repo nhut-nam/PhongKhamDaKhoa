@@ -6,6 +6,7 @@ package com.nnhp.servicesImpl;
 
 import com.nnhp.pojo.Lichkham;
 import com.nnhp.repositories.LichKhamRepository;
+import com.nnhp.services.EmailService;
 import com.nnhp.services.LichKhamService;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,9 @@ import org.springframework.stereotype.Service;
 public class LichKhamServiceImpl implements LichKhamService {
     @Autowired
     private LichKhamRepository lichKhamRepo;
+    @Autowired
+    private EmailService senMail;
+    
     
     @Override
     public List<Lichkham> getDsLichKham(Map<String, String> params) {
@@ -46,6 +50,7 @@ public class LichKhamServiceImpl implements LichKhamService {
     public Lichkham addOrUpdateLichKham(Lichkham lichKham) {
         try {
             return this.lichKhamRepo.addOrUpdateLichKham(lichKham);
+            
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;

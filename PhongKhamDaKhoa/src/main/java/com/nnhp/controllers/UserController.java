@@ -7,7 +7,11 @@ package com.nnhp.controllers;
 import com.nnhp.enums.Role;
 import com.nnhp.formaters.Formatter;
 import static com.nnhp.formaters.Formatter.DATE_FORMATTER;
+import com.nnhp.pojo.Bacsi;
+import com.nnhp.pojo.Benhvien;
 import com.nnhp.pojo.Taikhoan;
+import com.nnhp.services.BacSiService;
+import com.nnhp.services.BenhVienService;
 import com.nnhp.services.TaiKhoanService;
 import com.nnhp.servicesImpl.TaiKhoanServiceImpl;
 import java.text.ParseException;
@@ -38,7 +42,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
     @Autowired
     private TaiKhoanService taiKhoanService;
-       
+    @Autowired
+    private BenhVienService benhVienService;
+    @Autowired
+    private BacSiService bacSiService;
+    
+    @GetMapping("/login")
+    public String loginView() {
+        return "login";
+    }
+    
     @GetMapping("/admin-tai-khoan")
     public String addListView(Model model, @RequestParam Map<String, String> params) {
         String role = params.getOrDefault("role", "");
@@ -51,6 +64,7 @@ public class UserController {
     @GetMapping("/taikhoanchange")
     public String addView(Model model){
         model.addAttribute("taiKhoan", new Taikhoan());
+        model.addAttribute("dsBenhVien", benhVienService.getAllBenhVien());
         return "taikhoanchange";
     }
     
@@ -60,7 +74,10 @@ public class UserController {
     }
     
     @PostMapping("/tai-khoan/add")
-    public String addTaiKhoan(@ModelAttribute(value = "taiKhoan") Taikhoan tk, @RequestParam("ngaySinh") String ngaySinh, @RequestParam(value = "role", required = false, defaultValue = "USER") String role) {
+    public String addTaiKhoan(@ModelAttribute(value = "taiKhoan") Taikhoan tk,
+            @RequestParam("ngaySinh") String ngaySinh,
+            @RequestParam(value = "role", required = false, defaultValue = "USER") String role,
+            @RequestParam(value = "benhVienId", required= false)Integer benhVienId) {
         try {
             tk.setNgaySinh(Formatter.DATE_FORMATTER.parse(ngaySinh));
         } catch (ParseException ex) {
@@ -83,9 +100,18 @@ public class UserController {
         
         // Thiết lập role mặc định là USER nếu không được chỉ định
         tk.setRole(role);
-        
+            
         try {
-            this.taiKhoanService.addTaiKhoan(tk);
+             if ("DOCTOR".equals(tk.getRole())) {
+                if (benhVienId == null || benhVienId == 0) {
+                    System.out.println(benhVienId);
+                    return "redirect:/taikhoanchange?error=benhvien_required";
+                }
+                this.taiKhoanService.addOrUpdateTaiKhoan(tk,benhVienId);
+               }
+             else{
+            this.taiKhoanService.addOrUpdateTaiKhoan(tk,null);
+             }
             return "redirect:/admin-tai-khoan";
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {
             // Xác định loại lỗi
@@ -98,6 +124,7 @@ public class UserController {
                 return "redirect:/taikhoanchange?error=database";
             }
         } catch (Exception e) {
+            System.out.println(e.toString());
             return "redirect:/taikhoanchange?error=unknown";
         }
     }
@@ -109,6 +136,7 @@ public class UserController {
             return "redirect:/admin-tai-khoan?error=not_found";
         }
         model.addAttribute("taiKhoan", tk);
+        model.addAttribute("dsBenhVien", benhVienService.getAllBenhVien());
         return "taikhoanchange";
     }
 }
