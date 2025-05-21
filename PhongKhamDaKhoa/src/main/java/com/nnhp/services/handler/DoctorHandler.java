@@ -58,7 +58,7 @@ public class DoctorHandler implements RoleHandler {
             throw new IllegalArgumentException("Ngày không đúng định dạng yyyy-MM-dd", ex);
         }
         tk.setSoDienThoai(params.get("soDienThoai"));
-        tk.setRole("DOCTOR");
+        tk.setRole("ROLE_DOCTOR");
         tk.setChuyenTri(params.get("chuyenTri"));
         tk.setNgayNghiViec(null);
         tk.setTrangThai(TrangThaiTaiKhoan.DOI_XAC_NHAN);

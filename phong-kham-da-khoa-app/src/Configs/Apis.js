@@ -19,6 +19,7 @@ export const endpoints = {
   'updateHoSo': "/secure/sua-ho-so",
   'getDoctorList': "/ds-bac-si",
   'addBangCap': "/tao-bang-cap",
+  'getBenhVienChuyenKhoa': "/benh-vien-chuyen-khoa",
 };
 
 export const authApis = () => {

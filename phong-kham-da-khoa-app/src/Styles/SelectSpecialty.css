@@ -1,0 +1,115 @@
+.select-specialty-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #eaf6fb;
+  min-height: 100vh;
+  gap: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.hospital-info {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.2rem;
+  width: 250px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.hospital-info h3 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #0a3d62;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hospital-info .verified {
+  color: #00aaff;
+  font-weight: bold;
+}
+
+.hospital-info p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.specialty-panel {
+  background: #fff;
+  border-radius: 12px;
+  width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  background: #00c2f0;
+  color: white;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.search-bar {
+  position: relative;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.specialty-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.specialty-item {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.specialty-item:hover {
+  background: #f1faff;
+}
+
+.specialty-item strong {
+  font-size: 1rem;
+  color: #0a3d62;
+}
+
+.specialty-item p {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.25rem;
+}
+
+.back-button {
+  padding: 1rem;
+  color: #007bff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-top: 1px solid #eee;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}

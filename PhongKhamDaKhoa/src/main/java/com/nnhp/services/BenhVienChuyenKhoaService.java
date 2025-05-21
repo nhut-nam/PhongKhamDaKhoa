@@ -6,6 +6,7 @@ package com.nnhp.services;
 
 import com.nnhp.pojo.Benhvienchuyenkhoa;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -20,4 +21,5 @@ public interface BenhVienChuyenKhoaService {
     List<Benhvienchuyenkhoa> getByChuyenKhoaId(int chuyenKhoaId);
     List<Benhvienchuyenkhoa> getDsBenhVienChuyenKhoa();
     Boolean tonTaiBenhVienIdChuyenKhoaId(int benhVienId, int chuyenKhoaId);
+    List<Benhvienchuyenkhoa> getDsBenhVienChuyenKhoa(Map<String, String> params);
 } 

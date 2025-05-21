@@ -14,23 +14,25 @@ import java.util.stream.Collectors;
  * @author namnh
  */
 public class BacSiDTO extends TaiKhoanDTO {
-    private int benhVienId;
+    private BenhVienDTO benhVien;
+    private String chuyenTri;
     private Date ngayLamViec;
     private Date ngayNghiViec;
 
     public BacSiDTO(Integer id, String email, String diaChi, String avatar, String hoNguoiDung, 
             String tenNguoiDung, String soDienThoai, Date ngaySinh, String role,
-            int benhVienId, TrangThaiTaiKhoan trangThai, Date ngayLamViec, Date ngayNghiViec) {
+            BenhVienDTO benhVien, TrangThaiTaiKhoan trangThai, String chuyenTri, Date ngayLamViec, Date ngayNghiViec) {
         super(id, email, diaChi, avatar, hoNguoiDung, tenNguoiDung, soDienThoai, ngaySinh, role, trangThai);
-        this.benhVienId = benhVienId;
+        this.benhVien = benhVien;
+        this.chuyenTri = chuyenTri;
         this.ngayLamViec = ngayLamViec;
         this.ngayNghiViec = ngayNghiViec;
     }
     
     public static BacSiDTO convertToDTO(Bacsi bs) {
         return new BacSiDTO(bs.getId(), bs.getEmail(), bs.getDiaChi(), bs.getAvatar(), bs.getHoNguoiDung()
-                , bs.getTenNguoiDung(), bs.getSoDienThoai(), bs.getNgaySinh(), bs.getRole(), bs.getBenhvienId().getId()
-                ,bs.getTrangThai(), bs.getNgayLamViec(), bs.getNgayNghiViec());
+                , bs.getTenNguoiDung(), bs.getSoDienThoai(), bs.getNgaySinh(), bs.getRole(), BenhVienDTO.convertToBenhVienDTO(bs.getBenhvienId())
+                ,bs.getTrangThai(), bs.getChuyenTri(), bs.getNgayLamViec(), bs.getNgayNghiViec());
     }
     
     public static List<BacSiDTO> convertToDTOList(List<Bacsi> bacsiList) {
@@ -40,17 +42,17 @@ public class BacSiDTO extends TaiKhoanDTO {
 }
 
     /**
-     * @return the benhVienId
+     * @return the benhVien
      */
-    public int getBenhVienId() {
-        return benhVienId;
+    public BenhVienDTO getBenhVien() {
+        return benhVien;
     }
 
     /**
-     * @param benhVienId the benhVienId to set
+     * @param benhVien the benhVienId to set
      */
-    public void setBenhVienId(int benhVienId) {
-        this.benhVienId = benhVienId;
+    public void setBenhVienId(BenhVienDTO benhVien) {
+        this.benhVien = benhVien;
     }
 
     /**
@@ -79,6 +81,14 @@ public class BacSiDTO extends TaiKhoanDTO {
      */
     public void setNgayNghiViec(Date ngayNghiViec) {
         this.ngayNghiViec = ngayNghiViec;
+    }
+
+    public String getChuyenTri() {
+        return chuyenTri;
+    }
+
+    public void setChuyenTri(String chuyenTri) {
+        this.chuyenTri = chuyenTri;
     }
     
     

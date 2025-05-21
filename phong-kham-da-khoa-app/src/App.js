@@ -16,6 +16,9 @@ import AddPatientRecord from './Components/AddPatientRecord';
 import MedicalFacilityCard from './Components/MedicalFacilityCard';
 import MedicalFacilityList from './Components/MedicalFacilityList';
 import Search from './Components/Search';
+import BookingPage from './Components/BookingPage';
+import Specialty from './Components/Specialty';
+import SelectSpecialty from './Components/SelectSpecialty';
 
 function init(initialUser) {
   if (!initialUser) {
@@ -51,7 +54,8 @@ function App() {
             <Route path="/patient" element={<Patient />} />
             <Route path="/tao-ho-so" element={<AddPatientRecord />} />
             <Route path="/dat-kham-theo-co-so" element={<MedicalFacilityList />} />
-            <Route path="/tim-kiem" element={<Search />} />
+            <Route path="/tim-kiem?" element={<Search />} />
+            <Route path="/dat-lich-kham/chuyen-khoa" element={<SelectSpecialty />} />
         </Routes>
         <Footer />
         </BrowserRouter>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import '../Styles/Home.css';
 import { MyDispatcherContext, MyUserContext } from '../Configs/MyContexts';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,7 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 const Home = () => {
     const user = useContext(MyUserContext);
     const dispatch = useContext(MyDispatcherContext);
-    const [searchTerm, setSearchTerm] = React.useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const type = 'facility';
     const nav = useNavigate();
 
     const handleSearchChange = (e) => {
@@ -30,7 +31,7 @@ const Home = () => {
                                 value={searchTerm}
                                 onChange={handleSearchChange}
                             />
-                            <button onClick={() => nav(`/tim-kiem?kw=${searchTerm}`)} type="submit" className="search-button">
+                            <button onClick={(e) => {e.preventDefault(); nav(`/tim-kiem?type=${type}&kw=${searchTerm}`)}} type="submit" className="search-button">  
                                 Tìm kiếm
                             </button>
                         </form>

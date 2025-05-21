@@ -42,7 +42,7 @@ public class AdminHandler implements RoleHandler {
                 Logger.getLogger(TaiKhoanServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         tk.setSoDienThoai(params.get("soDienThoai"));
-        tk.setRole("ADMIN");
+        tk.setRole("ROLE_ADMIN");
         tk.setTrangThai(TrangThaiTaiKhoan.KICH_HOAT);
         return tk;
     }
