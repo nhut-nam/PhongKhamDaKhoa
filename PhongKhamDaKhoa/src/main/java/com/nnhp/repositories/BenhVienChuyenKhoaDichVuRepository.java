@@ -15,4 +15,5 @@ import java.util.Map;
 public interface BenhVienChuyenKhoaDichVuRepository {
     List<BenhVienChuyenKhoaDichVu> getDsBenhVienChuyenKhoaDichVu(Map<String, String> params);
     BenhVienChuyenKhoaDichVu getBenhVienChuyenKhoaDichVuById(int id);
+    List<BenhVienChuyenKhoaDichVu> getDsBenhVienChuyenKhoaDichVuByBenhVienChuyenKhoaId(int id);
 } 

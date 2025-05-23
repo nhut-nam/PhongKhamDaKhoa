@@ -47,4 +47,9 @@ public class BenhVienChuyenKhoaDichVuServiceImpl implements BenhVienChuyenKhoaDi
             return null;
         }
     }
+
+    @Override
+    public List<BenhVienChuyenKhoaDichVu> getDsBenhVienChuyenKhoaDichVuByBenhVienChuyenKhoaId(int id) {
+        return this.benhVienChuyenKhoaDichVuRepo.getDsBenhVienChuyenKhoaDichVuByBenhVienChuyenKhoaId(id);
+    }
 } 

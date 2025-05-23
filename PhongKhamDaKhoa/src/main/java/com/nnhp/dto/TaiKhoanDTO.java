@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.nnhp.pojo;
+package com.nnhp.dto;
 
 import com.nnhp.enums.TrangThaiTaiKhoan;
+import com.nnhp.pojo.Taikhoan;
 import java.util.Date;
 
 

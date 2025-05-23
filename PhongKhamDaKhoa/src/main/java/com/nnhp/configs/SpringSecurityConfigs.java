@@ -53,14 +53,14 @@ public class SpringSecurityConfigs {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
             Exception {
-                http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/**").permitAll() // ← Gộp tất cả endpoint công khai ở đây
-                .requestMatchers("/secure/**")
-                .authenticated()
-                .anyRequest().authenticated());
+//                http
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(auth -> auth
+//                .requestMatchers("/api/**").permitAll() // ← Gộp tất cả endpoint công khai ở đây
+//                .requestMatchers("/secure/**")
+//                .authenticated()
+//                .anyRequest().authenticated());
         return http.build();
     }
 

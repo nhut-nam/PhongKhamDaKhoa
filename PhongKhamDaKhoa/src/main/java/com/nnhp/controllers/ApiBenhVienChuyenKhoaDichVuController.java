@@ -4,18 +4,16 @@
  */
 package com.nnhp.controllers;
 
-import com.nnhp.dto.BacSiDTO;
-import com.nnhp.pojo.Bacsi;
-import com.nnhp.services.BacSiService;
+import com.nnhp.dto.BenhVienChuyenKhoaDichVuDTO;
+import com.nnhp.services.BenhVienChuyenKhoaDichVuService;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -24,14 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api")
-public class ApiBacSiController {
+public class ApiBenhVienChuyenKhoaDichVuController {
     @Autowired
-    private BacSiService bsService;
+    private BenhVienChuyenKhoaDichVuService bvckdvService;
     
-    @GetMapping("/ds-bac-si")
+    @GetMapping("/benh-vien-chuyen-khoa-dich-vu/{id}")
     @CrossOrigin
-    public ResponseEntity<List<BacSiDTO>> getDsBacSi(@RequestParam Map<String, String> params) {
-        List<Bacsi> bsList = this.bsService.getDsBacSi(params);
-        return new ResponseEntity<>(BacSiDTO.convertToDTOList(bsList), HttpStatus.OK);
-    } 
+    public ResponseEntity<List<BenhVienChuyenKhoaDichVuDTO>> getBenhVienChuyenKhoaDichVuByBenhVienChuyenKhoaId(@PathVariable(name = "id") int id) {
+        return new ResponseEntity<>(BenhVienChuyenKhoaDichVuDTO.convertToDTOList(this.bvckdvService.getDsBenhVienChuyenKhoaDichVuByBenhVienChuyenKhoaId(id)), HttpStatus.OK);
+    }
 }

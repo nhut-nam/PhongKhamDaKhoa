@@ -12,6 +12,9 @@ import jakarta.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class BenhVienChuyenKhoaDichVuRepositoryImpl implements BenhVienChuyenKhoaDichVuRepository {
     @PersistenceContext
     private EntityManager entityManager;
+    @Autowired
+    private LocalSessionFactoryBean factory;
     
     @Override
     public List<BenhVienChuyenKhoaDichVu> getDsBenhVienChuyenKhoaDichVu(Map<String, String> params) {
@@ -49,5 +54,14 @@ public class BenhVienChuyenKhoaDichVuRepositoryImpl implements BenhVienChuyenKho
             ex.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<BenhVienChuyenKhoaDichVu> getDsBenhVienChuyenKhoaDichVuByBenhVienChuyenKhoaId(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("BenhVienChuyenKhoaDichVu.findByBenhVienChuyenKhoa", BenhVienChuyenKhoaDichVu.class);
+        q.setParameter("benhVienChuyenKhoaId", id);
+        List<BenhVienChuyenKhoaDichVu> results = q.getResultList();
+        return results;
     }
 } 

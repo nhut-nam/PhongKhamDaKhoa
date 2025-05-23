@@ -5,13 +5,13 @@ const Specialty = ({id, benhVien, chuyenKhoa}) => {
     return (
         <div className="specialty">
 
-            <div class="results">
-                <div class="result-column">
-                    <div class="result-card">
-                        <div class="icon ghi">{benhVien.tenBenhVien[0] + chuyenKhoa.tenChuyenKhoa[0]}</div>
-                        <div class="info">
+            <div className="results">
+                <div className="result-column">
+                    <div className="result-card">
+                        <div className="icon ghi">{benhVien.tenBenhVien[0] + chuyenKhoa.tenChuyenKhoa[0]}</div>
+                        <div className="info">
                             <h3>{chuyenKhoa.tenChuyenKhoa}</h3>
-                            <p>{benhVien.tenBenhVien} <span class="verified">✔</span></p>
+                            <p>{benhVien.tenBenhVien} <span className="verified">✔</span></p>
                         </div>
                     </div>
                 </div>

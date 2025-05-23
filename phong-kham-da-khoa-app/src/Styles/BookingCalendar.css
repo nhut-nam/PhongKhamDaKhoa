@@ -1,0 +1,49 @@
+.calendar-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.calendar-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.calendar-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.calendar-container label {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.calendar-container input[type="date"] {
+  padding: 8px 12px;
+  font-size: 16px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+}
+
+.calendar-container button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.calendar-container button:hover {
+  background-color: #005fa3;
+}

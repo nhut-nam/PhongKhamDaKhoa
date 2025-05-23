@@ -55,7 +55,7 @@ function App() {
             <Route path="/tao-ho-so" element={<AddPatientRecord />} />
             <Route path="/dat-kham-theo-co-so" element={<MedicalFacilityList />} />
             <Route path="/tim-kiem?" element={<Search />} />
-            <Route path="/dat-lich-kham/chuyen-khoa" element={<SelectSpecialty />} />
+            <Route path="/dat-lich-kham" element={<SelectSpecialty />} />
         </Routes>
         <Footer />
         </BrowserRouter>

@@ -20,6 +20,8 @@ export const endpoints = {
   'getDoctorList': "/ds-bac-si",
   'addBangCap': "/tao-bang-cap",
   'getBenhVienChuyenKhoa': "/benh-vien-chuyen-khoa",
+  'getBenhVienChuyenKhoaByBenhVienId': "/benh-vien/%s/benh-vien-chuyen-khoa",
+  'getDichVu': "/benh-vien-chuyen-khoa-dich-vu",
 };
 
 export const authApis = () => {

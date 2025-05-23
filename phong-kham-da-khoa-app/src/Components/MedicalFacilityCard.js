@@ -13,7 +13,7 @@ const MedicalFacilityCard = ({id,  logo, tenBenhVien, diaChi }) => {
         <p className="facility-address">📍 {diaChi}</p>
         <div className="facility-buttons">
           <button className="btn-outline">Xem chi tiết</button>
-          <Link to={`/dat-lich-kham`} state={{ chuyenKhoa: { id, logo, tenBenhVien, diaChi }}} className="btn-filled">Đặt khám ngay</Link>
+          <Link to={`/dat-lich-kham?benhVienId=${id}`} className="btn-filled">Đặt khám ngay</Link>
         </div>
       </div>
     </div>

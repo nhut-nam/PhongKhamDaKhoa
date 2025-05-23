@@ -4,7 +4,7 @@
  */
 package com.nnhp.controllers;
 
-import com.nnhp.pojo.ChuyenKhoaDTO;
+import com.nnhp.dto.ChuyenKhoaDTO;
 import com.nnhp.pojo.Chuyenkhoa;
 import com.nnhp.pojo.ThongBao;
 import com.nnhp.services.ChuyenKhoaService;
