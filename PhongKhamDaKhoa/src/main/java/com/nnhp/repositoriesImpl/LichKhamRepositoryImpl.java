@@ -4,18 +4,29 @@
  */
 package com.nnhp.repositoriesImpl;
 
+import com.nnhp.pojo.Benhnhan;
+import com.nnhp.pojo.Hoso;
+import com.nnhp.pojo.LichKhamBacSiDTO;
 import com.nnhp.pojo.Lichkham;
+import com.nnhp.repositories.BacSiRepository;
 import com.nnhp.repositories.LichKhamRepository;
+import jakarta.data.page.Pageable;
 import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.Session;
+import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
@@ -30,6 +41,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class LichKhamRepositoryImpl implements LichKhamRepository {
     @Autowired
     private LocalSessionFactoryBean factory;
+    private LichKhamRepository lichKhamRepo;
+    private BacSiRepository bacSiRepo;
+    
+    private static final int PAGE_SIZE = 8;
     
     @Override
     public List<Lichkham> getDsLichKham(Map<String, String> params) {
@@ -120,5 +135,73 @@ public class LichKhamRepositoryImpl implements LichKhamRepository {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public List<LichKhamBacSiDTO> getLichKhamByBacSi(Integer bacSiId, LocalDate date, Map<String, String> params) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<LichKhamBacSiDTO> q = b.createQuery(LichKhamBacSiDTO.class);
+        Root<Lichkham> root = q.from(Lichkham.class);
+        Join<Lichkham, Hoso> benhNhanJoin = root.join("hosoId");
+        
+        q.select(b.construct(
+        LichKhamBacSiDTO.class,
+        benhNhanJoin.get("hoTen"),
+        benhNhanJoin.get("email"),
+        benhNhanJoin.get("soDienThoai"),
+        benhNhanJoin.get("gioiTinh"),
+        root.get("ngayHen"),
+        root.get("ngayTao"),
+        root.get("trangThai"),
+        root.get("buoi")
+        ));
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        // Lọc theo bác sĩ
+        predicates.add(b.equal(root.get("bacsiId").get("id"), bacSiId));
+
+        // Lọc theo ngày khám
+        if (date != null) {
+            LocalDateTime start = date.atStartOfDay();
+            LocalDateTime end = date.atTime(LocalTime.MAX);
+            predicates.add(b.between(root.get("ngayHen"), start, end));
+        }
+        
+        if (params != null) {
+            // Sắp xếp kết quả
+            String orderBy = params.get("orderBy");
+            if (orderBy != null && !orderBy.isEmpty()) {
+                String sort = params.get("sort");
+                Path<?> sortPath;
+                if (orderBy.equals("hoTen") || orderBy.equals("email") || orderBy.equals("soDienThoai")) {
+                    sortPath = benhNhanJoin.get(orderBy);
+                } else {
+                    sortPath = root.get(orderBy);
+                }
+                
+                if (sort != null && sort.equalsIgnoreCase("desc")) {
+                    q.orderBy(b.desc(sortPath));
+                } else {
+                    q.orderBy(b.asc(sortPath));
+                }
+            }
+        }
+        
+        q.where(predicates.toArray(Predicate[]::new));
+
+        Query query = s.createQuery(q);
+        
+        if (params != null && params.containsKey("page")) {
+            int page = Integer.parseInt(params.get("page"));
+            int start = (page - 1) * PAGE_SIZE;
+
+            query.setMaxResults(PAGE_SIZE);
+            query.setFirstResult(start);
+        }
+
+        return query.getResultList();
+
     }
 } 

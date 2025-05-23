@@ -20,6 +20,7 @@ const specialties = [
 
 const SelectSpecialty = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  con
 
   const filtered = specialties.filter(s =>
     s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

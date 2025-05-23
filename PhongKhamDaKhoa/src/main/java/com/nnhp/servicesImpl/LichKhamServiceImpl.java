@@ -4,10 +4,12 @@
  */
 package com.nnhp.servicesImpl;
 
+import com.nnhp.pojo.LichKhamBacSiDTO;
 import com.nnhp.pojo.Lichkham;
 import com.nnhp.repositories.LichKhamRepository;
 import com.nnhp.services.EmailService;
 import com.nnhp.services.LichKhamService;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +65,17 @@ public class LichKhamServiceImpl implements LichKhamService {
             this.lichKhamRepo.deleteLichKham(id);
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<LichKhamBacSiDTO> getLichKhamByBacSi(Integer bacSiId, LocalDate date, Map<String, String> params) {
+         try {
+            return this.lichKhamRepo.getLichKhamByBacSi(bacSiId,date,params);
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
         }
     }
 } 

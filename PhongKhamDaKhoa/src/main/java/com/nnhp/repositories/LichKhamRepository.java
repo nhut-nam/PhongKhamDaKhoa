@@ -4,7 +4,10 @@
  */
 package com.nnhp.repositories;
 
+import com.nnhp.pojo.LichKhamBacSiDTO;
 import com.nnhp.pojo.Lichkham;
+import jakarta.data.page.Pageable;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -17,4 +20,5 @@ public interface LichKhamRepository {
     Lichkham getLichKhamById(int id);
     Lichkham addOrUpdateLichKham(Lichkham lichKham);
     void deleteLichKham(int id);
+    List<LichKhamBacSiDTO> getLichKhamByBacSi(Integer bacSiId, LocalDate date, Map<String, String> params);
 } 

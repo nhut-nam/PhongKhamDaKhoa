@@ -18,7 +18,7 @@
             <span th:if="${param.error[0] == 'benhvien_required'}">Đã xảy ra lỗi vui lòng chọn bệnh viện cho bác sĩ!</span>
         </div>
         
-        <form method="post" th:action="@{/tai-khoan/add}" th:object="${taiKhoan}">
+        <form method="post" th:action="@{/tai-khoan/add}" th:object="${taiKhoan}" enctype="multipart/form-data">
             <div class="mb-3 mt-3">
                 <label for="email" class="form-label">Email: </label>
                 <input type="email" class="form-control" id="email" placeholder="Email" th:field="*{email}" required />
@@ -37,7 +37,11 @@
                 
                 <label for="soDienThoai" class="form-label">Số điện thoại: </label>
                 <input type="text" class="form-control" id="soDienThoai" placeholder="Số điện thoại" th:field="*{soDienThoai}" required />
-                
+                <div class="mb-3 mt-3">
+                <label for="avatar" class="form-label">Ảnh đại diện: </label>
+                <input type="file" class="form-control" th:field="*{file}"  />
+                <img th:if="${taiKhoan.avatar != null}" th:src="${taiKhoan.avatar}" width="200" />
+                </div>
                 <label for="role" class="form-label">Vai trò: </label>
                 <select class="form-select" id="role" name="role">
                     <option value="USER" th:selected="${taiKhoan.role == 'USER' || taiKhoan.role == null}">Bệnh nhân (USER)</option>
@@ -61,6 +65,7 @@
             
             <div class="mb-3 mt-3">
                 <input type="hidden" class="form-control" th:field="*{id}" />
+                <input type="hidden" class="form-control" th:field="*{avatar}"  />
                 <button class="btn btn-success mt-1" type="submit">
                     <span th:if="${taiKhoan.id == null}">Thêm tài khoản</span>
                     <span th:unless="${taiKhoan.id == null}">Cập nhật tài khoản</span>

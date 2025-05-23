@@ -66,11 +66,12 @@
                     <th data-sort="ngaySinh" style="cursor: pointer;">Ngày sinh <i class="fa fa-sort"></i></th>
                     <th data-sort="soDienThoai" style="cursor: pointer;">Số điện thoại <i class="fa fa-sort"></i></th>
                     <th data-sort="role" style="cursor: pointer;">Vai trò <i class="fa fa-sort"></i></th>
+                    <th data-sort="diaChi" style="cursor: pointer;">Ảnh đại diện <i class="fa fa-sort"></i></th>
                     <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="taiKhoan, iterStat : ${dsTaiKhoan}" th:if="${taiKhoan.role != 'ADMIN'}">
+                <tr th:each="taiKhoan, iterStat : ${dsTaiKhoan}" th:if="${taiKhoan.role != 'ROLE_ADMIN'}">
                     <td th:text="${iterStat.count}"></td> <!-- Đếm số thứ tự -->
                     <td th:text="${taiKhoan.email}"></td>
                     <td th:text="${taiKhoan.hoNguoiDung}"></td>
@@ -78,6 +79,9 @@
                     <td th:text="${#dates.format(taiKhoan.ngaySinh, 'dd/MM/yyyy')}"></td>
                     <td th:text="${taiKhoan.soDienThoai}"></td>
                     <td th:text="${taiKhoan.role}"></td>
+                    <td>       
+                        <img th:src="${taiKhoan.avatar}" width="150" />
+                    </td> 
                     <td>
                          <a th:href="@{'/tai-khoan/' + ${taiKhoan.email}}" class="btn btn-success">Sửa</a>
                          <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/tai-khoan/}+'\','+${taiKhoan.id}+')'">Xóa</button>
