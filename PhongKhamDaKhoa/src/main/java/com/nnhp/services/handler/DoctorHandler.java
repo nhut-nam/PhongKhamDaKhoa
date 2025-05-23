@@ -80,7 +80,7 @@ public class DoctorHandler implements RoleHandler {
         bs.setGhiChu(tk.getGhiChu());
         bs.setNgaySinh(tk.getNgaySinh());
         bs.setSoDienThoai(tk.getSoDienThoai());
-        bs.setRole("DOCTOR");
+        bs.setRole("ROLE_DOCTOR");
         return bs;
     }
 }

@@ -4,7 +4,7 @@
  */
 package com.nnhp.controllers;
 
-import com.nnhp.pojo.BacSiThuocChuyenKhoaDTO;
+import com.nnhp.dto.BacSiThuocChuyenKhoaDTO;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Bacsithuocchuyenkhoa;
 import com.nnhp.pojo.Chuyenkhoa;

@@ -16,4 +16,5 @@ public interface BenhVienChuyenKhoaDichVuService {
     List<BenhVienChuyenKhoaDichVu> getDsBenhVienChuyenKhoaDichVu();
     List<BenhVienChuyenKhoaDichVu> getDsBenhVienChuyenKhoaDichVu(Map<String, String> params);
     BenhVienChuyenKhoaDichVu getBenhVienChuyenKhoaDichVuById(int id);
+    List<BenhVienChuyenKhoaDichVu> getDsBenhVienChuyenKhoaDichVuByBenhVienChuyenKhoaId(int id);
 } 

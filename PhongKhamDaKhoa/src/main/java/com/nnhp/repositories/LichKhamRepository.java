@@ -4,7 +4,7 @@
  */
 package com.nnhp.repositories;
 
-import com.nnhp.pojo.LichKhamBacSiDTO;
+import com.nnhp.dto.LichKhamBacSiDTO;
 import com.nnhp.pojo.Lichkham;
 import jakarta.data.page.Pageable;
 import java.time.LocalDate;

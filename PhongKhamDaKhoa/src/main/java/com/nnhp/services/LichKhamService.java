@@ -4,7 +4,7 @@
  */
 package com.nnhp.services;
 
-import com.nnhp.pojo.LichKhamBacSiDTO;
+import com.nnhp.dto.LichKhamBacSiDTO;
 import com.nnhp.pojo.Lichkham;
 import java.time.LocalDate;
 import java.util.List;

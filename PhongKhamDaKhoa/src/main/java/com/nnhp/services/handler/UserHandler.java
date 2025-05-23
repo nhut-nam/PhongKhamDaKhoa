@@ -60,7 +60,7 @@ public class UserHandler implements RoleHandler {
         bn.setGhiChu(tk.getGhiChu());
         bn.setNgaySinh(tk.getNgaySinh());
         bn.setSoDienThoai(tk.getSoDienThoai());
-        bn.setRole("USER");
+        bn.setRole("ROLE_USER");
         return bn; 
     }
     

@@ -5,7 +5,7 @@
 package com.nnhp.controllers;
 
 import com.nnhp.pojo.Bacsi;
-import com.nnhp.pojo.LichKhamBacSiDTO;
+import com.nnhp.dto.LichKhamBacSiDTO;
 import com.nnhp.pojo.Lichkham;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.services.BacSiService;

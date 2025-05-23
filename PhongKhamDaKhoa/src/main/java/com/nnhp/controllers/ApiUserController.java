@@ -6,11 +6,11 @@ package com.nnhp.controllers;
 
 import com.nnhp.enums.Role;
 import com.nnhp.enums.TrangThaiTaiKhoan;
-import com.nnhp.pojo.BacSiDTO;
+import com.nnhp.dto.BacSiDTO;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Benhvien;
 import com.nnhp.pojo.Chuyenkhoa;
-import com.nnhp.pojo.TaiKhoanDTO;
+import com.nnhp.dto.TaiKhoanDTO;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.pojo.ThongBao;
 import com.nnhp.services.BacSiThuocChuyenKhoaService;

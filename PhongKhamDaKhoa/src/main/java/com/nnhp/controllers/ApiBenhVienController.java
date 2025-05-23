@@ -4,7 +4,7 @@
  */
 package com.nnhp.controllers;
 
-import com.nnhp.pojo.BenhVienDTO;
+import com.nnhp.dto.BenhVienDTO;
 import com.nnhp.pojo.Benhvien;
 import com.nnhp.pojo.ThongBao;
 import com.nnhp.servicesImpl.BenhVienServiceImpl;
@@ -43,4 +43,10 @@ public class ApiBenhVienController {
         this.bvService.deleteBenhVien(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    
+    @GetMapping("/benh-vien{id}")
+    public ResponseEntity<BenhVienDTO> getBenhVien(@PathVariable(value = "id") int id) {
+        return new ResponseEntity<>(BenhVienDTO.convertToBenhVienDTO(this.bvService.getBenhVienById(id)), HttpStatus.OK);
+    }
+    
 }

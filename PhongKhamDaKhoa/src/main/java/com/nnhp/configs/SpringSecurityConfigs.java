@@ -64,6 +64,14 @@ public class SpringSecurityConfigs {
                         .failureUrl("/login?error=true").permitAll())
                         .logout(logout -> logout.logoutSuccessUrl("/login").permitAll());
                               
+//                http
+//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(auth -> auth
+//                .requestMatchers("/api/**").permitAll() // ← Gộp tất cả endpoint công khai ở đây
+//                .requestMatchers("/secure/**")
+//                .authenticated()
+//                .anyRequest().authenticated());
         return http.build();
     }
 

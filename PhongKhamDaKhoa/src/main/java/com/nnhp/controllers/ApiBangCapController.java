@@ -4,7 +4,7 @@
  */
 package com.nnhp.controllers;
 
-import com.nnhp.pojo.BangCapDTO;
+import com.nnhp.dto.BangCapDTO;
 import com.nnhp.pojo.Bangcap;
 import com.nnhp.services.BacSiService;
 import com.nnhp.services.BangCapService;

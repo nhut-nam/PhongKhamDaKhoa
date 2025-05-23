@@ -6,7 +6,7 @@ package com.nnhp.repositoriesImpl;
 
 import com.nnhp.pojo.Benhnhan;
 import com.nnhp.pojo.Hoso;
-import com.nnhp.pojo.LichKhamBacSiDTO;
+import com.nnhp.dto.LichKhamBacSiDTO;
 import com.nnhp.pojo.Lichkham;
 import com.nnhp.repositories.BacSiRepository;
 import com.nnhp.repositories.LichKhamRepository;

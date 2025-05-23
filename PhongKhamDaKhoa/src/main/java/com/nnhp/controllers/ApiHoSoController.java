@@ -5,7 +5,7 @@
 package com.nnhp.controllers;
 
 import com.nnhp.pojo.Benhnhan;
-import com.nnhp.pojo.HoSoDTO;
+import com.nnhp.dto.HoSoDTO;
 import com.nnhp.pojo.Hoso;
 import com.nnhp.services.HoSoService;
 import com.nnhp.services.TaiKhoanService;

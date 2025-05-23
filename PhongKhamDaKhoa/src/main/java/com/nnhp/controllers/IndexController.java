@@ -4,7 +4,7 @@
  */
 package com.nnhp.controllers;
 
-import com.nnhp.pojo.TaiKhoanDTO;
+import com.nnhp.dto.TaiKhoanDTO;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.repositoriesImpl.TaiKhoanRepositoryImpl;
 import com.nnhp.services.ChuyenKhoaService;

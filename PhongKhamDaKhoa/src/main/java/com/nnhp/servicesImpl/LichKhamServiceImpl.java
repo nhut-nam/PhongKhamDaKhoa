@@ -4,7 +4,7 @@
  */
 package com.nnhp.servicesImpl;
 
-import com.nnhp.pojo.LichKhamBacSiDTO;
+import com.nnhp.dto.LichKhamBacSiDTO;
 import com.nnhp.pojo.Lichkham;
 import com.nnhp.repositories.LichKhamRepository;
 import com.nnhp.services.EmailService;
