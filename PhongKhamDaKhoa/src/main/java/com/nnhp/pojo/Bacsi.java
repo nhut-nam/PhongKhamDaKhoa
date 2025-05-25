@@ -4,6 +4,7 @@
  */
 package com.nnhp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nnhp.enums.TrangThaiTaiKhoan;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
@@ -51,20 +52,27 @@ public class Bacsi extends Taikhoan implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayNghiViec;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
+    @JsonIgnore
     private Collection<Lichsukhambenh> lichsukhambenhCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
+    @JsonIgnore
     private Collection<Bacsidichvu> bacsidichvuCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
+    @JsonIgnore
     private Collection<Lichkham> lichkhamCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
+    @JsonIgnore
     private Collection<Bacsithuocchuyenkhoa> bacsithuocchuyenkhoaCollection;
     @JoinColumn(name = "benhvien_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Benhvien benhvienId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacSiid")
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacSiid") 
     private Collection<Ngaylamviec> ngaylamviecCollection;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
     private Collection<Danhgia> danhgiaCollection;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "bacsiId")
     private Collection<Bangcap> bangcapCollection;
 

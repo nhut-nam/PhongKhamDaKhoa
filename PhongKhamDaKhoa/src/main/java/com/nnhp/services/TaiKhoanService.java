@@ -28,4 +28,6 @@ public interface TaiKhoanService extends UserDetailsService {
     Taikhoan getUserById(int id);
     Taikhoan addOrUpdateTaiKhoan(Taikhoan tk, Integer benhVienId);
     List<Taikhoan> getDsTaiKhoan(Map<String, String> params, String role) ;
+    Taikhoan updateTaiKhoan(Taikhoan tk);
+    List<Taikhoan> getUserByTrangThai(TrangThaiTaiKhoan trangThai);
 }

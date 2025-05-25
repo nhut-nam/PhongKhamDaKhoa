@@ -22,13 +22,18 @@ export const endpoints = {
   'getBenhVienChuyenKhoa': "/benh-vien-chuyen-khoa",
   'getBenhVienChuyenKhoaByBenhVienId': "/benh-vien/%s/benh-vien-chuyen-khoa",
   'getDichVu': "/benh-vien-chuyen-khoa-dich-vu",
+  'getLichKhamBacSi': "lich-kham/bac-si",
+  'getThongKeBenhNhan': "bac-si/thong-ke-so-luong",
+  'getThongKeLoaiBenh': "bac-si/thong-ke-loai-benh",
+  "getHoSoBenhNhan": "/secure/get-list-ho-so-benh-nhan/{bacSiId}",
+  "lichSuKhamBenh": "/secure/lich-su-kham-benh/{id}"
 };
 
 export const authApis = () => {
   return axios.create({
       baseURL: BASE_URL,
       headers: {
-          'Authorization': `Bearer ${cookie.load('token')}`
+          'Authorization': `Bearer ${cookie.load('token')}`,
       }
   })
 }

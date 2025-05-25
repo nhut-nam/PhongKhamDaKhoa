@@ -134,19 +134,22 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 
     @Override
     public Taikhoan addOrUpdateTaiKhoan(Taikhoan tk, Integer benhVienId) {
-        
-        if(tk.getRole().equalsIgnoreCase("DOCTOR"))
-        {   
-            Bacsi bs =bacSiRepo.getBacSiById(tk.getId());
-            
-            if (bs == null) {
-                bs = new Bacsi(); // nếu là tạo mới
-                bs.setId(tk.getId());
-            }   
+        if(tk.getRole().equalsIgnoreCase("ROLE_DOCTOR"))
+        {  
+            Bacsi bs;
            
+            if(tk.getId()== null)
+            {
+                 bs = new Bacsi(); // nếu là tạo mới
+            }
+            else
+            {
+                bs = this.bacSiRepo.getBacSiById(tk.getId());
+            }
+             
             bs.setEmail(tk.getEmail());
-            bs.setNgaySinh(tk.getNgaySinh());
             bs.setSoDienThoai(tk.getSoDienThoai());
+            bs.setNgaySinh(tk.getNgaySinh());
             bs.setHoNguoiDung(tk.getHoNguoiDung());
             bs.setTenNguoiDung(tk.getTenNguoiDung());
             bs.setMatKhau(this.passwordEncoder.encode(tk.getMatKhau()));
@@ -171,7 +174,7 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         }
             return this.bacSiRepo.addOrUpdateBacSi(bs);
         }
-        if(tk.getTrangThai()==null)
+        if(tk.getTrangThai() == null)
         tk.setTrangThai(TrangThaiTaiKhoan.KICH_HOAT);
         String roleName = tk.getRole();
         RoleHandler handler = handlerMap.get(roleName.toUpperCase());
@@ -179,9 +182,9 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         if (handler == null)
             throw new IllegalArgumentException("Không hỗ trợ role: " + roleName);
         
-        Taikhoan taiKhoan = tkRepo.getUserById(tk.getId());
+        Taikhoan taiKhoan;
         
-        if(taiKhoan == null)
+        if(tk.getId() == null)
         {
              taiKhoan = handler.handle(tk);
              if (!tk.getFile().isEmpty()) {
@@ -195,7 +198,8 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
             }
             }
         }
-        else {
+        else {  
+           taiKhoan = tkRepo.getUserById(tk.getId());
                 // Cập nhật thông tin cần thiết từ tk sang newTk
                 taiKhoan.setHoNguoiDung(tk.getHoNguoiDung());
                 taiKhoan.setTenNguoiDung(tk.getTenNguoiDung());
@@ -204,6 +208,12 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
                 taiKhoan.setDiaChi(tk.getDiaChi());
                 taiKhoan.setGhiChu(tk.getGhiChu());
                 taiKhoan.setRole(tk.getRole());
+                
+                if(tk.getTrangThai()!= null)
+                {
+                    taiKhoan.setTrangThai(tk.getTrangThai());
+                }
+                
                 // Nếu có mật khẩu mới thì mã hóa lại
                 if (tk.getMatKhau() != null && !tk.getMatKhau().isEmpty()) {
                     taiKhoan.setMatKhau(this.passwordEncoder.encode(tk.getMatKhau()));
@@ -225,6 +235,16 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     @Override
     public List<Taikhoan> getDsTaiKhoan(Map<String, String> params, String role) {
         return this.tkRepo.getDsTaiKhoan(params, role);
+    }
+
+    @Override
+    public Taikhoan updateTaiKhoan(Taikhoan tk) {
+        return this.tkRepo.updateTaiKhoan(tk);
+    }
+
+    @Override
+    public List<Taikhoan> getUserByTrangThai(TrangThaiTaiKhoan trangThai) {
+        return this.tkRepo.getListUserByTrangThai(trangThai);
     }
 
 }

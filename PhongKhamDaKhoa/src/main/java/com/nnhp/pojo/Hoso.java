@@ -4,6 +4,7 @@
  */
 package com.nnhp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -72,8 +73,10 @@ public class Hoso implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "ho_ten")
     private String hoTen;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hosoId")
     private Collection<Lichsukhambenh> lichsukhambenhCollection;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "hosoId")
     private Collection<Lichkham> lichkhamCollection;
     @JoinColumn(name = "benhnhan_id", referencedColumnName = "id")

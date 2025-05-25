@@ -9,9 +9,11 @@ import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Map;
 import com.nnhp.pojo.Hoso;
+import com.nnhp.pojo.Lichkham;
 import com.nnhp.repositories.HoSoRepository;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import java.util.List;
 import org.hibernate.Session;
@@ -174,6 +176,24 @@ public class HoSoRepositoryImpl implements HoSoRepository {
         Session s = this.factory.getObject().getCurrentSession();
         s.merge(hs);
         return hs;
+    }
+
+    @Override
+    public List<Hoso> getHoSoByBacSi(int bacSiId) {
+        Session s = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder builder = s.getCriteriaBuilder();
+        CriteriaQuery<Hoso> query = builder.createQuery(Hoso.class);
+        Root<Lichkham> lichkhamRoot = query.from(Lichkham.class);
+
+        // Join từ Lichkham -> Hoso
+        Join<Lichkham, Hoso> hosoJoin = lichkhamRoot.join("hosoId");
+
+        // Thêm điều kiện lọc theo bacSiId
+        query.select(hosoJoin).distinct(true)
+                .where(builder.equal(lichkhamRoot.get("bacsiId").get("id"), bacSiId));
+
+        return s.createQuery(query).getResultList();
     }
 }
 

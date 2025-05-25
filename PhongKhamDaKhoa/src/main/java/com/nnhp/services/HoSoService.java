@@ -23,5 +23,6 @@ public interface HoSoService {
     List<Hoso> getHoSoList(int id);
     Hoso addHoSo(Map<String, Object> params, Benhnhan bn);
     Hoso updateHoSO(Hoso hs);
+    List<Hoso> getHoSoByBacSi(int bacSiId);
 } 
 

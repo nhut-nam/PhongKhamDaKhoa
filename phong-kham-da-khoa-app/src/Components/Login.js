@@ -28,7 +28,13 @@ function LoginPage() {
           user: u.data
         },
       });
-      nav("/");
+      // nav("/");
+      if (u.data.role === "ROLE_DOCTOR") {
+      nav("/bac-si/dashboard");
+    } 
+     else {
+      nav("/"); // Bệnh nhân hoặc người dùng bình thường
+    }
     } catch (ex) {
       if (ex.response && ex.response.data.status === false) {
         setMsg(ex.response.data.message);

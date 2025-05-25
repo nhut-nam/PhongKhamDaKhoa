@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * @author namnh
  */
 public enum Role {
-    ADMIN {
+    ROLE_ADMIN {
         @Override
         public Object getObjAccount(Taikhoan account) {
             return null;
@@ -41,7 +41,7 @@ public enum Role {
             return "Quantri";
         }
     },
-    USER {
+    ROLE_USER {
         @Override
         public Object getObjAccount(Taikhoan account) throws Exception {
             return null;
@@ -57,7 +57,7 @@ public enum Role {
             return "Benhnhan";
         }
     },
-    DOCTOR {
+    ROLE_DOCTOR {
         @Override
         public Object getObjAccount(Taikhoan account) throws Exception {
             return null;

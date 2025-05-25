@@ -26,4 +26,6 @@ public interface TaiKhoanRepository {
     void deleteUser(int id);
     Taikhoan addOrUpdateTaiKhoan(Taikhoan tk);
     List<Taikhoan> getDsTaiKhoan(Map<String, String> params, String role);
+    Taikhoan updateTaiKhoan(Taikhoan tk);
+    List<Taikhoan> getListUserByTrangThai(TrangThaiTaiKhoan trangThai);
 }

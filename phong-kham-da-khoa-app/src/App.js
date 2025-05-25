@@ -20,6 +20,9 @@ import Search from './Components/Search';
 import BookingPage from './Components/BookingPage';
 import Specialty from './Components/Specialty';
 import SelectSpecialty from './Components/SelectSpecialty';
+import DoctorDashboard from './Components/DoctorDashboard';
+import LichKham from './Components/DoctorSchedule';
+import CapNhatHoSo from './Components/UpdateHoSoBenhNhan';
 
 function init(initialUser) {
   if (!initialUser) {
@@ -58,6 +61,9 @@ function App() {
             <Route path="/chat-truc-tuyen" element={<ChatPage />} />
             <Route path="/tim-kiem?" element={<Search />} />
             <Route path="/dat-lich-kham" element={<SelectSpecialty />} />
+            <Route path="/bac-si-lich-kham" element={<LichKham />} />
+            <Route path="/bac-si/dashboard" element={<DoctorDashboard />} />
+            <Route path="/bac-si/lich-su-kham-benh/:hoSoId" element={<CapNhatHoSo />} />
         </Routes>
         <Footer />
         </BrowserRouter>

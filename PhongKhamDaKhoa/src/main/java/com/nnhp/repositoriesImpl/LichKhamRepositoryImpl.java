@@ -147,6 +147,7 @@ public class LichKhamRepositoryImpl implements LichKhamRepository {
         
         q.select(b.construct(
         LichKhamBacSiDTO.class,
+        root.get("id"),
         benhNhanJoin.get("hoTen"),
         benhNhanJoin.get("email"),
         benhNhanJoin.get("soDienThoai"),

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class ApiLichKhamController {
     @Autowired
     private LichKhamService lichKhamService;
@@ -69,7 +71,7 @@ public class ApiLichKhamController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         // 4. Gọi service để lấy lịch khám theo bác sĩ
         List<LichKhamBacSiDTO> lichKhamList = lichKhamService.getLichKhamByBacSi(bacSi.getId(), date, params);
-
+        System.out.println(lichKhamList);
 //        if (lichKhamList == null || lichKhamList.isEmpty())
 //            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 

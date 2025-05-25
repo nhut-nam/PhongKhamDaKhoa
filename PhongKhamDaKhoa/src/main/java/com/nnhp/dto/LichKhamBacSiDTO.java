@@ -13,17 +13,18 @@ import java.util.Date;
  * @author hoang
  */
 public class LichKhamBacSiDTO {
+    private Integer id;
     private String hoTen;
     private String email;
     private String soDienThoai;
     private boolean gioiTinh;
     private Date ngayHen;
     private Date ngayTao;
-    private Short trangThai;
+    private TrangThaiLichKham trangThai;
     private String buoi;
     
-    public LichKhamBacSiDTO(String hoTen, String email, String soDienThoai, boolean gioiTinh, Date ngayHen, Date ngayTao, Short trangThai, String buoi)
-    {
+    public LichKhamBacSiDTO(Integer id,String hoTen, String email, String soDienThoai, boolean gioiTinh, Date ngayHen, Date ngayTao, TrangThaiLichKham trangThai, String buoi)
+    {   this.id = id;
         this.hoTen = hoTen;
         this.email = email;
         this.soDienThoai = soDienThoai;
@@ -121,14 +122,14 @@ public class LichKhamBacSiDTO {
     /**
      * @return the trangThai
      */
-    public Short getTrangThai() {
+    public TrangThaiLichKham getTrangThai() {
         return trangThai;
     }
 
     /**
      * @param trangThai the trangThai to set
      */
-    public void setTrangThai(Short trangThai) {
+    public void setTrangThai(TrangThaiLichKham trangThai) {
         this.trangThai = trangThai;
     }
 
@@ -144,5 +145,14 @@ public class LichKhamBacSiDTO {
      */
     public void setBuoi(String buoi) {
         this.buoi = buoi;
+    }
+    
+    public Integer getId()
+    {
+        return this.id;
+    }
+    public void setId(Integer id)
+    {
+        this.id = id;
     }
 }

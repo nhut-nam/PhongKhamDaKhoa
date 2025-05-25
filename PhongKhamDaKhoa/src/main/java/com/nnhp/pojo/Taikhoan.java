@@ -5,6 +5,7 @@
 package com.nnhp.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nnhp.enums.Role;
 import com.nnhp.enums.TrangThaiTaiKhoan;
 import jakarta.persistence.Basic;
@@ -110,7 +111,11 @@ public class Taikhoan implements Serializable {
     @Column(name = "trang_thai")
     private TrangThaiTaiKhoan trangThai;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "taikhoanId")
+    @JsonIgnore
     private Collection<TaiKhoanTinTuc> taikhoantintucCollection;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "taikhoanId")
+    private Collection<Danhgia> danhgiaCollection;
     @Transient
     private MultipartFile file;
 
@@ -121,8 +126,6 @@ public class Taikhoan implements Serializable {
     public void setTrangThai(TrangThaiTaiKhoan trangThai) {
         this.trangThai = trangThai;
     }
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "taikhoanId")
-    private Collection<Danhgia> danhgiaCollection;
 
     public Taikhoan() {
     }

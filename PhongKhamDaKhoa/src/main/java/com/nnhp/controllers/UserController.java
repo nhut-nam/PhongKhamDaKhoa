@@ -5,6 +5,7 @@
 package com.nnhp.controllers;
 
 import com.nnhp.enums.Role;
+import com.nnhp.enums.TrangThaiTaiKhoan;
 import com.nnhp.formaters.Formatter;
 import static com.nnhp.formaters.Formatter.DATE_FORMATTER;
 import com.nnhp.pojo.Bacsi;
@@ -76,8 +77,9 @@ public class UserController {
     @PostMapping("/tai-khoan/add")
     public String addTaiKhoan(@ModelAttribute(value = "taiKhoan") Taikhoan tk,
             @RequestParam("ngaySinh") String ngaySinh,
-            @RequestParam(value = "role", required = false, defaultValue = "USER") String role,
+            @RequestParam(value = "role", required = false, defaultValue = "ROLE_USER") String role,
             @RequestParam(value = "benhVienId", required= false)Integer benhVienId) {
+           
         try {
             tk.setNgaySinh(Formatter.DATE_FORMATTER.parse(ngaySinh));
         } catch (ParseException ex) {
@@ -102,15 +104,15 @@ public class UserController {
         tk.setRole(role);
             
         try {
-             if ("DOCTOR".equals(tk.getRole())) {
+             if ("ROLE_DOCTOR".equals(tk.getRole())) {
                 if (benhVienId == null || benhVienId == 0) {
-                    System.out.println(benhVienId);
                     return "redirect:/taikhoanchange?error=benhvien_required";
                 }
+                System.out.println("benhVienId nhận được: " + benhVienId);
                 this.taiKhoanService.addOrUpdateTaiKhoan(tk,benhVienId);
                }
              else{
-            this.taiKhoanService.addOrUpdateTaiKhoan(tk,null);
+            this.taiKhoanService.addOrUpdateTaiKhoan(tk,benhVienId);
              }
             return "redirect:/admin-tai-khoan";
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {
@@ -139,4 +141,37 @@ public class UserController {
         model.addAttribute("dsBenhVien", benhVienService.getAllBenhVien());
         return "taikhoanchange";
     }
+    
+        // Lọc danh sách
+    @GetMapping("/xet-duyet-tai-khoan")
+    public String danhSachDuyet(@RequestParam(value = "trangThai", required = false) String trangThai, Model model) {
+        List<Taikhoan> ds;
+        if (trangThai != null && !trangThai.isEmpty()) {
+            ds = taiKhoanService.getUserByTrangThai(TrangThaiTaiKhoan.valueOf(trangThai));
+        } else {
+            ds = taiKhoanService.getTaiKhoanList();
+        }
+        model.addAttribute("dsTaiKhoan", ds);
+        return "xet-duyet-tai-khoan";
+    }
+
+    // Mở form xét duyệt
+    @GetMapping("/xet-duyet-form")
+    public String hienForm(@RequestParam("id") int id, Model model) {
+        Taikhoan tk = taiKhoanService.getUserById(id);
+        model.addAttribute("taiKhoan", tk);
+        return "xet-duyet-form";
+    }
+
+    // Cập nhật trạng thái
+    @PostMapping("/xet-duyet-form")
+    public String duyetTaiKhoan(@ModelAttribute Taikhoan tk) {
+        System.out.print("ID:" + tk.getId());
+        System.out.print("Statús:" + tk.getTrangThai());
+        Taikhoan taiKhoan = this.taiKhoanService.getUserById(tk.getId());
+        taiKhoan.setTrangThai(tk.getTrangThai());
+        taiKhoanService.updateTaiKhoan(taiKhoan);
+        return "redirect:/xet-duyet-tai-khoan";
+    }
+
 }

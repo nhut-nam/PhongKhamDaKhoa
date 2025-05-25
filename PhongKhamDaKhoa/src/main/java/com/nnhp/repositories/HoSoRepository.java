@@ -25,4 +25,5 @@ public interface HoSoRepository {
     Hoso addHoSo(Hoso hs);
     List<Hoso> getHoSoList(int id);
     Hoso updateHoSo(Hoso hs);
+    List<Hoso> getHoSoByBacSi(int bacSiId);
 } 

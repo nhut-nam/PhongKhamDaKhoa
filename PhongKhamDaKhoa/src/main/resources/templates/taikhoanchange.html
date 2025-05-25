@@ -44,8 +44,8 @@
                 </div>
                 <label for="role" class="form-label">Vai trò: </label>
                 <select class="form-select" id="role" name="role">
-                    <option value="USER" th:selected="${taiKhoan.role == 'USER' || taiKhoan.role == null}">Bệnh nhân (USER)</option>
-                    <option value="DOCTOR" th:selected="${taiKhoan.role == 'DOCTOR'}">Bác sĩ (DOCTOR)</option>
+                    <option value="ROLE_USER" th:selected="${taiKhoan.role == 'ROLE_USER' || taiKhoan.role == null}">Bệnh nhân (USER)</option>
+                    <option value="ROLE_DOCTOR" th:selected="${taiKhoan.role == 'ROLE_DOCTOR'}">Bác sĩ (DOCTOR)</option>
                 </select>
                 
                 <div class="mb-3 mt-3" id="benhVienSection" style="display: none;">
@@ -86,7 +86,7 @@
 
         function toggleBenhVienSection() {
             const selectedRole = roleSelect.value;
-            if (selectedRole === "DOCTOR") {
+            if (selectedRole === "ROLE_DOCTOR") {
                 benhVienSection.style.display = "block";
             } else {
                 benhVienSection.style.display = "none";
@@ -99,7 +99,7 @@
 
         form.addEventListener("submit", function (e) {
             const selectedRole = roleSelect.value;
-            if (selectedRole === "DOCTOR" && (!benhVienSelect.value || benhVienSelect.value === "")) {
+            if (selectedRole === "ROLE_DOCTOR" && (!benhVienSelect.value || benhVienSelect.value === "")) {
                 e.preventDefault();
                 alert("Vui lòng chọn bệnh viện cho bác sĩ!");
                 benhVienSelect.focus();

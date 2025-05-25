@@ -4,6 +4,7 @@
  */
 package com.nnhp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,6 +30,7 @@ import java.util.Collection;
     @NamedQuery(name = "Benhnhan.findAll", query = "SELECT b FROM Benhnhan b"),
     @NamedQuery(name = "Benhnhan.findById", query = "SELECT b FROM Benhnhan b WHERE b.id = :id")})
 public class Benhnhan extends Taikhoan implements Serializable {
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhnhanId")
     private Collection<Hoso> hosoCollection;
 

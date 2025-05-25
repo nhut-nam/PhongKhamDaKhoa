@@ -4,6 +4,7 @@
  */
 package com.nnhp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -49,8 +50,10 @@ public class Benhvien implements Serializable {
     @Column(name = "avatar")
     private String avatar;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhvienId")
+    @JsonIgnore
     private Collection<Bacsi> bacsiCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "benhvienId")
+    @JsonIgnore
     private Collection<Benhvienchuyenkhoa> benhvienchuyenkhoaCollection;
     @Transient
     private MultipartFile file;

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Xét duyệt tài khoản</title>
+    <th:block th:replace="~{base :: bootstrap}"></th:block>
+
+    <style>
+        .form-select {
+            width: 220px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .btn-primary {
+            vertical-align: top;
+        }
+
+        table thead {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        table td, table th {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<main class="container mt-4">
+    <div th:replace="~{base :: header}"></div>
+
+    <h2 class="text-center text-info mb-4">📝 Danh sách tài khoản cần xét duyệt</h2>
+
+    <form method="get" th:action="@{/xet-duyet-tai-khoan}" class="mb-3">
+        <select name="trangThai" class="form-select">
+            <option value="">-- Tất cả trạng thái --</option>
+            <option value="DOI_XAC_NHAN" th:selected="${param.trangThai == 'DOI_XAC_NHAN'}">Đợi xác nhận</option>
+            <option value="KICH_HOAT" th:selected="${param.trangThai == 'KICH_HOAT'}">Kích hoạt</option>
+            <option value="HUY_KICH_HOAT" th:selected="${param.trangThai == 'HUY_KICH_HOAT'}">Hủy</option>
+        </select>
+        <button class="btn btn-primary">Lọc</button>
+    </form>
+
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Họ tên</th>
+                <th>Trạng thái</th>
+                <th>Xét duyệt</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="tk, iterStat : ${dsTaiKhoan}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${tk.email}"></td>
+                <td th:text="${tk.hoNguoiDung + ' ' + tk.tenNguoiDung}"></td>
+                <td>
+                    <span th:switch="${tk.trangThai.name()}">
+                        <span th:case="'KICH_HOAT'" class="text-success"><i class="fa fa-check-circle"></i> Kích hoạt</span>
+                        <span th:case="'HUY_KICH_HOAT'" class="text-danger"><i class="fa fa-times-circle"></i> Hủy</span>
+                        <span th:case="'DOI_XAC_NHAN'" class="text-warning"><i class="fa fa-hourglass-half"></i> Đợi xác nhận</span>
+                        <span th:case="*"><i class="fa fa-question-circle"></i> Không rõ</span>
+                    </span>
+                </td>
+                <td>
+                    <a th:href="@{'/xet-duyet-form?id=' + ${tk.id}}" class="btn btn-warning">Xét duyệt</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+
+<script th:src="@{/js/main.js}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+</html>

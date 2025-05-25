@@ -8,7 +8,7 @@
     <main class="container">
         <div th:replace="~{base :: header}"></div>
         <h1 class="text-center text-info mt-4">TRANG CHỦ</h1>
-        
+
         <div class="row mt-4">
             <div class="col-md-4" sec:authorize="isAuthenticated()">
                 <div class="card mb-4">
@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4" sec:authorize="isAuthenticated()">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4" sec:authorize="isAuthenticated()">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -39,17 +39,17 @@
                     </div>
                 </div>
             </div>
-            
-<!--            <div class="col-md-4" sec:authorize="isAuthenticated()">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h2 class="card-title">Quản lý dịch vụ</h2>
-                        <p class="card-text">Quản lý các dịch vụ y tế của phòng khám.</p>
-                        <a th:href="@{/dich-vu}" class="btn btn-primary">Xem dịch vụ</a>
-                    </div>
-                </div>
-            </div>-->
-            
+
+            <!--            <div class="col-md-4" sec:authorize="isAuthenticated()">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h2 class="card-title">Quản lý dịch vụ</h2>
+                                    <p class="card-text">Quản lý các dịch vụ y tế của phòng khám.</p>
+                                    <a th:href="@{/dich-vu}" class="btn btn-primary">Xem dịch vụ</a>
+                                </div>
+                            </div>
+                        </div>-->
+
             <div class="col-md-4" sec:authorize="isAuthenticated()">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-4" sec:authorize="isAuthenticated()">
                 <div class="card mb-4">
                     <div class="card-body">
@@ -69,13 +69,22 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-4" sec:authorize="isAuthenticated()">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Xét duyệt tài khoản</h2>
+                        <p class="card-text">Phê duyệt, kích hoạt hoặc từ chối tài khoản người dùng mới.</p>
+                        <a th:href="@{/xet-duyet-tai-khoan}" class="btn btn-primary">Xét duyệt</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 </body>
-    <footer th:fragment="footer" class="text-center">
-        <div class="mt-4 p-5 bg-primary text-white rounded">
-            <h1>Ứng dụng đặt lịch khám</h1>
-            <p>Nguyễn Hoàng Phúc &copy; 2025</p>
-        </div>
-    </footer>
+<footer th:fragment="footer" class="text-center">
+    <div class="mt-4 p-5 bg-primary text-white rounded">
+        <h1>Ứng dụng đặt lịch khám</h1>
+        <p>Nguyễn Hoàng Phúc &copy; 2025</p>
+    </div>
+</footer>
 </html>

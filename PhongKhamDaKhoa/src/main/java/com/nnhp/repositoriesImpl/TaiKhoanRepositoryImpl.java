@@ -42,7 +42,7 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     private Map<String, RoleHandler> handlerMap;
-    
+
     @Override
     public Taikhoan getUserByEmailByTrangThai(String email, TrangThaiTaiKhoan trangThai) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -52,7 +52,7 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
         List<Taikhoan> results = q.getResultList();
         return results.isEmpty() ? null : results.get(0);
     }
-    
+
     @Override
     public Taikhoan getUserByEmail(String email) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -106,15 +106,15 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
         if (auth == false) {
             return new ThongBao("Tài khoản hoặc mật khẩu sai", false);
         }
-        
+
         return new ThongBao("Đăng nhập thành công", auth);
     }
 
     @Override
     public void deleteUser(int id) {
-       Session s = this.factory.getObject().getCurrentSession();
-       Taikhoan tk = this.getUserById(id);
-       s.remove(tk);
+        Session s = this.factory.getObject().getCurrentSession();
+        Taikhoan tk = this.getUserById(id);
+        s.remove(tk);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Taikhoan.findById", Taikhoan.class);
         q.setParameter("id", id);
-        return (Taikhoan)q.getSingleResult();
+        return (Taikhoan) q.getSingleResult();
     }
 
     @Override
@@ -130,8 +130,7 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
         Session s = this.factory.getObject().getCurrentSession();
         if (tk.getId() == null) {
             s.persist(tk);
-        } 
-        else {
+        } else {
             s.merge(tk);
         }
         return tk;
@@ -159,7 +158,7 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
                 orPredicates.add(b.like(b.lower(root.get("soDienThoai")), pattern));
                 predicates.add(b.or(orPredicates.toArray(new Predicate[0])));
             }
-            
+
             // Sắp xếp kết quả
             String orderBy = params.get("orderBy");
             if (orderBy != null && !orderBy.isEmpty()) {
@@ -179,6 +178,28 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
         q.where(predicates.toArray(new Predicate[0]));
 
         Query query = s.createQuery(q);
+        return query.getResultList();
+    }
+
+    @Override
+    public Taikhoan updateTaiKhoan(Taikhoan tk) {
+        Session session = this.factory.getObject().getCurrentSession();
+        Taikhoan updateTaiKhoan = session.merge(tk);
+        return updateTaiKhoan;
+    }
+
+    @Override
+    public List<Taikhoan> getListUserByTrangThai(TrangThaiTaiKhoan trangThai) {
+        Session session = this.factory.getObject().getCurrentSession();
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Taikhoan> cq = cb.createQuery(Taikhoan.class);
+        Root<Taikhoan> root = cq.from(Taikhoan.class);
+
+        // WHERE trangThai = :trangThai
+        cq.select(root).where(cb.equal(root.get("trangThai"), trangThai));
+
+        Query query = session.createQuery(cq);
         return query.getResultList();
     }
 }

@@ -4,11 +4,15 @@
  */
 package com.nnhp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nnhp.enums.LoaiThanhToan;
+import com.nnhp.enums.TrangThaiLichKham;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -51,7 +55,8 @@ public class Lichkham implements Serializable {
     @Column(name = "so_tien_nhan")
     private BigDecimal soTienNhan;
     @Column(name = "trang_thai")
-    private Short trangThai;
+    @Enumerated(EnumType.STRING)
+    private TrangThaiLichKham trangThai;
     @Column(name = "ngay_hen")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayHen;
@@ -72,6 +77,7 @@ public class Lichkham implements Serializable {
     @JoinColumn(name = "hoso_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Hoso hosoId;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lichkhamId")
     private Collection<Thongtinthanhtoan> thongtinthanhtoanCollection;
 
@@ -98,11 +104,11 @@ public class Lichkham implements Serializable {
         this.soTienNhan = soTienNhan;
     }
 
-    public Short getTrangThai() {
+    public TrangThaiLichKham getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(Short trangThai) {
+    public void setTrangThai(TrangThaiLichKham trangThai) {
         this.trangThai = trangThai;
     }
 
