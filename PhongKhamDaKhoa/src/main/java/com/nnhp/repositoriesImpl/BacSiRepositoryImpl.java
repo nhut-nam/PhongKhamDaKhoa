@@ -4,10 +4,12 @@
  */
 package com.nnhp.repositoriesImpl;
 
+import com.nnhp.dto.BacSiChiTietDTO;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Bacsithuocchuyenkhoa;
 import com.nnhp.pojo.Benhvien;
 import com.nnhp.pojo.Chuyenkhoa;
+import com.nnhp.pojo.Danhgia;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.repositories.BacSiRepository;
 import jakarta.persistence.Query;
@@ -34,13 +36,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Transactional
 public class BacSiRepositoryImpl implements BacSiRepository {
+
     private static final int PAGE_SIZE = 8;
     @Autowired
     private LocalSessionFactoryBean factory;
 
     @Override
     public List<Bacsi> getDsBacSi(Map<String, String> params) {
-       Session s = this.factory.getObject().getCurrentSession();
+        Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Bacsi> q = b.createQuery(Bacsi.class);
         Root root = q.from(Bacsi.class);
@@ -50,13 +53,13 @@ public class BacSiRepositoryImpl implements BacSiRepository {
         if (params != null) {
             List<Predicate> predicates = new ArrayList<>();
             Join<Bacsi, Benhvien> bvJoin = root.join("benhvienId");
-            Expression<String> fullName = b.concat(b.concat(root.get("hoNguoiDung")," "),root.get("tenNguoiDung"));
+            Expression<String> fullName = b.concat(b.concat(root.get("hoNguoiDung"), " "), root.get("tenNguoiDung"));
             String kw = params.get("kw");
-            
+
             if (kw != null && !kw.isEmpty()) {
-               Predicate tenLike = b.like(fullName, String.format("%%%s%%", kw));
-               Predicate bvLike = b.like(bvJoin.get("tenBenhVien"), String.format("%%%s%%", kw));
-               predicates.add(b.or(tenLike,bvLike));
+                Predicate tenLike = b.like(fullName, String.format("%%%s%%", kw));
+                Predicate bvLike = b.like(bvJoin.get("tenBenhVien"), String.format("%%%s%%", kw));
+                predicates.add(b.or(tenLike, bvLike));
             }
             q.where(predicates.toArray(Predicate[]::new));
 
@@ -73,7 +76,7 @@ public class BacSiRepositoryImpl implements BacSiRepository {
 
             query.setMaxResults(PAGE_SIZE);
             query.setFirstResult(start);
-        }   
+        }
         return query.getResultList();
     }
 
@@ -86,22 +89,22 @@ public class BacSiRepositoryImpl implements BacSiRepository {
     @Override
     public Bacsi addOrUpdateBacSi(Bacsi b) {
         Session s = this.factory.getObject().getCurrentSession();
-        
-        if (b.getBenhvienId()!= null && b.getBenhvienId().getId() != null) {
+
+        if (b.getBenhvienId() != null && b.getBenhvienId().getId() != null) {
             Benhvien benhVien = s.get(Benhvien.class, b.getBenhvienId().getId());
             b.setBenhvienId(benhVien);
         }
-        
+
         if (b.getId() != null) {
-        // Nếu là cập nhật, xoá các chuyên khoa cũ
-        Bacsi bacSiCu = s.get(Bacsi.class, b.getId());
-        if (bacSiCu != null && bacSiCu.getBacsithuocchuyenkhoaCollection() != null) {
-            for (Bacsithuocchuyenkhoa bsck : bacSiCu.getBacsithuocchuyenkhoaCollection()) {
-                s.remove(bsck);  // Xóa từng bản ghi trong bảng trung gian
+            // Nếu là cập nhật, xoá các chuyên khoa cũ
+            Bacsi bacSiCu = s.get(Bacsi.class, b.getId());
+            if (bacSiCu != null && bacSiCu.getBacsithuocchuyenkhoaCollection() != null) {
+                for (Bacsithuocchuyenkhoa bsck : bacSiCu.getBacsithuocchuyenkhoaCollection()) {
+                    s.remove(bsck);  // Xóa từng bản ghi trong bảng trung gian
+                }
             }
         }
-    }
-        
+
         // Thêm hoặc cập nhật
         if (b.getId() == null) {
             s.persist(b);
@@ -110,7 +113,7 @@ public class BacSiRepositoryImpl implements BacSiRepository {
         }
 
         return b;
-        
+
 //        if (b.getId() == null) {
 //            s.persist(b);
 //        } else {
@@ -122,7 +125,7 @@ public class BacSiRepositoryImpl implements BacSiRepository {
 
     @Override
     public void deleteBacSi(int id) {
-    Session s = this.factory.getObject().getCurrentSession();
+        Session s = this.factory.getObject().getCurrentSession();
         Bacsi b = this.getBacSiById(id);
         s.remove(b);
     }
@@ -136,6 +139,30 @@ public class BacSiRepositoryImpl implements BacSiRepository {
             dsChuyenKhoa.add(bck.getChuyenkhoaId());
         }
 
-    return dsChuyenKhoa;
+        return dsChuyenKhoa;
+    }
+
+    @Override
+    public BacSiChiTietDTO getBacSiWithDanhGiaById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Bacsi> q = b.createQuery(Bacsi.class);
+
+        Root<Bacsi> root = q.from(Bacsi.class);
+
+        root.fetch("danhgiaCollection", JoinType.LEFT);
+
+        q.select(root).distinct(true).where(b.equal(root.get("id"), id));
+
+        Bacsi bs = s.createQuery(q).getSingleResult();
+
+        double avg = bs.getDanhgiaCollection() == null
+                ? 0
+                : bs.getDanhgiaCollection().stream()
+                        .filter(d -> d.getSoSao() != null)
+                        .mapToInt(Danhgia::getSoSao)
+                        .average()
+                        .orElse(0);
+        return BacSiChiTietDTO.convertToDTO(bs, avg);
     }
 }

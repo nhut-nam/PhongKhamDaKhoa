@@ -54,7 +54,7 @@ public class HoSoDTO {
         hsOld.setHoTen(hsDTO.getHoTen());
         hsOld.setSoDienThoai(hsDTO.getSoDienThoai());
         hsOld.setNgaySinh(hsDTO.getNgaySinh());
-        hsOld.setNgayTao(hsDTO.getNgayTao());
+        hsOld.setNgayTao(new Date());
         return hsOld;
     }
 

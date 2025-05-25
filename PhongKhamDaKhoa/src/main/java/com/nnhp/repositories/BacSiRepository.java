@@ -4,6 +4,7 @@
  */
 package com.nnhp.repositories;
 
+import com.nnhp.dto.BacSiChiTietDTO;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Chuyenkhoa;
 import java.util.List;
@@ -19,4 +20,5 @@ public interface BacSiRepository {
     Bacsi addOrUpdateBacSi(Bacsi b);
     void deleteBacSi(int id);
     List<Chuyenkhoa> getChuyenKhoaByBacSiId(int id);
+    BacSiChiTietDTO getBacSiWithDanhGiaById(int id);
 }

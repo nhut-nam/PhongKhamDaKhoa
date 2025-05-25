@@ -60,6 +60,9 @@ public class Lichkham implements Serializable {
     @Column(name = "ngay_hen")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayHen;
+//    @Column(name = "ngay_huy")
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date ngayHuy;
     @Size(max = 255)
     @Column(name = "buoi")
     private String buoi;
@@ -177,8 +180,6 @@ public class Lichkham implements Serializable {
     public void setNgayTao(Date ngayTao) {
         this.ngayTao = ngayTao;
     }
-    
-    
 
     @Override
     public int hashCode() {

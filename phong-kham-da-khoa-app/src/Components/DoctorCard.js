@@ -1,7 +1,8 @@
 import React from 'react';
 import '../Styles/DoctorCard.css';
+import { Link } from 'react-router-dom';
 
-const DoctorCard = ({ hoNguoiDung, tenNguoiDung, chuyenTri, diaChi, avatar, benhVien }) => {
+const DoctorCard = ({id, hoNguoiDung, tenNguoiDung, chuyenTri, diaChi, avatar, benhVien }) => {
   return (
     <div className="doctor-card">
       <img src={avatar} alt={tenNguoiDung} className="doctor-image" />
@@ -10,6 +11,7 @@ const DoctorCard = ({ hoNguoiDung, tenNguoiDung, chuyenTri, diaChi, avatar, benh
         <p><strong>Chuyên trị:</strong> {chuyenTri}</p>
         <p><strong>Địa chỉ:</strong> {diaChi}</p>
         <p><strong>Bệnh viện:</strong> {benhVien.tenBenhVien}</p>
+        <Link to={`/chi-tiet-bac-si?doctorId=${id}`} className="book-button">Chi tiết</Link>
         <button className="book-button">Đặt ngay</button>
       </div>
     </div>

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  *
  * @author namnh
  */
-@Component("ADMIN")
+@Component("ROLE_ADMIN")
 public class AdminHandler implements RoleHandler {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;

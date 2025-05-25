@@ -5,6 +5,7 @@
 package com.nnhp.services;
 
 import com.nnhp.dto.LichKhamBacSiDTO;
+import com.nnhp.dto.LichKhamRequestDTO;
 import com.nnhp.pojo.Lichkham;
 import java.time.LocalDate;
 import java.util.List;
@@ -20,4 +21,6 @@ public interface LichKhamService {
     Lichkham addOrUpdateLichKham(Lichkham lichKham);
     void deleteLichKham(int id);
     List<LichKhamBacSiDTO> getLichKhamByBacSi(Integer bacSiId, LocalDate date, Map<String, String> params);
+    Lichkham createLichKhamFromDTO(LichKhamRequestDTO dto);
+    List<Lichkham> getLichKhamListByUserId(int userId);
 } 

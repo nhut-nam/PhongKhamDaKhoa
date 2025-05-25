@@ -4,6 +4,7 @@
  */
 package com.nnhp.servicesImpl;
 
+import com.nnhp.dto.BacSiChiTietDTO;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Chuyenkhoa;
 import com.nnhp.repositories.BacSiRepository;
@@ -46,6 +47,11 @@ public class BacSiServiceImpl implements BacSiService{
     @Override
     public List<Chuyenkhoa> getChuyenKhoaByBacSiId(int id) {
         return this.bacSiRepo.getChuyenKhoaByBacSiId(id);
+    }
+
+    @Override
+    public BacSiChiTietDTO getBacSiWithDanhGiaById(int id) {
+        return this.bacSiRepo.getBacSiWithDanhGiaById(id);
     }
     
 }

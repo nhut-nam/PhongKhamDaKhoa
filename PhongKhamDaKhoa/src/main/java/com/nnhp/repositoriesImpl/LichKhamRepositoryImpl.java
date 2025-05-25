@@ -205,4 +205,22 @@ public class LichKhamRepositoryImpl implements LichKhamRepository {
         return query.getResultList();
 
     }
+
+    @Override
+    public List<Lichkham> getLichKhamListByUserId(int userId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Lichkham> q = b.createQuery(Lichkham.class);
+        
+        Root<Lichkham> root = q.from(Lichkham.class);
+        Join<Lichkham, Hoso> joinLichKham = root.join("hosoId");
+        
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(b.equal(joinLichKham.get("benhnhanId").get("id"), userId));
+        
+        q.where(predicates.toArray(Predicate[]::new));
+        
+        Query query = s.createQuery(q);
+        return query.getResultList();
+    }
 } 

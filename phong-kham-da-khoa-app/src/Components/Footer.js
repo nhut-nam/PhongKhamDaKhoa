@@ -8,8 +8,8 @@ const Footer = () => {
             <div className="footer-top">
                 <div className="container">
                     <div className="footer-widget">
-                        <h3>Về MedPro</h3>
-                        <p>MedPro là hệ thống y tế chất lượng cao với hơn 10 năm kinh nghiệm trong lĩnh vực chăm sóc sức khỏe.</p>
+                        <h3>Về Hospital</h3>
+                        <p>Hospital là hệ thống y tế chất lượng cao với hơn 10 năm kinh nghiệm trong lĩnh vực chăm sóc sức khỏe.</p>
                         <div className="footer-social">
                             <Link to="https://www.facebook.com/nhut.nam.522733"><i className="fab fa-facebook-f"></i></Link>
                             <a href="#"><i className="fab fa-twitter"></i></a>
@@ -46,7 +46,7 @@ const Footer = () => {
                         <ul className="footer-contact">
                             <li><i className="fas fa-map-marker-alt"></i> 123 Đường ABC, Quận 1, TP.HCM</li>
                             <li><i className="fas fa-phone"></i> 1900 1234</li>
-                            <li><i className="fas fa-envelope"></i> info@medpro.vn</li>
+                            <li><i className="fas fa-envelope"></i> info@Hospital.vn</li>
                             <li><i className="fas fa-clock"></i> Thứ 2 - CN: 7:00 - 19:00</li>
                         </ul>
                     </div>
@@ -55,7 +55,7 @@ const Footer = () => {
 
             <div className="footer-bottom">
                 <div className="container">
-                    <p>&copy; 2023 MedPro. Bản quyền thuộc về MedPro.</p>
+                    <p>&copy; 2023 Hospital. Bản quyền thuộc về Hospital.</p>
                 </div>
             </div>
         </footer>

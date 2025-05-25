@@ -21,4 +21,5 @@ public interface LichKhamRepository {
     Lichkham addOrUpdateLichKham(Lichkham lichKham);
     void deleteLichKham(int id);
     List<LichKhamBacSiDTO> getLichKhamByBacSi(Integer bacSiId, LocalDate date, Map<String, String> params);
+    List<Lichkham> getLichKhamListByUserId(int userId);
 } 

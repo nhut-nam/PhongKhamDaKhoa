@@ -12,11 +12,11 @@ export const endpoints = {
   'getChuyenKhoa': "ds-chuyen-khoa",
   'getChuyenKhoaByBenhVien': "benh-vien/%s/chuyen-khoa",
   'addBacSiChuyenKhoa': "/addBacSiChuyenKhoa",
-  'addPatientRecord': "/secure/tao-ho-so",
-  'getHoSoList': "/secure/get-ds-ho-so",
-  'getHoSo': "/secure/get-ho-so",
-  'deleteHoSo': "/secure/xoa-ho-so",
-  'updateHoSo': "/secure/sua-ho-so",
+  'addPatientRecord': "/tao-ho-so",
+  'getHoSoList': "/get-ds-ho-so",
+  'getHoSo': "/get-ho-so",
+  'deleteHoSo': "/xoa-ho-so",
+  'updateHoSo': "/sua-ho-so",
   'getDoctorList': "/ds-bac-si",
   'addBangCap': "/tao-bang-cap",
   'getBenhVienChuyenKhoa': "/benh-vien-chuyen-khoa",
@@ -26,7 +26,13 @@ export const endpoints = {
   'getThongKeBenhNhan': "bac-si/thong-ke-so-luong",
   'getThongKeLoaiBenh': "bac-si/thong-ke-loai-benh",
   "getHoSoBenhNhan": "/secure/get-list-ho-so-benh-nhan/{bacSiId}",
-  "lichSuKhamBenh": "/secure/lich-su-kham-benh/{id}"
+  "lichSuKhamBenh": "/secure/lich-su-kham-benh/{id}",
+  'getBacSiDichVu': "/bac-si-dich-vu",
+  'taoLichKham': "/tao-lich-kham",
+  'getLichKham': "/lich-kham",
+  'suaLichKham': "/sua-lich-kham",
+  'getBacSiChiTiet': "/bac-si-chi-tiet",
+  'themDanhGia': "/them-danh-gia"
 };
 
 export const authApis = () => {

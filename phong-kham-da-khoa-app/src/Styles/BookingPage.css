@@ -1,54 +1,205 @@
-.booking-container {
-  max-width: 500px;
-  margin: 2rem auto;
-  padding: 1.5rem;
+.select-specialty-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #eaf6fb;
+  min-height: 200vh;
+  gap: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.hospital-info {
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1.2rem;
+  width: 250px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  height: 300px;
 }
 
-.booking-container h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
-.booking-form label {
-  display: block;
-  margin-top: 1rem;
-  margin-bottom: 0.25rem;
-  font-weight: 500;
-  color: #444;
-}
-
-.booking-form select {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.hospital-info h3 {
   font-size: 1rem;
-  transition: border 0.3s ease;
+  margin-bottom: 0.5rem;
+  color: #0a3d62;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.booking-form select:focus {
-  border-color: #007bff;
-  outline: none;
+.hospital-info .verified {
+  color: #00aaff;
+  font-weight: bold;
 }
 
-.booking-form button {
-  margin-top: 1.5rem;
-  width: 100%;
-  padding: 0.6rem;
-  background-color: #007bff;
+.hospital-info p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.specialty-panel {
+  background: #fff;
+  border-radius: 12px;
+  width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 600px;
+}
+
+.panel-header {
+  background: #00c2f0;
   color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
-.booking-form button:hover {
-  background-color: #0056b3;
+.search-bar-select-specialty {
+  position: relative;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
 }
+
+.search-bar-select-specialty input {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.specialty-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.specialty-item {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.specialty-item:hover {
+  background: #f1faff;
+}
+
+.specialty-item strong {
+  font-size: 1rem;
+  color: #0a3d62;
+}
+
+.specialty-item p {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.25rem;
+}
+
+.back-button {
+  padding: 1rem;
+  color: #007bff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-top: 1px solid #eee;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+
+.service-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.service-item {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f8f8f8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.service-item:hover {
+  background-color: #e6f0ff;
+  border-color: #66a3ff;
+}
+
+.service-card {
+  padding: 12px 16px;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.service-card:hover {
+  transform: scale(1.02);
+  border-color: #0dbad7;
+}
+
+.service-name {
+  font-size: 1.1rem;
+  color: #0dbad7;
+}
+
+.service-detail {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.doctor-card {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.avatar-doctor {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ccc;
+}
+
+.doctor-info {
+  flex: 1;
+}
+
+.doctor-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.doctor-info p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.doctor-info p span {
+  font-weight: 600;
+  color: #222;
+}
+
