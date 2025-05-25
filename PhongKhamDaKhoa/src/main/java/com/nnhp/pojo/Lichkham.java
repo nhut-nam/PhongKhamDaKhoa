@@ -5,10 +5,13 @@
 package com.nnhp.pojo;
 
 import com.nnhp.enums.LoaiThanhToan;
+import com.nnhp.enums.TrangThaiLichKham;
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -51,10 +54,14 @@ public class Lichkham implements Serializable {
     @Column(name = "so_tien_nhan")
     private BigDecimal soTienNhan;
     @Column(name = "trang_thai")
-    private Short trangThai;
+    @Enumerated(EnumType.STRING)
+    private TrangThaiLichKham trangThai;
     @Column(name = "ngay_hen")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ngayHen;
+//    @Column(name = "ngay_huy")
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date ngayHuy;
     @Size(max = 255)
     @Column(name = "buoi")
     private String buoi;
@@ -98,11 +105,11 @@ public class Lichkham implements Serializable {
         this.soTienNhan = soTienNhan;
     }
 
-    public Short getTrangThai() {
+    public TrangThaiLichKham getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(Short trangThai) {
+    public void setTrangThai(TrangThaiLichKham trangThai) {
         this.trangThai = trangThai;
     }
 
@@ -171,8 +178,6 @@ public class Lichkham implements Serializable {
     public void setNgayTao(Date ngayTao) {
         this.ngayTao = ngayTao;
     }
-    
-    
 
     @Override
     public int hashCode() {

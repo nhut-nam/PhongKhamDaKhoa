@@ -52,8 +52,8 @@ const Header = () => {
             <div className="header-main">
                 <div className="container">
                     <Link to="/" className="logo">
-                        <img src="https://res.cloudinary.com/dhsxutqtc/image/upload/v1747485304/hospital-building_krz3yt.png" alt="MedPro Logo" />
-                        <h1 className='logo-title'>MedPro</h1>
+                        <img src="https://res.cloudinary.com/dhsxutqtc/image/upload/v1747485304/hospital-building_krz3yt.png" alt="Hospital Logo" />
+                        <h1 className='logo-title'>Hospital</h1>
                     </Link>
 
                     <nav className="main-menu">

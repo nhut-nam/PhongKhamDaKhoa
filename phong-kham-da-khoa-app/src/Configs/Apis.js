@@ -12,16 +12,22 @@ export const endpoints = {
   'getChuyenKhoa': "ds-chuyen-khoa",
   'getChuyenKhoaByBenhVien': "benh-vien/%s/chuyen-khoa",
   'addBacSiChuyenKhoa': "/addBacSiChuyenKhoa",
-  'addPatientRecord': "/secure/tao-ho-so",
-  'getHoSoList': "/secure/get-ds-ho-so",
-  'getHoSo': "/secure/get-ho-so",
-  'deleteHoSo': "/secure/xoa-ho-so",
-  'updateHoSo': "/secure/sua-ho-so",
+  'addPatientRecord': "/tao-ho-so",
+  'getHoSoList': "/get-ds-ho-so",
+  'getHoSo': "/get-ho-so",
+  'deleteHoSo': "/xoa-ho-so",
+  'updateHoSo': "/sua-ho-so",
   'getDoctorList': "/ds-bac-si",
   'addBangCap': "/tao-bang-cap",
   'getBenhVienChuyenKhoa': "/benh-vien-chuyen-khoa",
   'getBenhVienChuyenKhoaByBenhVienId': "/benh-vien/%s/benh-vien-chuyen-khoa",
   'getDichVu': "/benh-vien-chuyen-khoa-dich-vu",
+  'getBacSiDichVu': "/bac-si-dich-vu",
+  'taoLichKham': "/tao-lich-kham",
+  'getLichKham': "/lich-kham",
+  'suaLichKham': "/sua-lich-kham",
+  'getBacSiChiTiet': "/bac-si-chi-tiet",
+  'themDanhGia': "/them-danh-gia"
 };
 
 export const authApis = () => {

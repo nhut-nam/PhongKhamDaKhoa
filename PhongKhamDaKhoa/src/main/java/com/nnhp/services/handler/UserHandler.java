@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
  *
  * @author namnh
  */
-@Component("USER")
+@Component("ROLE_USER")
 public class UserHandler implements RoleHandler {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;

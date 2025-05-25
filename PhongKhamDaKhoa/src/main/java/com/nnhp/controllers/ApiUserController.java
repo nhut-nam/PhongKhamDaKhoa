@@ -61,19 +61,19 @@ public class ApiUserController {
     @PostMapping(path = "/benh-nhan", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<?> createUser(@RequestParam Map<String, String> params) {
-        return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.addTaiKhoan(params, Role.USER)), HttpStatus.CREATED);
+        return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.addTaiKhoan(params, Role.ROLE_USER)), HttpStatus.CREATED);
     }
     
     @PostMapping(path = "/quan-tri", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<?> createAdmin(@RequestParam Map<String, String> params) {
-        return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.addTaiKhoan(params, Role.ADMIN)), HttpStatus.CREATED);
+        return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.addTaiKhoan(params, Role.ROLE_ADMIN)), HttpStatus.CREATED);
     }
     
     @PostMapping(path = "/bac-si", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin    
     public ResponseEntity<?> createDoctor(@RequestBody Map<String, String> params) {
-        Bacsi bs = (Bacsi) this.userDetailsService.addTaiKhoan(params, Role.DOCTOR);
+        Bacsi bs = (Bacsi) this.userDetailsService.addTaiKhoan(params, Role.ROLE_DOCTOR);
         String chuoi = params.get("chuyenKhoa"); // ví dụ: "[1,2]"
         chuoi = chuoi.replaceAll("[\\[\\]\\s]", ""); // bỏ [ ], và khoảng trắng
         String[] ckIds = chuoi.split(",");

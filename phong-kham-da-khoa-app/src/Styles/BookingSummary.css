@@ -1,0 +1,29 @@
+.summary-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 25px;
+  border-radius: 10px;
+  background-color: #f4f6f8;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+}
+
+.summary-info p {
+  font-size: 18px;
+  margin: 12px 0;
+}
+
+.summary-container button {
+  margin-top: 20px;
+  padding: 10px 18px;
+  font-size: 16px;
+  background-color: #0e76a8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.summary-container button:hover {
+  background-color: #095a84;
+}

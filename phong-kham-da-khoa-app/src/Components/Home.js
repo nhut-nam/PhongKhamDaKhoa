@@ -21,7 +21,7 @@ const Home = () => {
                     <div className="hero-content">
                         <h1>Dịch vụ y tế chất lượng cao</h1>
                         <p>
-                            MedPro cung cấp các giải pháp y tế toàn diện với đội ngũ bác sĩ chuyên môn cao và trang thiết bị hiện đại
+                            Hospital cung cấp các giải pháp y tế toàn diện với đội ngũ bác sĩ chuyên môn cao và trang thiết bị hiện đại
                         </p>
                         <form className="search-bar">
                             <input
@@ -69,9 +69,9 @@ const Home = () => {
             <section className="about-section">
                 <div className="container">
                     <div className="about-content">
-                        <h2 className="section-title">Về MedPro</h2>
+                        <h2 className="section-title">Về Hospital</h2>
                         <p>
-                            MedPro là hệ thống y tế chất lượng cao với hơn 10 năm kinh nghiệm trong lĩnh vực chăm sóc sức khỏe. Chúng tôi tự hào mang đến dịch vụ y tế tốt nhất với đội ngũ bác sĩ giàu kinh nghiệm và hệ thống trang thiết bị hiện đại.
+                            Hospital là hệ thống y tế chất lượng cao với hơn 10 năm kinh nghiệm trong lĩnh vực chăm sóc sức khỏe. Chúng tôi tự hào mang đến dịch vụ y tế tốt nhất với đội ngũ bác sĩ giàu kinh nghiệm và hệ thống trang thiết bị hiện đại.
                         </p>
                         <ul className="about-features">
                             <li><i className="fas fa-check"></i> Đội ngũ bác sĩ chuyên môn cao</li>
@@ -79,9 +79,6 @@ const Home = () => {
                             <li><i className="fas fa-check"></i> Quy trình khám chữa bệnh tiêu chuẩn</li>
                             <li><i className="fas fa-check"></i> Bảo hiểm y tế liên kết</li>
                         </ul>
-                    </div>
-                    <div className="about-image">
-                        <img src="https://medpro.vn/images/about.jpg" alt="Về MedPro" />
                     </div>
                 </div>
             </section>

@@ -20,6 +20,8 @@ import Search from './Components/Search';
 import BookingPage from './Components/BookingPage';
 import Specialty from './Components/Specialty';
 import SelectSpecialty from './Components/SelectSpecialty';
+import BookingSummary from './Components/Appointment';
+import DoctorDetail from './Components/DoctorDetail';
 
 function init(initialUser) {
   if (!initialUser) {
@@ -57,7 +59,9 @@ function App() {
             <Route path="/dat-kham-theo-co-so" element={<MedicalFacilityList />} />
             <Route path="/chat-truc-tuyen" element={<ChatPage />} />
             <Route path="/tim-kiem?" element={<Search />} />
-            <Route path="/dat-lich-kham" element={<SelectSpecialty />} />
+            <Route path="/dat-lich-kham" element={<BookingPage />} />
+            <Route path="/lich-kham" element={<BookingSummary />} />
+            <Route path="/chi-tiet-bac-si" element={<DoctorDetail />} />
         </Routes>
         <Footer />
         </BrowserRouter>

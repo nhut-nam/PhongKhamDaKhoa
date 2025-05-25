@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
  *
  * @author namnh
  */
-@Component("DOCTOR")
+@Component("ROLE_DOCTOR")
 public class DoctorHandler implements RoleHandler {
 
     @Autowired
