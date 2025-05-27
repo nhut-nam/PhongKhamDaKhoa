@@ -11,6 +11,8 @@ import com.nnhp.pojo.Bacsithuocchuyenkhoa;
 import com.nnhp.pojo.Benhvien;
 import com.nnhp.pojo.Chuyenkhoa;
 import com.nnhp.pojo.Danhgia;
+import com.nnhp.pojo.Hoso;
+import com.nnhp.pojo.Lichkham;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.repositories.BacSiRepository;
 import jakarta.persistence.Query;
@@ -25,6 +27,8 @@ import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -168,5 +172,25 @@ public class BacSiRepositoryImpl implements BacSiRepository {
 //                .average().orElse(0);
         System.out.println(bs.getDanhgiaCollection());
         return BacSiDanhGiaDTO.convertToDTO(bs, 0.0);
+    }
+
+    @Override
+    public Set<Bacsi> getListBacSiByUserId(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Lichkham> q = b.createQuery(Lichkham.class);
+
+        Root<Lichkham> root = q.from(Lichkham.class);
+        Join<Lichkham, Hoso> joinLichKham = root.join("hosoId");
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(b.equal(joinLichKham.get("benhnhanId").get("id"), id));
+        q.select(root).where(predicates.toArray(Predicate[]::new));
+        
+        List<Lichkham> lichKham = s.createQuery(q).getResultList();
+        Set<Bacsi> bacsiSet = lichKham.stream()
+            .map(Lichkham::getBacsiId)
+            .collect(Collectors.toSet());
+        return bacsiSet;
     }
 }

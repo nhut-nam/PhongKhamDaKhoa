@@ -24,4 +24,5 @@ public interface LichKhamRepository {
     List<LichKhamBacSiDTO> getLichKhamByBacSi(Integer bacSiId, LocalDate date, Map<String, String> params);
     List<Lichkham> getLichKhamListByUserId(int userId);
     List<Lichkham> getLichKhamListByBacSiIdAndNgayKhamAndBuoi(int id, Date ngayKham, String buoi);
+    List<Lichkham> getLichKhamListByHoSoId(int id);
 } 

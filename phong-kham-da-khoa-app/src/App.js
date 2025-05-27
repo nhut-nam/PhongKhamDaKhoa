@@ -1,9 +1,9 @@
-import logo from './logo.svg';
 import Header from './Components/Header';
 import Home from './Components/Home';
 import Footer from './Components/Footer';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import Login from './Components/Login';
+import logo from './logo.svg';
 import UserRegister from './Components/UserRegister';
 import { MyDispatcherContext, MyUserContext } from './Configs/MyContexts';
 import { useEffect, useReducer } from 'react';
@@ -15,7 +15,6 @@ import Patient from './Components/Patient';
 import AddPatientRecord from './Components/AddPatientRecord';
 import MedicalFacilityCard from './Components/MedicalFacilityCard';
 import MedicalFacilityList from './Components/MedicalFacilityList';
-import ChatPage from './Components/ChatPage';
 import Search from './Components/Search';
 import BookingPage from './Components/BookingPage';
 import Specialty from './Components/Specialty';
@@ -26,6 +25,7 @@ import CapNhatHoSo from './Components/UpdateHoSoBenhNhan';
 import BookingSummary from './Components/Appointment';
 import DoctorDetail from './Components/DoctorDetail';
 import CallWrapper from './Components/RoomCall';
+import USERCHAT from './Components/USERCHATTEST';
 
 function init(initialUser) {
   if (!initialUser) {
@@ -40,10 +40,10 @@ const ProtectedRoute = ({ allowedRoles, user }) => {
     return <Navigate to="/login" />;
   }
 
-  if (!allowedRoles.includes("USER", "DOCTOR")) {
-    return <Navigate to="/unauthorized" />;
+  if (!allowedRoles.includes(user.user.role)) {
+    return <Navigate to="/" />;
   }
-
+  return <Outlet />;
 };
 
 function App() {
@@ -63,30 +63,32 @@ function App() {
         <MyDispatcherContext.Provider value={dispatch}>
           <BrowserRouter>
             <Header />
-        
+
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/user-register" element={<UserRegister />} />
               <Route path="/doctor-register" element={<DoctorRegister />} />
               <Route path="/dich-vu" element={<ServicesPage />} />
-              <Route element={<ProtectedRoute allowedRoles={['USER']} user={user} />}>
+              <Route element={<ProtectedRoute allowedRoles={['ROLE_USER']} user={user} />}>
                 <Route path="/patient" element={<Patient />} />
                 <Route path="/lich-kham" element={<BookingSummary />} />
                 <Route path="/tao-ho-so" element={<AddPatientRecord />} />
               </Route>
+              {/* <Route path="/patient" element={<Patient />} />
+                <Route path="/lich-kham" element={<BookingSummary />} />
+                <Route path="/tao-ho-so" element={<AddPatientRecord />} /> */}
+              
               <Route path="/dat-kham-theo-co-so" element={<MedicalFacilityList />} />
-              <Route path="/chat-truc-tuyen" element={<ChatPage />} />
               <Route path="/tim-kiem?" element={<Search />} />
-              <Route path="/bac-si-lich-kham" element={<LichKham />} />
-              <Route element={<ProtectedRoute allowedRoles={['DOCTOR']} user={user} />}>
+              <Route element={<ProtectedRoute allowedRoles={['ROLE_DOCTOR']} user={user} />}>
                 <Route path="/bac-si/dashboard" element={<DoctorDashboard />} />
+                <Route path="/bac-si-lich-kham" element={<LichKham />} />
+                <Route path="/bac-si/lich-su-kham-benh/:hoSoId" element={<CapNhatHoSo />} />
               </Route>
-              <Route path="/bac-si/lich-su-kham-benh/:hoSoId" element={<CapNhatHoSo />} />
               <Route path="/dat-lich-kham" element={<BookingPage />} />
               <Route path="/chi-tiet-bac-si" element={<DoctorDetail />} />
-            <Route path="/call/:bacsiId/:benhNhanId" element={<CallWrapper />} />
-
+              <Route path="/chat-user" element={<USERCHAT />} />
             </Routes>
             <Footer />
           </BrowserRouter>

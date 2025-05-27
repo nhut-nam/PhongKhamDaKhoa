@@ -252,4 +252,9 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
           return this.tkRepo.authenticateRole(email, password);
     }
 
+    @Override
+    public Set<Taikhoan> getListUserByBacSiId(int id) {
+        return this.tkRepo.getListUserByBacSiId(id);
+    }
+
 }

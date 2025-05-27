@@ -7,10 +7,14 @@ package com.nnhp.servicesImpl;
 import com.nnhp.dto.BacSiDanhGiaDTO;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Chuyenkhoa;
+import com.nnhp.pojo.Lichkham;
 import com.nnhp.repositories.BacSiRepository;
+import com.nnhp.repositories.LichKhamRepository;
 import com.nnhp.services.BacSiService;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,8 @@ public class BacSiServiceImpl implements BacSiService{
     
     @Autowired
     private BacSiRepository bacSiRepo;
+    @Autowired
+    private LichKhamRepository lichKhamRepo;
     
     @Override
     public List<Bacsi> getDsBacSi(Map<String, String> params) {
@@ -53,5 +59,10 @@ public class BacSiServiceImpl implements BacSiService{
     public BacSiDanhGiaDTO getBacSiWithDanhGiaById(int id) {
         return this.bacSiRepo.getBacSiWithDanhGiaById(id);
     }
-    
+
+    @Override
+    public Set<Bacsi> getListBacSiByUserId(int id) {
+        return this.bacSiRepo.getListBacSiByUserId(id);
+    }
+
 }

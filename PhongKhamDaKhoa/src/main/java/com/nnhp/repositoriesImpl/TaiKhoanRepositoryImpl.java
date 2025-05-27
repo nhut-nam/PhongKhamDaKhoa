@@ -7,6 +7,8 @@ package com.nnhp.repositoriesImpl;
 import com.nnhp.enums.Role;
 import com.nnhp.enums.TrangThaiTaiKhoan;
 import com.nnhp.pojo.Benhnhan;
+import com.nnhp.pojo.Hoso;
+import com.nnhp.pojo.Lichkham;
 import com.nnhp.pojo.Quantri;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.pojo.ThongBao;
@@ -15,6 +17,7 @@ import com.nnhp.services.handler.RoleHandler;
 import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.validation.ConstraintViolationException;
@@ -22,6 +25,8 @@ import jakarta.ws.rs.NotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -207,5 +212,29 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
     public boolean authenticateRole(String email, String password) {
         Taikhoan tk = this.getUserByEmail(email);
         return this.passwordEncoder.matches(password, tk.getMatKhau());
+    }
+
+    @Override
+    public Set<Taikhoan> getListUserByBacSiId(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Lichkham> q = b.createQuery(Lichkham.class);
+
+        Root<Lichkham> root = q.from(Lichkham.class);
+        Join<Lichkham, Hoso> joinHoso = root.join("hosoId");
+        Join<Hoso, Benhnhan> joinBenhnhan = joinHoso.join("benhnhanId");
+
+        q.select(root).where(
+                b.equal(root.get("bacsiId").get("id"), id)
+        );
+
+        List<Lichkham> lichKhamList = s.createQuery(q).getResultList();
+
+        // Lấy ra danh sách Taikhoan không trùng
+        Set<Taikhoan> taiKhoanSet = lichKhamList.stream()
+                .map(lichkham -> lichkham.getHosoId().getBenhnhanId())
+                .collect(Collectors.toSet());
+
+        return taiKhoanSet;
     }
 }

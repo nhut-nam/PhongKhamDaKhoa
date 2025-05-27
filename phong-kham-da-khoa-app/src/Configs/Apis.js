@@ -22,9 +22,9 @@ export const endpoints = {
   'getBenhVienChuyenKhoa': "/benh-vien-chuyen-khoa",
   'getBenhVienChuyenKhoaByBenhVienId': "/benh-vien/%s/benh-vien-chuyen-khoa",
   'getDichVu': "/benh-vien-chuyen-khoa-dich-vu",
-  'getLichKhamBacSi': (bacSiId) =>`secure/lich-kham/bac-si/${bacSiId}`,
-  'getThongKeBenhNhan': (bacSiId)=>`secure/bac-si/${bacSiId}/thong-ke-so-luong`,
-  'getThongKeLoaiBenh': (bacSiId)=>`secure/bac-si/${bacSiId}/thong-ke-loai-benh`,
+  'getLichKhamBacSi': (bacSiId) =>`secure/doctors/lich-kham/bac-si/${bacSiId}`,
+  'getThongKeBenhNhan': (bacSiId)=>`secure/doctors/bac-si/${bacSiId}/thong-ke-so-luong`,
+  'getThongKeLoaiBenh': (bacSiId)=>`secure/doctors/bac-si/${bacSiId}/thong-ke-loai-benh`,
   "getHoSoBenhNhan": (bacSiId)=>`/secure/doctors/get-list-ho-so-benh-nhan/${bacSiId}`,
   "lichSuKhamBenh": "/secure/doctors/lich-su-kham-benh/{id}",
   'getBacSiDichVu': "/bac-si-dich-vu",
@@ -36,8 +36,10 @@ export const endpoints = {
   'updateTrangThaiLichKham':"/lich-kham",
   'getRoom': "/web-rtc/room-name",
   'phanHoiDanhGia': "/secure/users/phan-hoi-danh-gia",
-  'addTinTuc': "/secure/users/tin-tuc",
-  'getTinTuc': "/secure/users/tin-tuc/",
+  'addTinTuc': "/secure/tin-tuc",
+  'getTinTuc': "/secure/tin-tuc/",
+  'chatUser' : (userId)=>`/secure/chat/users/${userId}`,
+  'chatDoctor' : (doctorId)=>`/secure/chat/doctors/${doctorId}`
 };
 
 export const authApis = () => {

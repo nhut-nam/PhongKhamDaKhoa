@@ -9,6 +9,7 @@ import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Chuyenkhoa;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -21,4 +22,5 @@ public interface BacSiService {
     void deleteBacSi(int id);
     List<Chuyenkhoa> getChuyenKhoaByBacSiId(int id);
     BacSiDanhGiaDTO getBacSiWithDanhGiaById(int id);
+    Set<Bacsi> getListBacSiByUserId(int id);
 }

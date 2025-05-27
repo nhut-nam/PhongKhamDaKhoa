@@ -10,6 +10,7 @@ import com.nnhp.pojo.Taikhoan;
 import com.nnhp.pojo.ThongBao;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -30,4 +31,5 @@ public interface TaiKhoanRepository {
     List<Taikhoan> getDsTaiKhoan(Map<String, String> params, String role);
     Taikhoan updateTaiKhoan(Taikhoan tk);
     List<Taikhoan> getListUserByTrangThai(TrangThaiTaiKhoan trangThai);
+    Set<Taikhoan> getListUserByBacSiId(int id);
 }
