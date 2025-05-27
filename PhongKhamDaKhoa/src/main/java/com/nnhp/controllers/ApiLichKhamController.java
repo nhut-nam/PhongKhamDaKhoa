@@ -4,6 +4,7 @@
  */
 package com.nnhp.controllers;
 
+import com.nnhp.dto.EmailRequestDTO;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.dto.LichKhamBacSiDTO;
 import com.nnhp.dto.LichKhamDTO;
@@ -18,6 +19,7 @@ import com.nnhp.pojo.Taikhoan;
 import com.nnhp.pojo.ThongBao;
 import com.nnhp.services.BacSiService;
 import com.nnhp.services.BenhVienChuyenKhoaDichVuService;
+import com.nnhp.services.EmailService;
 import com.nnhp.services.HoSoService;
 import com.nnhp.services.LichKhamService;
 import com.nnhp.services.TaiKhoanService;
@@ -64,6 +66,8 @@ public class ApiLichKhamController {
     private BenhVienChuyenKhoaDichVuService bvckdvService;
     @Autowired
     private HoSoService hsService;
+    @Autowired
+    private EmailService emailService;
 
     @DeleteMapping("/secure/users/lich-kham/{id}")
     public ResponseEntity<Void> deleteLichKham(@PathVariable(value = "id") int id) {
@@ -124,6 +128,13 @@ public class ApiLichKhamController {
         lk = lkPatch.updateAtrribute(lk, lkPatch);
         return new ResponseEntity<>(LichKhamDTO.convertToDTO(this.lichKhamService.addOrUpdateLichKham(lk)), HttpStatus.ACCEPTED);
     }
+    
+    @GetMapping("/secure/lich-kham/{id}")
+    @CrossOrigin
+    public ResponseEntity<LichKhamDTO> getLichKhamById(@PathVariable(name = "id") int id) {
+        Lichkham lk = this.lichKhamService.getLichKhamById(id);
+        return new ResponseEntity<>(LichKhamDTO.convertToDTO(this.lichKhamService.addOrUpdateLichKham(lk)), HttpStatus.ACCEPTED);
+    }
 
     @PutMapping("/lich-kham/{id}/trang-thai")
     public ResponseEntity<?> updateTrangThaiLichKham(@PathVariable("id") Integer id,
@@ -141,5 +152,11 @@ public class ApiLichKhamController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi khi cập nhật trạng thái");
         }
+    }
+    
+    @PostMapping("/secure/users/send-email")
+    public ResponseEntity<?> sendEmail(@RequestBody EmailRequestDTO emailRequest) {
+        this.emailService.sendEmail(emailRequest.getTo(), emailRequest.getSubject(), emailRequest.getBody());
+        return new ResponseEntity<>(new ThongBao("Gửi mail thành công vui lòng kiểm tra email trong hồ sơ", true), HttpStatus.ACCEPTED);
     }
 }

@@ -125,7 +125,6 @@ const BookingPage = () => {
   const updateProfile = (s) => {
     searchParam.set("step", "appointment");
     setSearchParam(searchParam);
-    setProfile(s.id)
     setAppointment(prev => ({
       ...prev,
       "hoSoId": s.id
@@ -319,7 +318,7 @@ const BookingPage = () => {
           <>
             <div className="panel-header">Chọn hồ sơ</div>
             <div className="specialty-list">
-              {profile && profile.map((s, i) => (
+              {profile !== null && profile?.map((s, i) => (
                 <div onClick={() => updateProfile(s)} className="specialty-item" key={i}>
                   <strong>Họ tên: {s.hoTen}</strong>
                   <p>Giới tính: <span>{s.gioiTinh ? "Nữ" : "Nam"}</span></p>
@@ -350,7 +349,7 @@ const BookingPage = () => {
         )}
 
         <div className="back-button" onClick={() => {
-          const steps = ["specialty", "service", "doctor", "time"];
+          const steps = ["specialty", "service", "doctor", "time", "profile", "appointment"];
           const currentIdx = steps.indexOf(currentStep);
           if (currentIdx > 0) goToStep(steps[currentIdx - 1]);
           else

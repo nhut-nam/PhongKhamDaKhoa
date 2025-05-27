@@ -32,13 +32,13 @@ public class ApiLichSuKhamBenhController {
     @Autowired
     private LichSuKhamBenhService service;
 
-    @GetMapping("/secure/lich-su-kham-benh/{id}")
+    @GetMapping("/secure/doctors/lich-su-kham-benh/{id}")
     public ResponseEntity<?> getLichSuKhamBenhByHoSoId(@PathVariable(value = "id") int id) {
         List<Lichsukhambenh> listHoSo = this.service.getLichSuKhamBenhByUser(id);
         return ResponseEntity.ok(listHoSo);
     }
 
-    @PutMapping("/secure/lich-su-kham-benh/{id}")
+    @PutMapping("/secure/doctors/lich-su-kham-benh/{id}")
     public ResponseEntity<?> updateLichSuKhamBenhById(
             @PathVariable("id") int id,
             @RequestBody Map<String, String> payload) {

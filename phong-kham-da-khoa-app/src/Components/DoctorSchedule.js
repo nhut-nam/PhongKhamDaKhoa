@@ -4,6 +4,7 @@ import Apis, { authApis, endpoints } from '../Configs/Apis';
 import dayjs from 'dayjs';
 import "../Styles/DoctorSchedule.css";
 import { MyUserContext } from '../Configs/MyContexts';
+import cookie from 'react-cookies';
 
 const PAGE_SIZE = 8;
 
@@ -18,6 +19,7 @@ const LichKham = () => {
     sort: '',
     page: 1,
   });
+  const token = cookie.load('token');
 
   const fetchLichKham = async () => {
     try {
@@ -27,7 +29,7 @@ const LichKham = () => {
       if (params.orderBy) queryParams.append('orderBy', params.orderBy);
       if (params.sort) queryParams.append('sort', params.sort);
       if (params.page) queryParams.append('page', params.page);
-      const res = await authApis().get(`${endpoints['getLichKhamBacSi'](user.user.id)}?${queryParams.toString()}`);
+      const res = await authApis(token).get(`${endpoints['getLichKhamBacSi'](user.user.id)}?${queryParams.toString()}`);
       setLichKham(res.data);
     } catch (error) {
       console.error('Lỗi khi lấy lịch khám:', error.response?.data || error.message);

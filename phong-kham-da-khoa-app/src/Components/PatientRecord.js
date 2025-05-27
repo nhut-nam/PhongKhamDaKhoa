@@ -1,19 +1,21 @@
 import React, { use, useContext, useEffect, useState } from "react";
 import "../Styles/PatientRecord.css";
 import { MyUserContext } from "../Configs/MyContexts";
-import Apis, { endpoints } from "../Configs/Apis";
+import Apis, { authApis, endpoints } from "../Configs/Apis";
 import { Link } from "react-router-dom";
+import cookies from 'react-cookies';
 
 const PatientRecord = () => {
     const user = useContext(MyUserContext);
     const [record, setRecord] = useState([]);
+    const token = cookies.load('token');
 
     useEffect(() => {
         const fetchPatientRecords = async () => {
             const form = new FormData();
             form.append("user_id", user.user.id);
             try {
-                let response = await Apis.get(endpoints["getHoSoList"] + "/" + user.user.id)
+                let response = await authApis(token).get(endpoints["getHoSoList"] + "/" + user.user.id)
                 setRecord(response.data);
                 console.log("Kết quả:", response.data);
             } catch (error) {
@@ -25,7 +27,7 @@ const PatientRecord = () => {
     }, []);
     const handleDelete = async (id) => {
         try {
-            await Apis.delete(endpoints["deleteHoSo"] + "/" + id);
+            await authApis(token).delete(endpoints["deleteHoSo"] + "/" + id);
             setRecord(record.filter(item => item.id !== id));
             alert("Xóa hồ sơ thành công");
         } catch (error) {
@@ -47,6 +49,11 @@ const PatientRecord = () => {
                             <div className="info-section">
                                 <span className="info-label">Ngày sinh:</span>
                                 <span>{new Date(item.ngaySinh).toLocaleDateString('vi-VN')}</span>
+                            </div>
+
+                            <div className="info-section">
+                                <span className="info-label">Email:</span>
+                                <span>{item.email}</span>
                             </div>
 
                             <div className="info-section">

@@ -14,4 +14,5 @@ import java.text.SimpleDateFormat;
  */
 public class Formatter {
     public final static SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+    public final static SimpleDateFormat DATETIME_FORMATTER = new SimpleDateFormat("yyyyMMddHHmmss");
 }

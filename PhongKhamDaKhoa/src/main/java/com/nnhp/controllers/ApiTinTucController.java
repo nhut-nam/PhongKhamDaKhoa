@@ -40,7 +40,7 @@ public class ApiTinTucController {
     @Autowired
     private TaiKhoanTinTucService tkttService;
     
-    @PostMapping(path = "/secure/users/tin-tuc", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/secure/tin-tuc", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> findTop10TinTucChuaGanUser(@RequestParam(name = "userId") int id) {
         List<Tintuc> ttList = this.ttService.findTop10TinTucChuaGanUser(id);
         Taikhoan tk = this.tkService.getUserById(id);
@@ -48,7 +48,7 @@ public class ApiTinTucController {
         return ResponseEntity.status(HttpStatus.CREATED).body("OK");
     }
     
-    @GetMapping("/secure/users/tin-tuc/{id}")
+    @GetMapping("/secure/tin-tuc/{id}")
     public ResponseEntity<List<TinTucDTO>> getTinTucByUser(@PathVariable(name = "id") int id) {
         return new ResponseEntity<>(TinTucDTO.convertToDTOList(this.ttService.getTinTucByUserId(id)), HttpStatus.OK);
     }

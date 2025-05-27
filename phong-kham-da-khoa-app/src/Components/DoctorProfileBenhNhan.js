@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { authApis, endpoints } from '../Configs/Apis';
 import { useNavigate } from 'react-router-dom';
 import { MyUserContext } from '../Configs/MyContexts';
+import cookies from 'react-cookies';
 
 function HoSoBenhNhan() {
   const user = useContext(MyUserContext)
@@ -10,29 +11,30 @@ function HoSoBenhNhan() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const token = cookies.load('token');
+
+  // useEffect(() => {
+  //   // Hàm lấy thông tin user hiện tại để lấy bacSiId
+  //   async function fetchUser() {
+  //     try {
+  //       const res = await authApis(token).get(endpoints['current-user']);
+  //       setBacSiId(res.data.id);
+  //     } catch (err) {
+  //       setError("Không lấy được thông tin user hiện tại.");
+  //       setLoading(false);
+  //     }
+  //   }
+  //   fetchUser();
+  // }, []);
 
   useEffect(() => {
-    // Hàm lấy thông tin user hiện tại để lấy bacSiId
-    async function fetchUser() {
-      try {
-        const res = await authApis().get(endpoints['current-user']);
-        setBacSiId(res.data.id);
-      } catch (err) {
-        setError("Không lấy được thông tin user hiện tại.");
-        setLoading(false);
-      }
-    }
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
-    if (!bacSiId) return;
 
     async function fetchData() {
       setLoading(true);
       setError(null);
       try {
-        const res = await authApis().get(`${endpoints['getHoSoBenhNhan'](user.user.id)}`);
+        const res = await authApis(token).get(`${endpoints['getHoSoBenhNhan'](user.user.id)}`);
+        console.log("Hồ sơ bệnh nhân:", res.data);
         setData(res.data);
       } catch (err) {
         setError(err.message || "Lỗi khi gọi API");
@@ -42,11 +44,10 @@ function HoSoBenhNhan() {
     }
 
     fetchData();
-  }, [bacSiId]);
+  }, []);
 
   if (loading) return <p>Đang tải dữ liệu...</p>;
   if (error) return <p>Lỗi: {error}</p>;
-  if (!bacSiId) return <p>Chưa đăng nhập hoặc chưa xác định bác sĩ.</p>;
   if (!data || data.length === 0) return <p>Không có hồ sơ bệnh nhân.</p>;
 
   const formatDate = (ms) => {

@@ -40,9 +40,8 @@ function LoginPage() {
 
       if (u.data.role === "ROLE_DOCTOR") {
         nav("/bac-si/dashboard");
-      }
-      else {
-        nav(-1); // Bệnh nhân hoặc người dùng bình thường
+      } else {
+        nav(-1);
       }
 
     } catch (ex) {
