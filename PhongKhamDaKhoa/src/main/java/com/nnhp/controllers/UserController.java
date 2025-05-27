@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -40,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author hoang
  */
 @Controller
+@RequestMapping("/admin")
 public class UserController {
     @Autowired
     private TaiKhoanService taiKhoanService;
@@ -48,10 +50,6 @@ public class UserController {
     @Autowired
     private BacSiService bacSiService;
     
-    @GetMapping("/login")
-    public String loginView() {
-        return "login";
-    }
     
     @GetMapping("/admin-tai-khoan")
     public String addListView(Model model, @RequestParam Map<String, String> params) {
@@ -91,12 +89,12 @@ public class UserController {
         for (Taikhoan t : dsTaiKhoan) {
             if (t.getSoDienThoai() != null && t.getSoDienThoai().equals(tk.getSoDienThoai()) && !t.getId().equals(tk.getId())) {
                 // Số điện thoại đã tồn tại
-                return "redirect:/taikhoanchange?error=duplicate_phone";
+                return "redirect:/admin/taikhoanchange?error=duplicate_phone";
             }
             
             if (t.getEmail() != null && t.getEmail().equals(tk.getEmail()) && !t.getId().equals(tk.getId())) {
                 // Email đã tồn tại
-                return "redirect:/taikhoanchange?error=duplicate_email";
+                return "redirect:/admin/taikhoanchange?error=duplicate_email";
             }
         }
         
@@ -106,7 +104,7 @@ public class UserController {
         try {
              if ("ROLE_DOCTOR".equals(tk.getRole())) {
                 if (benhVienId == null || benhVienId == 0) {
-                    return "redirect:/taikhoanchange?error=benhvien_required";
+                    return "redirect:/admin/taikhoanchange?error=benhvien_required";
                 }
                 System.out.println("benhVienId nhận được: " + benhVienId);
                 this.taiKhoanService.addOrUpdateTaiKhoan(tk,benhVienId);
@@ -114,20 +112,20 @@ public class UserController {
              else{
             this.taiKhoanService.addOrUpdateTaiKhoan(tk,benhVienId);
              }
-            return "redirect:/admin-tai-khoan";
+            return "redirect:/admin/admin-tai-khoan";
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {
             // Xác định loại lỗi
             String errorMessage = e.getMessage().toLowerCase();
             if (errorMessage.contains("so_dien_thoai") || errorMessage.contains("phone")) {
-                return "redirect:/taikhoanchange?error=duplicate_phone";
+                return "redirect:/admin/taikhoanchange?error=duplicate_phone";
             } else if (errorMessage.contains("email")) {
-                return "redirect:/taikhoanchange?error=duplicate_email";
+                return "redirect:/admin/taikhoanchange?error=duplicate_email";
             } else {
-                return "redirect:/taikhoanchange?error=database";
+                return "redirect:/admin/taikhoanchange?error=database";
             }
         } catch (Exception e) {
             System.out.println(e.toString());
-            return "redirect:/taikhoanchange?error=unknown";
+            return "redirect:/admin/taikhoanchange?error=unknown";
         }
     }
     
@@ -135,7 +133,7 @@ public class UserController {
     public String updateView(Model model, @PathVariable(value = "taiKhoanEmail") String email) {
         Taikhoan tk = this.taiKhoanService.getUserByEmail(email);
         if (tk == null) {
-            return "redirect:/admin-tai-khoan?error=not_found";
+            return "redirect:/admin/admin-tai-khoan?error=not_found";
         }
         model.addAttribute("taiKhoan", tk);
         model.addAttribute("dsBenhVien", benhVienService.getAllBenhVien());
@@ -166,12 +164,10 @@ public class UserController {
     // Cập nhật trạng thái
     @PostMapping("/xet-duyet-form")
     public String duyetTaiKhoan(@ModelAttribute Taikhoan tk) {
-        System.out.print("ID:" + tk.getId());
-        System.out.print("Statús:" + tk.getTrangThai());
         Taikhoan taiKhoan = this.taiKhoanService.getUserById(tk.getId());
         taiKhoan.setTrangThai(tk.getTrangThai());
         taiKhoanService.updateTaiKhoan(taiKhoan);
-        return "redirect:/xet-duyet-tai-khoan";
+        return "redirect:/admin/xet-duyet-tai-khoan";
     }
 
 }

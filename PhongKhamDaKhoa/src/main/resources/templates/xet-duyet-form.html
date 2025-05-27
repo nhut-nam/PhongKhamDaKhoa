@@ -15,7 +15,7 @@
 
     <h2 class="text-center text-primary mb-4">🛡️ Xét duyệt tài khoản</h2>
 
-    <form method="post" th:action="@{/xet-duyet-form}" th:object="${taiKhoan}" class="p-4 border rounded bg-light shadow-sm">
+    <form method="post" th:action="@{/admin/xet-duyet-form}" th:object="${taiKhoan}" class="p-4 border rounded bg-light shadow-sm">
         <input type="hidden" th:field="*{id}" />
 
         <div class="mb-3">
@@ -33,7 +33,7 @@
         </div>
 
         <div class="d-flex justify-content-between">
-            <a th:href="@{/xet-duyet-tai-khoan}" class="btn btn-secondary">← Quay lại</a>
+            <a th:href="@{/admin/xet-duyet-tai-khoan}" class="btn btn-secondary">← Quay lại</a>
             <button type="submit" class="btn btn-success">💾 Cập nhật</button>
         </div>
     </form>

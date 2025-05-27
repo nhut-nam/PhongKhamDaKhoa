@@ -15,19 +15,35 @@ import org.springframework.stereotype.Service;
  * @author hoang
  */
 @Service
-public class ThongKeBacSiServiceImpl implements ThongKeBacSiService{
+public class ThongKeBacSiServiceImpl implements ThongKeBacSiService {
+
     @Autowired
     private ThongKeBacSiRepository thongKeRepo;
 
-    
     @Override
-    public List<Object[]> thongKeSoBenhNhanDaKham(String loaiThongKe, int nam, Integer bacSiId) {
-       return this.thongKeRepo.thongKeSoBenhNhanDaKham(loaiThongKe, nam, bacSiId);
+    public List<Object[]> thongKeSoBenhNhanDaKham(String loaiThongKe, Integer nam, Integer bacSiId) {
+
+        if (loaiThongKe == null || loaiThongKe.isEmpty()) {
+            loaiThongKe = "YEAR";
+        }
+        if (nam == null) {
+            nam = 2025;
+        }
+
+        return this.thongKeRepo.thongKeSoBenhNhanDaKham(loaiThongKe, nam, bacSiId);
     }
 
     @Override
-    public List<Object[]> thongKeLoaiBenhPhoBien(String loaiThongKe, int nam, Integer bacSiId) {
+    public List<Object[]> thongKeLoaiBenhPhoBien(String loaiThongKe, Integer nam, Integer bacSiId) {
+
+        if (loaiThongKe == null || loaiThongKe.isEmpty()) {
+            loaiThongKe = "YEAR";
+        }
+        if (nam == null) {
+            nam = 2025;
+        }
+
         return this.thongKeRepo.thongKeLoaiBenhPhoBien(loaiThongKe, nam, bacSiId);
     }
-    
+
 }

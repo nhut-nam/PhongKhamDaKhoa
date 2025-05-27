@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { authApis, endpoints } from '../Configs/Apis';
 import { useNavigate } from 'react-router-dom';
+import { MyUserContext } from '../Configs/MyContexts';
 
 function HoSoBenhNhan() {
+  const user = useContext(MyUserContext)
   const navigate = useNavigate();
   const [bacSiId, setBacSiId] = useState(null);
   const [data, setData] = useState(null);
@@ -30,8 +32,7 @@ function HoSoBenhNhan() {
       setLoading(true);
       setError(null);
       try {
-        const url = endpoints.getHoSoBenhNhan.replace("{bacSiId}", bacSiId);
-        const res = await authApis().get(url);
+        const res = await authApis().get(`${endpoints['getHoSoBenhNhan'](user.user.id)}`);
         setData(res.data);
       } catch (err) {
         setError(err.message || "Lỗi khi gọi API");

@@ -18,7 +18,7 @@
             <span th:if="${param.error[0] == 'benhvien_required'}">Đã xảy ra lỗi vui lòng chọn bệnh viện cho bác sĩ!</span>
         </div>
         
-        <form method="post" th:action="@{/tai-khoan/add}" th:object="${taiKhoan}" enctype="multipart/form-data">
+        <form method="post" th:action="@{/admin/tai-khoan/add}" th:object="${taiKhoan}" enctype="multipart/form-data">
             <div class="mb-3 mt-3">
                 <label for="email" class="form-label">Email: </label>
                 <input type="email" class="form-control" id="email" placeholder="Email" th:field="*{email}" required />
@@ -70,7 +70,7 @@
                     <span th:if="${taiKhoan.id == null}">Thêm tài khoản</span>
                     <span th:unless="${taiKhoan.id == null}">Cập nhật tài khoản</span>
                 </button>
-                <a th:href="@{/admin-tai-khoan}" class="btn btn-secondary">Quay lại</a>
+                <a th:href="@{/admin/admin-tai-khoan}" class="btn btn-secondary">Quay lại</a>
             </div>
         </form>
 

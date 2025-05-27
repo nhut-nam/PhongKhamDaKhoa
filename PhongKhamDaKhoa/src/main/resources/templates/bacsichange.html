@@ -8,7 +8,7 @@
     <main class="container">
         <div th:replace="base :: header"></div>
         <h1 class="text-center text-info mt-1">QUẢN LÝ BÁC SĨ</h1>
-        <form  method="post" th:action="@{/bac-si/add}" th:object="${bacSi}">
+        <form  method="post" th:action="@{/admin/bac-si/add}" th:object="${bacSi}">
             <div class="mb-3 mt-3">
                 <label for="email" class="form-label">Email: </label>
                 <input type="text" class="form-control" id="email" placeholder="Email bác sĩ" th:field="*{email}"  required/>

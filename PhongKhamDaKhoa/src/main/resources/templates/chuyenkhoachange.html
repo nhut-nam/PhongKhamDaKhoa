@@ -8,7 +8,7 @@
     <main class="container">
         <div th:replace="~{base :: header}"></div>
         <h1 class="text-center text-info mt-1">QUẢN LÝ CHUYÊN KHOA</h1>
-        <form  method="post" th:action="@{/chuyen-khoa/add}" th:object="${chuyenKhoa}">
+        <form  method="post" th:action="@{/admin/chuyen-khoa/add}" th:object="${chuyenKhoa}">
             <div class="mb-3 mt-3">
                 <label for="tenChuyenKhoa" class="form-label">Tên chuyên khoa: </label>
                 <input type="text" class="form-control" id="tenChuyenKhoa" placeholder="Tên chuyên khoa" th:field="*{tenChuyenKhoa}"  />

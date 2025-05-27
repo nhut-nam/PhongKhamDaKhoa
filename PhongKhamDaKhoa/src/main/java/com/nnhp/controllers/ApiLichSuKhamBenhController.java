@@ -6,6 +6,7 @@ package com.nnhp.controllers;
 
 import com.nnhp.pojo.Lichsukhambenh;
 import com.nnhp.services.LichSuKhamBenhService;
+import com.nnhp.utils.AuthUtils;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;

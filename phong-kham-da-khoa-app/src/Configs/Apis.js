@@ -22,17 +22,19 @@ export const endpoints = {
   'getBenhVienChuyenKhoa': "/benh-vien-chuyen-khoa",
   'getBenhVienChuyenKhoaByBenhVienId': "/benh-vien/%s/benh-vien-chuyen-khoa",
   'getDichVu': "/benh-vien-chuyen-khoa-dich-vu",
-  'getLichKhamBacSi': "lich-kham/bac-si",
-  'getThongKeBenhNhan': "bac-si/thong-ke-so-luong",
-  'getThongKeLoaiBenh': "bac-si/thong-ke-loai-benh",
-  "getHoSoBenhNhan": "/secure/get-list-ho-so-benh-nhan/{bacSiId}",
+  'getLichKhamBacSi': (bacSiId) =>`secure/lich-kham/bac-si/${bacSiId}`,
+  'getThongKeBenhNhan': (bacSiId)=>`secure/bac-si/${bacSiId}/thong-ke-so-luong`,
+  'getThongKeLoaiBenh': (bacSiId)=>`secure/bac-si/${bacSiId}/thong-ke-loai-benh`,
+  "getHoSoBenhNhan": (bacSiId)=>`/secure/get-list-ho-so-benh-nhan/${bacSiId}`,
   "lichSuKhamBenh": "/secure/lich-su-kham-benh/{id}",
   'getBacSiDichVu': "/bac-si-dich-vu",
   'taoLichKham': "/tao-lich-kham",
   'getLichKham': "/lich-kham",
   'suaLichKham': "/sua-lich-kham",
   'getBacSiChiTiet': "/bac-si-chi-tiet",
-  'themDanhGia': "/them-danh-gia"
+  'themDanhGia': "/them-danh-gia",
+  'updateTrangThaiLichKham':"/lich-kham",
+  'getRoom': "/web-rtc/room-name",
 };
 
 export const authApis = () => {

@@ -8,17 +8,17 @@
     <main class="container">
         <div th:replace="~{base :: header}"></div>
         <h2 class="text-center text-info mt-1">Danh sách lịch khám</h2>
-         <form th:action="@{/lich-kham}" id="searchForm">
+        <form th:action="@{/admin/lich-kham}" id="searchForm">
             <div class="row">
                 <div class="col-3">
                     <div class="mb-3 mt-3">
                         <select class="form-select" name="trangThai">
                             <option value="" selected>-- Tất cả trạng thái --</option>
-                            <option value="0" th:selected="${param.trangThai == '0'}">Đã khám xong</option>
-                            <option value="1" th:selected="${param.trangThai == '1'}">Đã đặt</option>
-                            <option value="2" th:selected="${param.trangThai == '2'}">Đã hủy</option>
-                            <option value="3" th:selected="${param.trangThai == '3'}">Vắng mặt</option>
-                            <option value="4" th:selected="${param.trangThai == '4'}">Đã xác nhận</option>
+                            <option value="DA_KHAM_XONG" th:selected="${param.trangThai == 'DA_KHAM_XONG'}">Đã khám xong</option>
+                            <option value="DA_THANH_TOAN" th:selected="${param.trangThai == 'DA_THANH_TOAN'}">Đã thanh toán</option>
+                            <option value="DA_HUY" th:selected="${param.trangThai == 'DA_HUY'}">Đã hủy</option>
+                            <option value="VANG_MAT" th:selected="${param.trangThai == 'VANG_MAT'}">Vắng mặt</option>
+                            <option value="CHUA_THANH_TOAN" th:selected="${param.trangThai == 'CHUA_THANH_TOAN'}">Chưa thanh toán</option>
                         </select>
                     </div>
                 </div>
@@ -67,13 +67,13 @@
                 <div class="col-9">
                     <div class="mb-3 mt-3">
                         <button class="btn btn-info" type="submit">Tìm kiếm</button>
-                        <a th:href="@{/lich-kham}" class="btn btn-secondary">Làm mới</a>
+                        <a th:href="@{/admin/lich-kham}" class="btn btn-secondary">Làm mới</a>
                     </div>
                 </div>
             </div>
         </form>
         <hr  />    
-        <a th:href="@{/lichkhamchange}" class="btn btn-info mt-2 mb-2">Thêm lịch khám</a>
+        <a th:href="@{/admin/lichkhamchange}" class="btn btn-info mt-2 mb-2">Thêm lịch khám</a>
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -83,6 +83,9 @@
                     <th data-sort="buoi" style="cursor: pointer;">Buổi <i class="fa fa-sort"></i></th>
                     <th>Bác sĩ</th>
                     <th>Bệnh nhân</th>
+                    <th>Bệnh viện chuyên khoa dịch vụ</th>
+                    <th>Loại thanh toán</th>
+                    <th>Số tiền nhận</th>
                     <th data-sort="trangThai" style="cursor: pointer;">Trạng thái <i class="fa fa-sort"></i></th>
                     <th>Thao tác</th>
                 </tr>
@@ -95,16 +98,24 @@
                     <td th:text="${lichKham.buoi}"></td>
                     <td th:text="${lichKham.bacsiId != null ? (lichKham.bacsiId.hoNguoiDung + ' ' + lichKham.bacsiId.tenNguoiDung) : ''}"></td>
                     <td th:text="${lichKham.hosoId != null && lichKham.hosoId.benhnhanId != null ? (lichKham.hosoId.benhnhanId.hoNguoiDung + ' ' + lichKham.hosoId.benhnhanId.tenNguoiDung) : ''}"></td>
-                    <td>
-                        <span th:if="${lichKham.trangThai == 0}" class="badge bg-success">Đã khám xong</span>
-                        <span th:if="${lichKham.trangThai == 1}" class="badge bg-primary">Đã đặt</span>
-                        <span th:if="${lichKham.trangThai == 2}" class="badge bg-danger">Đã hủy</span>
-                        <span th:if="${lichKham.trangThai == 3}" class="badge bg-warning">Vắng mặt</span>
-                        <span th:if="${lichKham.trangThai == 4}" class="badge bg-info">Đã xác nhận</span>
+                    <td th:text="${lichKham.benhvienchuyenkhoadichvuId != null ? 
+                        (lichKham.benhvienchuyenkhoadichvuId.tenDichVu + ' - ' + 
+                        (lichKham.benhvienchuyenkhoadichvuId.benhvienchuyenkhoaId != null ? 
+                        lichKham.benhvienchuyenkhoadichvuId.benhvienchuyenkhoaId.benhvienId.tenBenhVien : '')) : ''}">
+                    </td>
+                    <td th:text="${lichKham.loaiThanhToan}"></td>
+                    <td th:text="${lichKham.soTienNhan}"></td>
+                    <td th:switch="${lichKham.trangThai}">
+                        <span th:case="'DA_KHAM_XONG'" class="badge bg-success">Đã khám xong</span>
+                        <span th:case="'DA_THANH_TOAN'" class="badge bg-primary">Đã thanh toán</span>
+                        <span th:case="'DA_HUY'" class="badge bg-danger">Đã hủy</span>
+                        <span th:case="'VANG_MAT'" class="badge bg-warning text-dark">Vắng mặt</span>
+                        <span th:case="'CHUA_THANH_TOAN'" class="badge bg-secondary">Chưa thanh toán</span>
+                        <span th:case="*">[[${lichKham.trangThai}]]</span> <!-- fallback nếu không khớp -->
                     </td>
                     <td>
-                         <a th:href="@{'/lich-kham/' + ${lichKham.id}}" class="btn btn-success">Sửa</a>
-                         <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/lich-kham/}+'\','+${lichKham.id}+')'">Xóa</button>
+                        <a th:href="@{'/admin/lich-kham/' + ${lichKham.id}}" class="btn btn-success">Sửa</a>
+                        <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/lich-kham/}+'\','+${lichKham.id}+')'">Xóa</button>
                     </td>
                 </tr>
             </tbody>

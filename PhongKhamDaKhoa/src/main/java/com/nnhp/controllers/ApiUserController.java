@@ -51,27 +51,25 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api")
 @CrossOrigin
 public class ApiUserController {
+
     @Autowired
     private TaiKhoanService userDetailsService;
     @Autowired
     private BacSiThuocChuyenKhoaService bsckService;
     @Autowired
     private ChuyenKhoaService ckService;
-    
+
     @PostMapping(path = "/benh-nhan", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
     public ResponseEntity<?> createUser(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.addTaiKhoan(params, Role.ROLE_USER)), HttpStatus.CREATED);
     }
-    
+
     @PostMapping(path = "/quan-tri", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin
     public ResponseEntity<?> createAdmin(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.addTaiKhoan(params, Role.ROLE_ADMIN)), HttpStatus.CREATED);
     }
-    
+
     @PostMapping(path = "/bac-si", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin    
     public ResponseEntity<?> createDoctor(@RequestBody Map<String, String> params) {
         Bacsi bs = (Bacsi) this.userDetailsService.addTaiKhoan(params, Role.ROLE_DOCTOR);
         String chuoi = params.get("chuyenKhoa"); // ví dụ: "[1,2]"
@@ -86,42 +84,54 @@ public class ApiUserController {
         bs.setBacsithuocchuyenkhoaCollection(this.bsckService.addBacSiChuyenKhoaList(bs, chuyenKhoas));
         return new ResponseEntity<>(BacSiDTO.convertToDTO(bs), HttpStatus.CREATED);
     }
-    
+
     @PostMapping("/users")
-    @CrossOrigin
     public ResponseEntity<TaiKhoanDTO> authenticate(@RequestParam("email") String email, @RequestParam("matKhau") String matKhau) {
         Taikhoan tk = this.userDetailsService.getUserByEmail(email);
         return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(tk), HttpStatus.ACCEPTED);
     }
-    
+
     @PostMapping("/login")
-    @CrossOrigin
     public ResponseEntity<?> login(@RequestBody Taikhoan tk) {
         ThongBao tb = this.userDetailsService.authenticate(tk.getEmail(), tk.getMatKhau());
         if (tb.isStatus()) {
+             Taikhoan u = userDetailsService.getUserByEmail(tk.getEmail());
             try {
-                String token = JwtUtils.generateToken(tk.getEmail());
+                
+                String token = JwtUtils.generateToken(u.getEmail(),u.getRole());
                 return ResponseEntity.ok().body(Collections.singletonMap("token", token));
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Lỗi khi tạo JWT");
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(tb);
+//        ThongBao tb = this.userDetailsService.authenticate(tk.getEmail(), tk.getMatKhau());
+//        if (this.userDetailsService.authenticateRole(tk.getEmail(), tk.getMatKhau())) {
+//            Taikhoan u = userDetailsService.getUserByEmail(tk.getEmail());
+//             if (tb.isStatus()) {
+//            try {
+//                String token = JwtUtils.generateToken(u.getEmail(), u.getRole());
+//                System.out.println("TAIKHOAN" + u.getEmail());
+//                System.out.println("ROLE" + u.getRole());
+//                return ResponseEntity.ok().body(Collections.singletonMap("token", token));
+//            } catch (Exception e) {
+//                return ResponseEntity.status(500).body("Lỗi khi tạo JWT");
+//            }
+//        }
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Sai thông tin đăng nhập");
     }
-    
+
     @RequestMapping("/secure/profile")
     @ResponseBody
-    @CrossOrigin
     public ResponseEntity<?> getProfile(Principal principal) {
         if (principal == null) {
             return ResponseEntity.status(500).body("lỗi");
         }
         return new ResponseEntity<>(TaiKhoanDTO.convertToDTO(this.userDetailsService.getUserByEmail(principal.getName())), HttpStatus.OK);
     }
-    
+
     @DeleteMapping("/tai-khoan/{taiKhoanId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CrossOrigin
     public void destroy(@PathVariable(value = "taiKhoanId") int id) {
         this.userDetailsService.deleteUser(id);
     }

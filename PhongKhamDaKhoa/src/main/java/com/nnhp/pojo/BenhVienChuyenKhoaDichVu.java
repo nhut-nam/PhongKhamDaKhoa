@@ -28,13 +28,13 @@ import java.io.Serializable;
 @Entity
 @Table(name = "benhvien_chuyenkhoa_dichvu")
 @NamedQueries({
-    @NamedQuery(name = "BenhVienChuyenKhoaDichVu.findAll", 
-                query = "SELECT b FROM BenhVienChuyenKhoaDichVu b"),
-    
-    @NamedQuery(name = "BenhVienChuyenKhoaDichVu.findByBenhVienChuyenKhoa", 
-                query = "SELECT b FROM BenhVienChuyenKhoaDichVu b WHERE b.benhvienchuyenkhoaId.id = :benhVienChuyenKhoaId"),
-})
+    @NamedQuery(name = "BenhVienChuyenKhoaDichVu.findAll",
+            query = "SELECT b FROM BenhVienChuyenKhoaDichVu b"),
+
+    @NamedQuery(name = "BenhVienChuyenKhoaDichVu.findByBenhVienChuyenKhoa",
+            query = "SELECT b FROM BenhVienChuyenKhoaDichVu b WHERE b.benhvienchuyenkhoaId.id = :benhVienChuyenKhoaId"),})
 public class BenhVienChuyenKhoaDichVu implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -109,6 +109,22 @@ public class BenhVienChuyenKhoaDichVu implements Serializable {
     public void setTenDichVu(String tenDichVu) {
         this.tenDichVu = tenDichVu;
     }
-    
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof BenhVienChuyenKhoaDichVu)) {
+            return false;
+        }
+        BenhVienChuyenKhoaDichVu that = (BenhVienChuyenKhoaDichVu) o;
+        return this.id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
+    }
+
 }

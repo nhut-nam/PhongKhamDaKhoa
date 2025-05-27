@@ -8,7 +8,7 @@
     <main class="container">
         <div th:replace="~{base :: header}"></div>
         <h2 class="text-center text-info mt-1">Danh sách bệnh viện</h2>
-         <form th:action="@{/benh-vien}" id="searchForm">
+         <form th:action="@{/admin/benh-vien}" id="searchForm">
             <div class="row">
                 <div class="col-4">
                     <div class="mb-3 mt-3">
@@ -41,12 +41,12 @@
             </div>
             <div class="mb-3 mt-3">
                 <button class="btn btn-info" type="submit">Tìm kiếm</button>
-                <a th:href="@{/benh-vien}" class="btn btn-secondary">Làm mới</a>
+                <a th:href="@{/admin/benh-vien}" class="btn btn-secondary">Làm mới</a>
             </div>
         </form>
         <hr  />    
-        <a th:href="@{/benhvienchange}" class="btn btn-info mt-2 mb-2">Thêm bệnh viện</a>
-        <a th:href="@{/benhvien-chuyenkhoa}" class="btn btn-success mt-2 mb-2 ms-2">Quản lý bệnh viện - chuyên khoa</a>
+        <a th:href="@{/admin/benhvienchange}" class="btn btn-info mt-2 mb-2">Thêm bệnh viện</a>
+        <a th:href="@{/admin/benhvien-chuyenkhoa}" class="btn btn-success mt-2 mb-2 ms-2">Quản lý bệnh viện - chuyên khoa</a>
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -69,7 +69,7 @@
                         <img th:src="${benhVien.avatar}" width="150" />
                     </td> 
                     <td>
-                         <a th:href="@{'/benh-vien/' + ${benhVien.id}}" class="btn btn-success">Sửa</a>
+                         <a th:href="@{'/admin/benh-vien/' + ${benhVien.id}}" class="btn btn-success">Sửa</a>
                          <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/benh-vien/}+'\','+${benhVien.id}+')'">Xóa</button>
                     </td>
                 </tr>

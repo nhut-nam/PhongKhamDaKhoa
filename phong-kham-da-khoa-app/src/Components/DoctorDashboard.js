@@ -26,7 +26,7 @@ const DoctorDashboard = () => {
       case 'hoso':
         return (
           <div className="section-box">
-            <h2>Hồ sơ bác sĩ</h2>
+            <h2>Hồ sơ bệnh nhân</h2>
             <HoSoBenhNhan />
           </div>
         );

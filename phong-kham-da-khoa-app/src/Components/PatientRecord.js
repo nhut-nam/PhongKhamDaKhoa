@@ -20,6 +20,7 @@ const PatientRecord = () => {
                 console.error("Lỗi:", error);
             }
         };
+        if(user)
         fetchPatientRecords();
     }, []);
     const handleDelete = async (id) => {

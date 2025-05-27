@@ -8,36 +8,35 @@
     <main class="container">
         <div th:replace="~{base :: header}"></div>
         <h2 class="text-center text-info mt-1">Thêm lịch khám</h2>
-        
+
         <!-- Hiển thị thông báo lỗi nếu có -->
         <div th:if="${param.error}" class="alert alert-danger">
             <span th:if="${param.error[0] == 'date'}">Lỗi định dạng ngày hẹn. Vui lòng kiểm tra lại!</span>
             <span th:if="${param.error[0] == 'bacsi'}">Vui lòng chọn bác sĩ!</span>
-            <span th:if="${param.error[0] == 'dichvu'}">Vui lòng chọn dịch vụ khám!</span>
             <span th:if="${param.error[0] == 'hoso'}">Vui lòng chọn hồ sơ bệnh nhân!</span>
             <span th:if="${param.error[0] == 'hoso_not_exist'}">Hồ sơ bệnh nhân không tồn tại. Vui lòng chọn hồ sơ khác!</span>
             <span th:if="${param.error[0] == 'save'}">Có lỗi xảy ra khi lưu lịch khám. Vui lòng thử lại!</span>
             <span th:if="${param.error[0] == 'unknown'}">Đã có lỗi xảy ra. Vui lòng thử lại sau!</span>
             <span th:if="${param.error[0] == 'true'}">Có lỗi xảy ra. Vui lòng kiểm tra lại thông tin!</span>
         </div>
-        
-        <form th:object="${lichKham}" th:action="@{/lich-kham/add}" method="post">
+
+        <form th:object="${lichKham}" th:action="@{/admin/lich-kham/add}" method="post">
             <input type="hidden" th:field="*{id}" />
-            
+
             <div class="mb-3 mt-3">
                 <label for="ngayHen" class="form-label">Ngày giờ hẹn</label>
                 <input type="datetime-local" class="form-control" id="ngayHen" name="ngayHenStr" th:value="${lichKham.ngayHen != null ? #dates.format(lichKham.ngayHen, 'yyyy-MM-dd''T''HH:mm') : ''}" required>
             </div>
-            
+
             <div class="mb-3">
                 <label for="buoi" class="form-label">Buổi</label>
                 <select class="form-select" id="buoi" th:field="*{buoi}" required>
                     <option value="">-- Chọn buổi --</option>
-                    <option value="sáng">Sáng</option>
-                    <option value="chiều">Chiều</option>
+                    <option value="Sáng" th:selected="${buoi == 'Sáng'}">Sáng</option>
+                    <option value="Chiều" th:selected="${buoi == 'Chiều'}">Chiều</option>
                 </select>
             </div>
-            
+
             <div class="mb-3">
                 <label for="bacsiId" class="form-label">Bác sĩ</label>
                 <select class="form-select" id="bacsiId" th:field="*{bacsiId}" required>
@@ -48,7 +47,7 @@
                     </option>
                 </select>
             </div>
-            
+
             <div class="mb-3">
                 <label for="hosoId" class="form-label">Hồ sơ bệnh nhân</label>
                 <select class="form-select" id="hosoId" th:field="*{hosoId}" required>
@@ -59,33 +58,49 @@
                     </option>
                 </select>
             </div>
-            
+
             <div class="mb-3">
-                <label for="benhvienchuyenkhoadichvuId" class="form-label">Dịch vụ khám</label>
+                <label for="benhvienchuyenkhoadichvuId" class="form-label">Bệnh viện chuyên khoa dịch vụ</label>
                 <select class="form-select" id="benhvienchuyenkhoadichvuId" th:field="*{benhvienchuyenkhoadichvuId}" required>
-                    <option value="">-- Chọn dịch vụ khám --</option>
-                    <option th:each="dichVu : ${dsDichVu}" 
-                            th:value="${dichVu.id}" 
-                            th:text="${dichVu != null ? ((dichVu.getDichVu() != null ? dichVu.getDichVu().tenDichVu : 'Không có tên dịch vụ') + ' - ' + (dichVu.getBenhVienChuyenKhoa() != null && dichVu.getBenhVienChuyenKhoa().getBenhvienId() != null ? dichVu.getBenhVienChuyenKhoa().getBenhvienId().tenBenhVien : 'Không có tên bệnh viện')) : 'Dịch vụ không xác định'}">
+                    <option value="">-- Chọn bệnh viện chuyên khoa dịch vụ --</option>
+                    <option th:each="dv : ${dsDichVu}" 
+                            th:value="${dv.id}" 
+                            th:text="${dv.tenDichVu}">
                     </option>
                 </select>
             </div>
-            
+
+            <div class="mb-3">
+                <label for="loaiThanhToan" class="form-label">Loại thanh toán</label>
+                <select class="form-select" id="loaiThanhToan" th:field="*{loaiThanhToan}" required>
+                    <option value="">-- Chọn loại thanh toán --</option>
+                    <option value="THANH_TOAN_TAI_BENH_VIEN">Thanh toán tại bệnh viện</option>
+                    <option value="THANH_TOAN_TRUC_TUYEN">Thanh toán trực tuyến</option>
+                </select>
+            </div>
+
+
+
+            <div class="mb-3">
+                <label for="soTienNhan" class="form-label">Số tiền nhận</label>
+                <input type="number" class="form-control" id="soTienNhan" th:field="*{soTienNhan}" min="0" step="10000" required/>
+            </div>
+
             <div class="mb-3">
                 <label for="trangThai" class="form-label">Trạng thái</label>
                 <select class="form-select" id="trangThai" th:field="*{trangThai}" required>
                     <option value="">-- Chọn trạng thái --</option>
-                    <option value="0">Đã khám xong</option>
-                    <option value="1">Đã đặt</option>
-                    <option value="2">Đã hủy</option>
-                    <option value="3">Vắng mặt</option>
-                    <option value="4">Đã xác nhận</option>
+                    <option value="DA_KHAM_XONG">Đã khám xong</option>
+                    <option value="DA_THANH_TOAN">Đã thanh toán</option>
+                    <option value="DA_HUY">Đã hủy</option>
+                    <option value="VANG_MAT">Vắng mặt</option>
+                    <option value="CHUA_THANH_TOAN">Chưa thanh toán</option>
                 </select>
             </div>
-            
+
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Lưu</button>
-                <a th:href="@{/lich-kham}" class="btn btn-secondary">Hủy</a>
+                <a th:href="@{/admin/lich-kham}" class="btn btn-secondary">Hủy</a>
             </div>
         </form>
     </main>

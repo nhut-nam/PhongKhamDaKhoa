@@ -9,6 +9,7 @@ import com.nnhp.dto.LichKhamBacSiDTO;
 import com.nnhp.dto.LichKhamDTO;
 import com.nnhp.dto.LichKhamPatchDTO;
 import com.nnhp.dto.LichKhamRequestDTO;
+import com.nnhp.enums.TrangThaiLichKham;
 import com.nnhp.pojo.BenhVienChuyenKhoaDichVu;
 import com.nnhp.pojo.Hoso;
 import com.nnhp.pojo.Lichkham;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,24 +66,13 @@ public class ApiLichKhamController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/lich-kham/bac-si")
-    public ResponseEntity<List<LichKhamBacSiDTO>> getLichKhamBacSi(@RequestHeader(value = "Authorization", required = false) String authHeader,
+    @GetMapping("/secure/lich-kham/bac-si/{id}")
+    public ResponseEntity<List<LichKhamBacSiDTO>> getLichKhamBacSi(@PathVariable(name = "id") int bacSiId,
             @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam Map<String, String> params) {
-
         try {
-            // 1. Lấy JWT token từ header
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
-            String token = authHeader.replace("Bearer ", "");
-
-            // 2. Giải mã JWT để lấy username
-            String email = JwtUtils.validateTokenAndGetUsername(token);
-
-            // 3. Lấy thông tin bác sĩ từ userId
-            Taikhoan taiKhoan = taiKhoanService.getUserByEmail(email);
-            Bacsi bacSi = bacSiService.getBacSiById(taiKhoan.getId());
+            
+            Bacsi bacSi = bacSiService.getBacSiById(bacSiId);
             if (bacSi == null) {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
@@ -98,24 +89,42 @@ public class ApiLichKhamController {
         }
 
     }
-    
+
     @PostMapping("/tao-lich-kham")
     @CrossOrigin
     public ResponseEntity<LichKhamDTO> taoLichKham(@RequestBody LichKhamRequestDTO lichKhamRequestDTO) {
         return new ResponseEntity<>(LichKhamDTO.convertToDTO(this.lichKhamService.createLichKhamFromDTO(lichKhamRequestDTO)), HttpStatus.CREATED);
     }
-    
+
     @GetMapping("/lich-kham/{id}")
     @CrossOrigin
     public ResponseEntity<List<LichKhamDTO>> getLichKhamList(@PathVariable(name = "id") int userId) {
         return new ResponseEntity<>(LichKhamDTO.convertToDTOList(this.lichKhamService.getLichKhamListByUserId(userId)), HttpStatus.OK);
     }
-    
+
     @PatchMapping("/sua-lich-kham/{id}")
     @CrossOrigin
     public ResponseEntity<LichKhamDTO> suaLichKham(@PathVariable(name = "id") int id, @RequestBody LichKhamPatchDTO lkPatch) {
         Lichkham lk = this.lichKhamService.getLichKhamById(id);
         lk = lkPatch.updateAtrribute(lk, lkPatch);
         return new ResponseEntity<>(LichKhamDTO.convertToDTO(this.lichKhamService.addOrUpdateLichKham(lk)), HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/lich-kham/{id}/trang-thai")
+    public ResponseEntity<?> updateTrangThaiLichKham(@PathVariable("id") Integer id,
+            @RequestParam("trangThai") TrangThaiLichKham trangThai) {
+        try {
+            Lichkham lich = lichKhamService.getLichKhamById(id);
+            if (lich == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            lich.setTrangThai(trangThai);
+            lichKhamService.addOrUpdateLichKham(lich);
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi khi cập nhật trạng thái");
+        }
     }
 }

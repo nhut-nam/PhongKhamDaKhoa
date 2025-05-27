@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author hoang
  */
 @Controller
+@RequestMapping("/admin")
 public class LichKhamController {
     @Autowired
     private LichKhamService lichKhamService;
@@ -142,7 +144,7 @@ public class LichKhamController {
             return "lichkhamchange";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/lich-kham?error=true";
+            return "redirect:/admin/lich-kham?error=true";
         }
     }
     
@@ -167,7 +169,7 @@ public class LichKhamController {
             return "lichkhamchange";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/lich-kham?error=true";
+            return "redirect:/admin/lich-kham?error=true";
         }
     }
     
@@ -182,26 +184,25 @@ public class LichKhamController {
                 lichKham.setNgayHen(ngayHen);
             } catch (ParseException e) {
                 e.printStackTrace();
-                return "redirect:/lichkhamchange?error=date";
+                return "redirect:/admin/lichkhamchange?error=date";
             }
             
             // Kiểm tra các thuộc tính bắt buộc
             if (lichKham.getBacsiId() == null) {
-                return "redirect:/lichkhamchange?error=bacsi";
+                return "redirect:/admin/lichkhamchange?error=bacsi";
             }
             
             if (lichKham.getBenhvienchuyenkhoadichvuId() == null) {
-                return "redirect:/lichkhamchange?error=dichvu";
-            }
-            
+                return "redirect:/admin/lichkhamchange?error=dichvu";
+            }         
             // Kiểm tra hồ sơ
             if (lichKham.getHosoId() == null) {
-                return "redirect:/lichkhamchange?error=hoso";
+                return "redirect:/admin/lichkhamchange?error=hoso";
             }
             
             // Kiểm tra xem hồ sơ có tồn tại trong cơ sở dữ liệu không
             if (!hoSoService.kiemTraHoSoTonTai(lichKham.getHosoId().getId())) {
-                return "redirect:/lichkhamchange?error=hoso_not_exist";
+                return "redirect:/admin/lichkhamchange?error=hoso_not_exist";
             }
             
             // Lưu lịch khám
@@ -209,11 +210,11 @@ public class LichKhamController {
             if (savedLichKham != null) {
                 return "redirect:/lich-kham";
             } else {
-                return "redirect:/lichkhamchange?error=save";
+                return "redirect:/admin/lichkhamchange?error=save";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/lichkhamchange?error=unknown";
+            return "redirect:/admin/lichkhamchange?error=unknown";
         }
     }
 } 

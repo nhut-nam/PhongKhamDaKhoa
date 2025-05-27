@@ -34,7 +34,6 @@ public class BenhVienChuyenKhoaDichVuRepositoryImpl implements BenhVienChuyenKho
     public List<BenhVienChuyenKhoaDichVu> getDsBenhVienChuyenKhoaDichVu(Map<String, String> params) {
         try {
             String jpql = "SELECT b FROM BenhVienChuyenKhoaDichVu b " +
-                         "LEFT JOIN FETCH b.dichvuId " +
                          "LEFT JOIN FETCH b.benhvienchuyenkhoaId";
             
             Query query = this.entityManager.createQuery(jpql);

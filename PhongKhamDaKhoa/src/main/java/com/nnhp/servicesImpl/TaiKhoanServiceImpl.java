@@ -247,4 +247,9 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
         return this.tkRepo.getListUserByTrangThai(trangThai);
     }
 
+    @Override
+    public boolean authenticateRole(String email, String password) {
+          return this.tkRepo.authenticateRole(email, password);
+    }
+
 }

@@ -25,6 +25,7 @@ import LichKham from './Components/DoctorSchedule';
 import CapNhatHoSo from './Components/UpdateHoSoBenhNhan';
 import BookingSummary from './Components/Appointment';
 import DoctorDetail from './Components/DoctorDetail';
+import CallWrapper from './Components/RoomCall';
 
 function init(initialUser) {
   if (!initialUser) {
@@ -51,6 +52,7 @@ function App() {
       <MyDispatcherContext.Provider value={dispatch}>
         <BrowserRouter>
         <Header />
+        
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -68,6 +70,8 @@ function App() {
             <Route path="/dat-lich-kham" element={<BookingPage />} />
             <Route path="/lich-kham" element={<BookingSummary />} />
             <Route path="/chi-tiet-bac-si" element={<DoctorDetail />} />
+            <Route path="/call/:bacsiId/:benhNhanId" element={<CallWrapper />} />
+
         </Routes>
         <Footer />
         </BrowserRouter>

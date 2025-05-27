@@ -4,6 +4,7 @@
  */
 package com.nnhp.repositoriesImpl;
 
+import com.nnhp.enums.TrangThaiLichKham;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Benhvien;
 import com.nnhp.pojo.Chuyenkhoa;
@@ -163,7 +164,7 @@ public class ThongKeAdminRepositoryImpl implements ThongKeAdminRepository {
             q.where(
                 b.and(
                     b.between(root.get("ngayHen"), tuNgay, denNgay),
-                    b.equal(root.get("trangThai"), 0) // Chỉ tính các lịch khám đã hoàn thành
+                    b.equal(root.get("trangThai"),TrangThaiLichKham.DA_KHAM_XONG) // Chỉ tính các lịch khám đã hoàn thành
                 )
             );
         }
@@ -193,7 +194,7 @@ public class ThongKeAdminRepositoryImpl implements ThongKeAdminRepository {
             q.where(
                 b.and(
                     b.between(root.get("ngayHen"), tuNgay, denNgay),
-                    b.equal(root.get("trangThai"), 0) // Chỉ tính các lịch khám đã hoàn thành
+                    b.equal(root.get("trangThai"), TrangThaiLichKham.DA_KHAM_XONG) // Chỉ tính các lịch khám đã hoàn thành
                 )
             );
         }
@@ -226,7 +227,7 @@ public class ThongKeAdminRepositoryImpl implements ThongKeAdminRepository {
             q.where(
                 b.and(
                     b.between(root.get("ngayHen"), tuNgay, denNgay),
-                    b.equal(root.get("trangThai"), 0) // Chỉ tính các lịch khám đã hoàn thành
+                    b.equal(root.get("trangThai"), TrangThaiLichKham.DA_KHAM_XONG) // Chỉ tính các lịch khám đã hoàn thành
                 )
             );
         }
@@ -255,7 +256,7 @@ public class ThongKeAdminRepositoryImpl implements ThongKeAdminRepository {
             q.where(
                 b.and(
                     b.between(root.get("ngayHen"), tuNgay, denNgay),
-                    b.equal(root.get("trangThai"), 0) // Chỉ tính các lịch khám đã hoàn thành
+                    b.equal(root.get("trangThai"), TrangThaiLichKham.DA_KHAM_XONG) // Chỉ tính các lịch khám đã hoàn thành
                 )
             );
         }
@@ -282,7 +283,7 @@ public class ThongKeAdminRepositoryImpl implements ThongKeAdminRepository {
         q.where(
             b.and(
                 b.equal(b.function("YEAR", Integer.class, root.get("ngayHen")), nam),
-                b.equal(root.get("trangThai"), 0) // Chỉ tính các lịch khám đã hoàn thành
+                b.equal(root.get("trangThai"), TrangThaiLichKham.DA_KHAM_XONG) // Chỉ tính các lịch khám đã hoàn thành
             )
         );
         
@@ -306,7 +307,7 @@ public class ThongKeAdminRepositoryImpl implements ThongKeAdminRepository {
             b.sum(root.get("benhvienchuyenkhoadichvuId").get("giaTien"))
         );
         
-        q.where(b.equal(root.get("trangThai"), 0)); // Chỉ tính các lịch khám đã hoàn thành
+        q.where(b.equal(root.get("trangThai"), TrangThaiLichKham.DA_KHAM_XONG)); // Chỉ tính các lịch khám đã hoàn thành
         
         q.groupBy(b.function("year", Integer.class, root.get("ngayHen")));
         q.orderBy(b.asc(b.function("year", Integer.class, root.get("ngayHen"))));

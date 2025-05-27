@@ -6,19 +6,21 @@ package com.nnhp.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.nnhp.filters.JwtFilter;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -53,17 +55,26 @@ public class SpringSecurityConfigs {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
             Exception {
-                http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth
-                        -> auth.requestMatchers("/", "/index", "/benh-vien", "/chuyen-khoa", "/lich-kham", "/dich-vu", "/ho-so", "/admin-tai-khoan", "/thong-ke", "/benhvien-chuyenkhoa").hasRole("ADMIN")
-                        .anyRequest().permitAll())
-                        .formLogin(form -> form.loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/", true)
-                        .failureUrl("/login?error=true").permitAll())
-                        .logout(logout -> logout.logoutSuccessUrl("/login").permitAll());
-                              
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/", "/login").authenticated()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/login", "/api/register", "/api/bac-si", "/api/benh-nhan", "/api/quan-tri").permitAll()
+                .requestMatchers("/api/secure/users/**").hasRole("USER")
+                .requestMatchers("/api/secure/doctors/**").hasRole("DOCTOR")
+                .requestMatchers("/api/secure/**").authenticated() // phải có dấu /
+                .requestMatchers("/api/**").permitAll() // để sau cùng nếu muốn những api khác không cần auth
+                .anyRequest().permitAll()
+                )
+                .addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form.loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login?error=true").permitAll())
+                .logout(logout -> logout.logoutSuccessUrl("/login").permitAll());
+
 //                http
 //                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 //                .csrf(AbstractHttpConfigurer::disable)

@@ -1,0 +1,115 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý bằng cấp</title>
+    <th:block th:replace="~{base :: bootstrap}"></th:block>
+</head>
+<body>
+    <main class="container">
+        <div th:replace="~{base :: header}"></div>
+        <h2 class="text-center text-info mt-1">Danh sách bằng cấp</h2>
+
+        <form th:action="@{/admin/bang-cap}" id="searchForm">
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="date" class="form-control" name="ngayCap" placeholder="Ngày cấp"
+                           th:value="${param.ngayCap}" />
+                </div>
+                <div class="col-md-3">
+                    <input type="date" class="form-control" name="ngayHetHan" placeholder="Ngày hết hạn"
+                           th:value="${param.ngayHetHan}" />
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="trangThai">
+                        <option value="">-- Trạng thái --</option>
+                        <option value="HET_HAN" th:selected="${param.trangThai == 'HET_HAN'}">Hết hiệu lưc</option>
+                        <option value="CON_HAN" th:selected="${param.trangThai == 'CON_HAN'}">Còn hiệu lực</option>
+                        <option value="THU_HOI" th:selected="${param.trangThai == 'THU_HOI'}">Thu hồi</option>
+                        <option value="DOI_DUYET" th:selected="${param.trangThai == 'DOI_DUYET'}">Đợi duyệt</option>
+                    </select>
+
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="bacsiId">
+                        <option value="">-- Bác sĩ --</option>
+                        <option th:each="bs : ${dsBacSi}" 
+                                th:value="${bs.id}" 
+                                th:text="${bs.hoNguoiDung + ' ' + bs.tenNguoiDung}" 
+                                th:selected="${param.bacsiId == bs.id + ''}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <select class="form-select" name="orderBy">
+                        <option value="" disabled selected>-- Sắp xếp theo --</option>
+                        <option value="ngayCap" th:selected="${param.orderBy == 'ngayCap'}">Ngày cấp</option>
+                        <option value="ngayHetHan" th:selected="${param.orderBy == 'ngayHetHan'}">Ngày hết hạn</option>
+                        <option value="trangThai" th:selected="${param.orderBy == 'trangThai'}">Trạng thái</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="sort">
+                        <option value="asc" th:selected="${param.sort == 'asc' || param.sort == null}">Tăng dần</option>
+                        <option value="desc" th:selected="${param.sort == 'desc'}">Giảm dần</option>
+                    </select>
+                </div>
+                <div class="col-md-6 text-end">
+                    <button class="btn btn-info" type="submit">Tìm kiếm</button>
+                    <a th:href="@{/admin/bang-cap}" class="btn btn-secondary">Làm mới</a>
+                </div>
+            </div>
+        </form>
+
+        <hr />
+
+        <a th:href="@{/admin/bangcapchange}" class="btn btn-info mt-2 mb-2">Thêm bằng cấp</a>
+
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>STT</th>
+                    <th>Bác sĩ</th>
+                    <th>Ngày cấp</th>
+                    <th>Ngày hết hạn</th>
+                    <th>Cơ quan cấp</th>
+                    <th>Hình ảnh</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="bc, iterStat : ${dsBangCap}">
+                    <td th:text="${iterStat.count}"></td>
+                    <td th:text="${bc.bacsiId.hoNguoiDung + ' ' + bc.bacsiId.tenNguoiDung}"></td>
+                    <td th:text="${#dates.format(bc.ngayCap, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${#dates.format(bc.ngayHetHan, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${bc.coQuanCap}"></td>
+                    <td>       
+                         <a th:href="${bc.hinhMatTruoc}" target="_blank">
+                        <img th:src="${bc.hinhMatTruoc}" width="100" class="img-thumbnail"/>
+                         </a>
+                    </td> 
+                    <td th:switch="${bc.trangThai.name()}">
+                        <span th:case="'CON_HAN'" class="badge bg-success">Còn hiệu lực</span>
+                        <span th:case="'HET_HAN'" class="badge bg-danger">Hết hiệu lực</span>
+                        <span th:case="'THU_HOI'" class="badge bg-warning">Thu hồi</span>
+                        <span th:case="'DOI_DUYET'" class="badge bg-primary">Đợi duyệt</span>
+                        <span th:case="*">Không xác định</span>
+                    </td>
+
+                    <td>
+                        <a th:href="@{'/admin/bang-cap/' + ${bc.id}}" class="btn btn-success">Sửa</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(dsBangCap)}">
+                    <td colspan="6" class="text-center">Không có dữ liệu</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
+

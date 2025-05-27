@@ -8,7 +8,7 @@
     <main class="container">
         <div th:replace="~{base :: header}"></div>
         <h2 class="text-center text-info mt-1">Danh sách tài khoản</h2>
-        <form th:action="@{/admin-tai-khoan}" id="searchForm">
+        <form th:action="@{/admin/admin-tai-khoan}" id="searchForm">
             <div class="row">
                 <div class="col-4">
                     <div class="mb-3 mt-3">
@@ -49,12 +49,12 @@
             </div>
             <div class="mb-3 mt-3">
                 <button class="btn btn-info" type="submit">Tìm kiếm</button>
-                <a th:href="@{/admin-tai-khoan}" class="btn btn-secondary">Làm mới</a>
+                <a th:href="@{/admin/admin-tai-khoan}" class="btn btn-secondary">Làm mới</a>
             </div>
         </form>
         <hr  />   
 
-        <a th:href="@{/taikhoanchange}" class="btn btn-info mt-2 mb-2">Thêm tài khoản</a>
+        <a th:href="@{/admin/taikhoanchange}" class="btn btn-info mt-2 mb-2">Thêm tài khoản</a>
 
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
@@ -100,7 +100,7 @@
                         <img th:src="${taiKhoan.avatar}" width="100" />
                     </td> 
                     <td>
-                        <a th:href="@{'/tai-khoan/' + ${taiKhoan.email}}" class="btn btn-success">Sửa</a>
+                        <a th:href="@{'/admin/tai-khoan/' + ${taiKhoan.email}}" class="btn btn-success">Sửa</a>
                         <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/tai-khoan/}+'\','+${taiKhoan.id}+')'">Xóa</button>
                     </td>
                 </tr>

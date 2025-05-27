@@ -8,7 +8,7 @@
     <main class="container">
         <div th:replace="base :: header"></div>
         <h2 class="text-center text-info mt-1">Danh sách bác sĩ</h2>
-         <form th:action="@{/bac-si}" id="searchForm">
+         <form th:action="@{admin/bac-si}" id="searchForm">
             <div class="row">
                 <div class="col-6">
                     <div class="mb-3 mt-3">
@@ -21,7 +21,7 @@
             </div>
         </form>
         <hr  />    
-        <a th:href="@{/bacsichange}" class="btn btn-info mt-2 mb-2">Thêm bác sĩ</a>
+        <a th:href="@{/admin/bacsichange}" class="btn btn-info mt-2 mb-2">Thêm bác sĩ</a>
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>
@@ -57,7 +57,7 @@
                         <img th:src="${bacSi.getAvatar()}" width="200">
                     </td>
                     <td>
-                         <a th:href="@{'/bac-si/' + ${bacSi.id}}" class="btn btn-success">Sửa</a>
+                         <a th:href="@{'/admin/bac-si/' + ${bacSi.id}}" class="btn btn-success">Sửa</a>
                          <button class="btn btn-danger" th:onclick="'deleteDoiTuong(\''+@{/api/bac-si/}+'\','+${bacSi.id}+')'">Xóa</button>
                     </td>
                 </tr>

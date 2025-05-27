@@ -23,6 +23,8 @@ public interface TaiKhoanRepository {
     List<Taikhoan> getTaiKhoanList();
     Taikhoan addTaiKhoan(Taikhoan tk);
     ThongBao authenticate(String email, String matKhau);
+    boolean authenticateRole(String email,String password);
+
     void deleteUser(int id);
     Taikhoan addOrUpdateTaiKhoan(Taikhoan tk);
     List<Taikhoan> getDsTaiKhoan(Map<String, String> params, String role);

@@ -11,6 +11,6 @@ import java.util.List;
  * @author hoang
  */
 public interface ThongKeBacSiService {
-    List<Object[]> thongKeSoBenhNhanDaKham(String loaiThongKe, int nam, Integer bacSiId);
-    List<Object[]> thongKeLoaiBenhPhoBien(String loaiThongKe, int nam, Integer bacSiId);
+    List<Object[]> thongKeSoBenhNhanDaKham(String loaiThongKe, Integer nam, Integer bacSiId);
+    List<Object[]> thongKeLoaiBenhPhoBien(String loaiThongKe, Integer nam, Integer bacSiId);
 }

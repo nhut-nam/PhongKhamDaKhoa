@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author hoang
  */
 @Controller
+@RequestMapping("/admin")
 public class ChuyenKhoaController {
     @Autowired
     private ChuyenKhoaService chuyenKhoaService;
@@ -59,7 +61,7 @@ public class ChuyenKhoaController {
     @PostMapping("/chuyen-khoa/add")
     public String addChuyenKhoa(@ModelAttribute(value = "chuyenKhoa") Chuyenkhoa c) {
         this.chuyenKhoaService.addOrUpdateChuyenKhoa(c);
-        return "redirect:/chuyen-khoa";
+        return "redirect:/admin/chuyen-khoa";
     }
     
     @GetMapping("/chuyen-khoa/{chuyenkhoaId}")
@@ -90,7 +92,7 @@ public class ChuyenKhoaController {
        
         if(benhVienChuyenKhoaService.tonTaiBenhVienIdChuyenKhoaId(benhVienId, chuyenKhoaId))
         {  redirectAttributes.addFlashAttribute("errorMessage", "Liên kết giữa bệnh viện và chuyên khoa đã tồn tại!");
-        return "redirect:/benhvien-chuyenkhoa";
+        return "redirect:/admin/benhvien-chuyenkhoa";
         }
         
         Benhvien bv = benhVienService.getBenhVienById(benhVienId);
@@ -100,12 +102,12 @@ public class ChuyenKhoaController {
         
         benhVienChuyenKhoaService.addOrUpdate(bvck);
         
-        return "redirect:/benhvien-chuyenkhoa";
+        return "redirect:/admin/benhvien-chuyenkhoa";
     }
     
     @GetMapping("/benhvien-chuyenkhoa/delete/{id}")
     public String deleteBenhVienChuyenKhoa(@PathVariable(value = "id") int id) {
         benhVienChuyenKhoaService.delete(id);
-        return "redirect:/benhvien-chuyenkhoa";
+        return "redirect:/admin/benhvien-chuyenkhoa";
     }
 }

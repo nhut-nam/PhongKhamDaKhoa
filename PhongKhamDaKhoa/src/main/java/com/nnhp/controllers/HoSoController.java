@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author hoang
  */
 @Controller
+@RequestMapping("/admin")
 public class HoSoController {
     @Autowired
     private HoSoService hoSoService;
@@ -150,24 +152,24 @@ public class HoSoController {
             
             // Kiểm tra xem bệnh nhân có tồn tại không
             if (hoSo.getBenhnhanId() == null) {
-                return "redirect:/hosochange?error=no_patient";
+                return "redirect:/admin/hosochange?error=no_patient";
             }
             
             // Kiểm tra sự tồn tại của bệnh nhân trong cơ sở dữ liệu
             Benhnhan bn = benhNhanService.getBenhNhanById(hoSo.getBenhnhanId().getId());
             if (bn == null) {
-                return "redirect:/hosochange?error=invalid_patient";
+                return "redirect:/admin/hosochange?error=invalid_patient";
             }
             
             Hoso savedHoSo = this.hoSoService.addOrUpdateHoSo(hoSo);
             if (savedHoSo != null) {
                 return "redirect:/ho-so";
             } else {
-                return "redirect:/hosochange?error=save_failed";
+                return "redirect:/admin/hosochange?error=save_failed";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/hosochange?error=exception";
+            return "redirect:/admin/hosochange?error=exception";
         }
     }
 } 

@@ -19,18 +19,53 @@ import java.util.Date;
  * @author namnh
  */
 public class JwtUtils {
+
     private static final String SECRET = "12345678901234567890123456789012";
     private static final long EXPIRATION_MS = 86400000;
-    
-    public static String generateToken(String email) throws Exception {
+
+//    public static String generateToken(String email) throws Exception {
+//        JWSSigner signer = new MACSigner(SECRET);
+//        
+//        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+//                .subject(email)
+//                .expirationTime(new Date(System.currentTimeMillis() + EXPIRATION_MS))
+//                .issueTime(new Date())
+//                .build();
+//        
+//        SignedJWT signedJWT = new SignedJWT(
+//                new JWSHeader(JWSAlgorithm.HS256),
+//                claimsSet
+//        );
+//
+//        signedJWT.sign(signer);
+//
+//        return signedJWT.serialize();
+//    }
+//    
+//    public static String validateTokenAndGetUsername(String token) throws Exception {
+//        SignedJWT signedJWT = SignedJWT.parse(token);
+//        JWSVerifier verifier = new MACVerifier(SECRET);
+//
+//        if (signedJWT.verify(verifier)) {
+//            Date expiration = signedJWT.getJWTClaimsSet().getExpirationTime();
+//            if (expiration.after(new Date())) {
+//                return signedJWT.getJWTClaimsSet().getSubject();
+//            }
+//        }
+//        return null;
+//    }
+    public static String generateToken(String username, String role) throws Exception {
         JWSSigner signer = new MACSigner(SECRET);
+        //Tạo JWT chứa thông tin:
+        //token jwt co 3 phan
         
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .subject(email)
+                .subject(username)
+                .claim("role", role) // ✅ Thêm role ở đây
                 .expirationTime(new Date(System.currentTimeMillis() + EXPIRATION_MS))
                 .issueTime(new Date())
                 .build();
-        
+
         SignedJWT signedJWT = new SignedJWT(
                 new JWSHeader(JWSAlgorithm.HS256),
                 claimsSet
@@ -40,7 +75,7 @@ public class JwtUtils {
 
         return signedJWT.serialize();
     }
-    
+
     public static String validateTokenAndGetUsername(String token) throws Exception {
         SignedJWT signedJWT = SignedJWT.parse(token);
         JWSVerifier verifier = new MACVerifier(SECRET);
@@ -54,4 +89,10 @@ public class JwtUtils {
         return null;
     }
 
+    public static String getRoleFromToken(String token) throws Exception {
+        SignedJWT signedJWT = SignedJWT.parse(token);
+        JWTClaimsSet claims = signedJWT.getJWTClaimsSet();
+
+        return claims.getStringClaim("role");
+    }
 }

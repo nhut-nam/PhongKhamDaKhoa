@@ -7,6 +7,7 @@ package com.nnhp.repositoriesImpl;
 import com.nnhp.pojo.Benhnhan;
 import com.nnhp.pojo.Hoso;
 import com.nnhp.dto.LichKhamBacSiDTO;
+import com.nnhp.enums.TrangThaiLichKham;
 import com.nnhp.pojo.Lichkham;
 import com.nnhp.repositories.BacSiRepository;
 import com.nnhp.repositories.LichKhamRepository;
@@ -39,13 +40,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class LichKhamRepositoryImpl implements LichKhamRepository {
+
     @Autowired
     private LocalSessionFactoryBean factory;
     private LichKhamRepository lichKhamRepo;
     private BacSiRepository bacSiRepo;
-    
+
     private static final int PAGE_SIZE = 8;
-    
+
     @Override
     public List<Lichkham> getDsLichKham(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -60,21 +62,21 @@ public class LichKhamRepositoryImpl implements LichKhamRepository {
             // Tìm theo trạng thái
             String trangThai = params.get("trangThai");
             if (trangThai != null && !trangThai.isEmpty()) {
-                predicates.add(b.equal(root.get("trangThai"), Short.parseShort(trangThai)));
+                predicates.add(b.equal(root.get("trangThai"),trangThai));
             }
-            
+
             // Tìm theo buổi (sáng/chiều)
             String buoi = params.get("buoi");
             if (buoi != null && !buoi.isEmpty()) {
                 predicates.add(b.like(root.get("buoi"), buoi));
             }
-            
+
             // Tìm theo bác sĩ
             String bacSiId = params.get("bacsiId");
             if (bacSiId != null && !bacSiId.isEmpty()) {
                 predicates.add(b.equal(root.get("bacsiId").get("id"), Integer.parseInt(bacSiId)));
             }
-            
+
             // Tìm theo bệnh viện chuyên khoa dịch vụ
             String bvckdvId = params.get("bvckdvId");
             if (bvckdvId != null && !bvckdvId.isEmpty()) {
@@ -144,18 +146,18 @@ public class LichKhamRepositoryImpl implements LichKhamRepository {
         CriteriaQuery<LichKhamBacSiDTO> q = b.createQuery(LichKhamBacSiDTO.class);
         Root<Lichkham> root = q.from(Lichkham.class);
         Join<Lichkham, Hoso> benhNhanJoin = root.join("hosoId");
-        
+
         q.select(b.construct(
-        LichKhamBacSiDTO.class,
-        root.get("id"),
-        benhNhanJoin.get("hoTen"),
-        benhNhanJoin.get("email"),
-        benhNhanJoin.get("soDienThoai"),
-        benhNhanJoin.get("gioiTinh"),
-        root.get("ngayHen"),
-        root.get("ngayTao"),
-        root.get("trangThai"),
-        root.get("buoi")
+                LichKhamBacSiDTO.class,
+                root.get("id"),
+                benhNhanJoin.get("hoTen"),
+                benhNhanJoin.get("email"),
+                benhNhanJoin.get("soDienThoai"),
+                benhNhanJoin.get("gioiTinh"),
+                root.get("ngayHen"),
+                root.get("ngayTao"),
+                root.get("trangThai"),
+                root.get("buoi")
         ));
 
         List<Predicate> predicates = new ArrayList<>();
@@ -169,8 +171,19 @@ public class LichKhamRepositoryImpl implements LichKhamRepository {
             LocalDateTime end = date.atTime(LocalTime.MAX);
             predicates.add(b.between(root.get("ngayHen"), start, end));
         }
-        
+
         if (params != null) {
+            // Lọc theo trạng thái
+            String trangThaiStr = params.get("trangThai");
+            if (trangThaiStr != null && !trangThaiStr.isEmpty()) {
+                try {
+                    TrangThaiLichKham trangThai = TrangThaiLichKham.valueOf(trangThaiStr);
+                    predicates.add(b.equal(root.get("trangThai"), trangThai));
+                } catch (IllegalArgumentException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
             // Sắp xếp kết quả
             String orderBy = params.get("orderBy");
             if (orderBy != null && !orderBy.isEmpty()) {
@@ -181,7 +194,7 @@ public class LichKhamRepositoryImpl implements LichKhamRepository {
                 } else {
                     sortPath = root.get(orderBy);
                 }
-                
+
                 if (sort != null && sort.equalsIgnoreCase("desc")) {
                     q.orderBy(b.desc(sortPath));
                 } else {
@@ -189,11 +202,11 @@ public class LichKhamRepositoryImpl implements LichKhamRepository {
                 }
             }
         }
-        
+
         q.where(predicates.toArray(Predicate[]::new));
 
         Query query = s.createQuery(q);
-        
+
         if (params != null && params.containsKey("page")) {
             int page = Integer.parseInt(params.get("page"));
             int start = (page - 1) * PAGE_SIZE;
@@ -211,16 +224,16 @@ public class LichKhamRepositoryImpl implements LichKhamRepository {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Lichkham> q = b.createQuery(Lichkham.class);
-        
+
         Root<Lichkham> root = q.from(Lichkham.class);
         Join<Lichkham, Hoso> joinLichKham = root.join("hosoId");
-        
+
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(b.equal(joinLichKham.get("benhnhanId").get("id"), userId));
-        
+
         q.where(predicates.toArray(Predicate[]::new));
-        
+
         Query query = s.createQuery(q);
         return query.getResultList();
     }
-} 
+}

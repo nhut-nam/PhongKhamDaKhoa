@@ -18,7 +18,7 @@
             <span th:if="${param.error[0] == 'exception'}">Đã xảy ra lỗi. Vui lòng kiểm tra lại thông tin!</span>
         </div>
         
-        <form th:object="${hoSo}" th:action="@{/ho-so/add}" method="post">
+        <form th:object="${hoSo}" th:action="@{/admin/ho-so/add}" method="post">
             <input type="hidden" th:field="*{id}" />
             
             <div class="mb-3 mt-3">
@@ -67,7 +67,7 @@
             
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Lưu</button>
-                <a th:href="@{/ho-so}" class="btn btn-secondary">Hủy</a>
+                <a th:href="@{/admin/ho-so}" class="btn btn-secondary">Hủy</a>
             </div>
         </form>
     </main>

@@ -23,6 +23,7 @@ public interface TaiKhoanService extends UserDetailsService {
     Taikhoan getUserByEmailByTrangThai(String email, TrangThaiTaiKhoan trangThai);
     Taikhoan addTaiKhoan(Map<String, String> params, Role role);
     ThongBao authenticate(String email, String matKhau);
+    boolean authenticateRole(String email,String password);
     Taikhoan addTaiKhoan(Taikhoan tk);
     void deleteUser(int id);
     Taikhoan getUserById(int id);

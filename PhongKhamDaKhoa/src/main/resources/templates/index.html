@@ -15,7 +15,7 @@
                     <div class="card-body">
                         <h2 class="card-title">Quản lý bệnh viện</h2>
                         <p class="card-text">Quản lý thông tin các bệnh viện trong hệ thống.</p>
-                        <a th:href="@{/benh-vien}" class="btn btn-primary">Xem bệnh viện</a>
+                        <a th:href="@{/admin/benh-vien}" class="btn btn-primary">Xem bệnh viện</a>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                     <div class="card-body">
                         <h2 class="card-title">Quản lý chuyên khoa</h2>
                         <p class="card-text">Quản lý danh sách các chuyên khoa y tế.</p>
-                        <a th:href="@{/chuyen-khoa}" class="btn btn-primary">Xem chuyên khoa</a>
+                        <a th:href="@{/admin/chuyen-khoa}" class="btn btn-primary">Xem chuyên khoa</a>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     <div class="card-body">
                         <h2 class="card-title">Quản lý tài khoản</h2>
                         <p class="card-text">Quản lý thông tin tài khoản bác sĩ và bệnh nhân.</p>
-                        <a th:href="@{/admin-tai-khoan}" class="btn btn-primary">Xem tài khoản</a>
+                        <a th:href="@{/admin/admin-tai-khoan}" class="btn btn-primary">Xem tài khoản</a>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     <div class="card-body">
                         <h2 class="card-title">Lịch khám</h2>
                         <p class="card-text">Xem và quản lý lịch khám bệnh của các bệnh nhân.</p>
-                        <a th:href="@{/lich-kham}" class="btn btn-primary">Xem lịch khám</a>
+                        <a th:href="@{/admin/lich-kham}" class="btn btn-primary">Xem lịch khám</a>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                     <div class="card-body">
                         <h2 class="card-title">Hồ sơ bệnh nhân</h2>
                         <p class="card-text">Quản lý hồ sơ bệnh nhân và lịch sử khám.</p>
-                        <a th:href="@{/ho-so}" class="btn btn-primary">Xem hồ sơ</a>
+                        <a th:href="@{/admin/ho-so}" class="btn btn-primary">Xem hồ sơ</a>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,16 @@
                     <div class="card-body">
                         <h2 class="card-title">Xét duyệt tài khoản</h2>
                         <p class="card-text">Phê duyệt, kích hoạt hoặc từ chối tài khoản người dùng mới.</p>
-                        <a th:href="@{/xet-duyet-tai-khoan}" class="btn btn-primary">Xét duyệt</a>
+                        <a th:href="@{/admin/xet-duyet-tai-khoan}" class="btn btn-primary">Xét duyệt</a>
+                    </div>
+                </div>
+            </div>
+             <div class="col-md-4" sec:authorize="isAuthenticated()">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Xét duyệt bằng cấp</h2>
+                        <p class="card-text">Phê duyệt hoặc từ chối bằng cấp của bác sĩ.</p>
+                        <a th:href="@{/admin/bang-cap}" class="btn btn-primary">Xét duyệt</a>
                     </div>
                 </div>
             </div>

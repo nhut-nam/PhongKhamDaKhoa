@@ -4,6 +4,8 @@
  */
 package com.nnhp.controllers;
 
+import com.nnhp.dto.LichKhamBacSiDTO;
+import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Taikhoan;
 import com.nnhp.services.BacSiService;
 import com.nnhp.services.TaiKhoanService;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
+
 /**
  *
  * @author hoang
@@ -31,6 +35,7 @@ import org.springframework.http.HttpStatus;
 @RequestMapping("/api")
 @CrossOrigin
 public class ApiThongKeBacSiController {
+
     @Autowired
     private BacSiService bacSiService;
     @Autowired
@@ -38,82 +43,60 @@ public class ApiThongKeBacSiController {
     @Autowired
     private TaiKhoanService taiKhoanService;
 
-    @GetMapping("/bac-si/thong-ke-so-luong")
-    public ResponseEntity<?> getThongKeSoBenhNhan(@RequestHeader(value = "Authorization", required = false) String authHeader,
-            @RequestParam(name="nam") int nam,
-            @RequestParam(name="loaiThongKe") String loaiThongKe) {
-        
+    @GetMapping("/secure/bac-si/{id}/thong-ke-so-luong")
+    public ResponseEntity<?> getThongKeSoBenhNhan(@PathVariable(name = "id") Integer bacSiId,
+            @RequestParam(name = "nam" , required = false) Integer nam,
+            @RequestParam(name = "loaiThongKe", required = false) String loaiThongKe) {
+
         try {
-        // 1. Lấy JWT token từ header
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            Bacsi bacSi = bacSiService.getBacSiById(bacSiId);
+            if (bacSi == null) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+
+            List<Object[]> thongKe = thongKeService.thongKeSoBenhNhanDaKham(loaiThongKe, nam, bacSi.getId());
+
+            List<Map<String, Object>> result = thongKe.stream().map(row -> {
+                Map<String, Object> m = new HashMap<>();
+                m.put("thoiGian", row[0]);     // Tháng/Quý/Năm
+                m.put("soLuong", row[1]);      // Số bệnh nhân đã khám
+                return m;
+            }).collect(Collectors.toList());
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        String token = authHeader.replace("Bearer ", "");
-
-        // 2. Giải mã JWT để lấy username
-        String email = JwtUtils.validateTokenAndGetUsername(token);
-
-        // 3. Lấy thông tin bác sĩ từ user
-        Taikhoan user = taiKhoanService.getUserByEmail(email);
-        if (user == null || user.getId() == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        int bacSiId = user.getId();
-        List<Object[]> thongKe = thongKeService.thongKeSoBenhNhanDaKham(loaiThongKe, nam, bacSiId);
-        
-        List<Map<String, Object>> result = thongKe.stream().map(row -> {
-            Map<String, Object> m = new HashMap<>();
-            m.put("thoiGian", row[0]);     // Tháng/Quý/Năm
-            m.put("soLuong", row[1]);      // Số bệnh nhân đã khám
-            return m;
-        }).collect(Collectors.toList());
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-}
-    
-    @GetMapping("/bac-si/thong-ke-loai-benh")
-    public ResponseEntity<?> getThongKeBenhPhoBien(@RequestHeader(value = "Authorization", required = false) String authHeader,
-            @RequestParam(name="nam") int nam,
-            @RequestParam(name="loaiThongKe") String loaiThongKe) {
-        
+
+    @GetMapping("/secure/bac-si/{id}/thong-ke-loai-benh")
+    public ResponseEntity<?> getThongKeBenhPhoBien(@PathVariable(name = "id") Integer bacSiId,
+            @RequestParam(name = "nam" , required = false) Integer nam,
+            @RequestParam(name = "loaiThongKe" , required = false) String loaiThongKe) {
+
         try {
-        // 1. Lấy JWT token từ header
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            Bacsi bacSi = bacSiService.getBacSiById(bacSiId);
+            if (bacSi == null) {
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+
+            List<Object[]> thongKe = thongKeService.thongKeLoaiBenhPhoBien(loaiThongKe, nam, bacSiId);
+
+            List<Map<String, Object>> result = thongKe.stream().map(row -> {
+                Map<String, Object> m = new HashMap<>();
+                m.put("thoiGian", row[0]);     // Tháng/Quý/Năm
+                m.put("soLuong", row[1]);
+                m.put("chuanDoan", row[2]);// Số bệnh nhân đã khám
+                return m;
+            }).collect(Collectors.toList());
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        String token = authHeader.replace("Bearer ", "");
-
-        // 2. Giải mã JWT để lấy username
-        String email = JwtUtils.validateTokenAndGetUsername(token);
-
-        // 3. Lấy thông tin bác sĩ từ user
-        Taikhoan user = taiKhoanService.getUserByEmail(email);
-        if (user == null || user.getId() == null) {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        int bacSiId = user.getId();
-        List<Object[]> thongKe = thongKeService.thongKeLoaiBenhPhoBien(loaiThongKe, nam, bacSiId);
-        
-        List<Map<String, Object>> result = thongKe.stream().map(row -> {
-            Map<String, Object> m = new HashMap<>();
-            m.put("thoiGian", row[0]);     // Tháng/Quý/Năm
-            m.put("soLuong", row[1]);
-            m.put("chuanDoan", row[2]);// Số bệnh nhân đã khám
-            return m;
-        }).collect(Collectors.toList());
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-
-
-    } catch (Exception e) {
-        e.printStackTrace();
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
     }
 }

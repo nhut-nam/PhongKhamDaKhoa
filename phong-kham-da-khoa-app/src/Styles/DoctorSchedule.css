@@ -37,3 +37,44 @@
   color: #e74c3c;
   font-weight: bold;
 }
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.filters input,
+.filters select {
+  padding: 5px 10px;
+}
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+.status-true {
+  color: green;
+  font-weight: bold;
+}
+
+.status-false {
+  color: red;
+  font-weight: bold;
+}
+.btn-reset {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 38px;
+  align-self: center;
+}
+
+.btn-reset:hover {
+  background-color: #d32f2f;
+}
+
+

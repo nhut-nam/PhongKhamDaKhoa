@@ -202,4 +202,10 @@ public class TaiKhoanRepositoryImpl implements TaiKhoanRepository {
         Query query = session.createQuery(cq);
         return query.getResultList();
     }
+
+    @Override
+    public boolean authenticateRole(String email, String password) {
+        Taikhoan tk = this.getUserByEmail(email);
+        return this.passwordEncoder.matches(password, tk.getMatKhau());
+    }
 }

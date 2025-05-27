@@ -12,8 +12,10 @@ import com.nnhp.pojo.Bangcap;
 import com.nnhp.repositories.BangCapRepository;
 import com.nnhp.services.BacSiService;
 import com.nnhp.services.BangCapService;
+import jakarta.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -69,4 +71,69 @@ public class BangCapServiceImpl implements BangCapService {
         return this.bcRepo.addBangCap(bc);
     }
 
+    @Override
+    public List<Bangcap> getListBangCap(Map<String, String> params) {
+        return this.bcRepo.getListBangCap(params);
+    }
+
+    @Override
+    public List<Bangcap> getListBangCapByBacSiId(int bacSiId) {
+        return this.bcRepo.getListBangCapByBacSiId(bacSiId);
+    }
+
+    @Override
+    public Bangcap addBangCap(Bangcap bc) {
+        return this.bcRepo.addBangCap(bc);
+    }
+
+    @Override
+    public Bangcap getBangCapById(int id) {
+        Bangcap bangCap = this.bcRepo.getBangCapById(id);
+
+        if (bangCap == null) {
+            throw new EntityNotFoundException("Không tìm thấy bằng cấp với ID: " + id);
+        }
+
+        return bangCap;
+    }
+
+    @Override
+    public Bangcap addOrUpdateBangCap(Bangcap bc) {
+
+        Bangcap bcCu;
+        System.out.println("bang cap cuuuu " + bc.getId());
+        System.out.println("Anhhhhhhhhh " + bc.getFileHinhMatTruoc());
+        if (bc.getId() != null) {
+            bcCu = this.bcRepo.getBangCapById(bc.getId());
+
+            if (!bc.getFileHinhMatTruoc().isEmpty()) {
+                try {
+                    Map res = cloudinary.uploader().upload(
+                            bc.getFileHinhMatTruoc().getBytes(),
+                            ObjectUtils.asMap("resource_type", "auto")
+                    );
+                    bc.setHinhMatTruoc(res.get("secure_url").toString());
+                } catch (IOException ex) {
+                    Logger.getLogger(BangCapServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                bc.setHinhMatTruoc(bcCu.getHinhMatTruoc());
+            }
+        } else {
+            if (!bc.getFileHinhMatTruoc().isEmpty()) {
+                try {
+                    Map res = cloudinary.uploader().upload(
+                            bc.getFileHinhMatTruoc().getBytes(),
+                            ObjectUtils.asMap("resource_type", "auto")
+                    );
+                    bc.setHinhMatTruoc(res.get("secure_url").toString());
+                } catch (IOException ex) {
+                    Logger.getLogger(BangCapServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            bc.setTrangThai(TrangThaiBangCap.DOI_DUYET);
+        }
+
+        return this.bcRepo.addOrUpdateBangCap(bc);
+    }
 }

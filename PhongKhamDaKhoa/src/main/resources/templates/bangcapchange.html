@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý đặt lịch khám</title>
+    <th:block th:replace="~{base :: bootstrap}"></th:block>
+</head>
+<body>
+    <main class="container">
+        <div th:replace="~{base :: header}"></div>
+        <h1 class="text-center text-info mt-1">QUẢN LÝ BẰNG CẤP</h1>
+        <form th:object="${bangCap}" th:action="@{/admin/bang-cap/add}" method="post" enctype="multipart/form-data">
+
+            <div class="mb-3 mt-3">
+                <label class="form-label">Trạng thái</label>
+                <select class="form-select" th:field="*{trangThai}">
+                    <option value="CON_HAN">Còn hiệu lực</option>
+                    <option value="HET_HAN">Hết hiệu lực</option>
+                    <option value="THU_HOI">Thu hồi</option>
+                    <option value="DOI_DUYET">Đợi duyệt</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="bacsiId" class="form-label">Bác sĩ</label>
+                <select class="form-select" id="bacsiId" th:field="*{bacsiId}" required>
+                    <option value="">-- Chọn bác sĩ --</option>
+                    <option th:each="bs : ${dsBacSi}"
+                            th:value="${bs.id}"
+                            th:text="${bs.hoNguoiDung + ' ' + bs.tenNguoiDung + ' - ' + bs.email}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Ngày cấp</label>
+                <input type="date" id="ngayCap" name="ngayCap" class="form-control" th:value="${bangCap.ngayCap != null ? #dates.format(bangCap.ngayCap, 'yyyy-MM-dd') : ''}" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Ngày hết hạn</label>
+                <input type="date" id="ngayHetHan" name="ngayHetHan" class="form-control" th:value="${bangCap.ngayHetHan != null ? #dates.format(bangCap.ngayHetHan, 'yyyy-MM-dd') : ''}" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Cơ quan cấp</label>
+                <input type="text" class="form-control" th:field="*{coQuanCap}" placeholder="Tên cơ quan cấp bằng" required />
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label class="form-label">Hình mặt trước</label>
+                <input type="file" class="form-control" th:field="*{fileHinhMatTruoc}"/>
+                <a th:if="${bangCap.hinhMatTruoc != null}" th:href="${bangCap.hinhMatTruoc}" target="_blank">
+                    <img th:src="${bangCap.hinhMatTruoc}" width="150" class="img-thumbnail" />
+                </a>
+            </div>
+
+            <div class="mb-3">
+                <input type="hidden" class="form-control" th:field="*{hinhMatTruoc}" />
+                <input type="hidden" th:field="*{id}" />
+                <button class="btn btn-success mt-1" type="submit">
+                    <span th:if="${bangCap.id == null}">Thêm bằng cấp</span>
+                    <span th:unless="${bangCap.id == null}">Cập nhật bằng cấp</span>
+                </button>
+                <a th:href="@{/admin/bang-cap}" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+
+        <div th:replace="~{base :: footer}"></div>
+    </main>
+</body>
+</html>

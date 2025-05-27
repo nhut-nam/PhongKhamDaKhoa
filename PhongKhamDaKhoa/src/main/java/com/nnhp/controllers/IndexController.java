@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author namnh
  */
 @Controller
-@ControllerAdvice
 public class IndexController {
     
     @Autowired

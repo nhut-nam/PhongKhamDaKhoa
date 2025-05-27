@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -10,6 +10,7 @@ import {
   Legend
 } from 'chart.js';
 import { authApis, endpoints } from '../Configs/Apis';
+import { MyUserContext } from '../Configs/MyContexts';
 
 ChartJS.register(
   BarElement,
@@ -21,6 +22,7 @@ ChartJS.register(
 );
 
 const ThongKeBenhNhan = () => {
+  const user = useContext(MyUserContext)
   const currentYear = new Date().getFullYear();
   const [nam, setNam] = useState(currentYear);
   const [loaiThongKe, setLoaiThongKe] = useState('YEAR');
@@ -37,11 +39,11 @@ const ThongKeBenhNhan = () => {
     try {
       let res;
        if (loaiThongKeChinh === 'BENH_NHAN') {
-      res = await authApis().get(endpoints['getThongKeBenhNhan'], {
+      res = await authApis().get(endpoints['getThongKeBenhNhan'](user.user.id), {
         params: { nam, loaiThongKe }
       });
     } else if (loaiThongKeChinh === 'LOAI_BENH') {
-      res = await authApis().get(endpoints['getThongKeLoaiBenh'], {
+      res = await authApis().get(endpoints['getThongKeLoaiBenh'](user.user.id), {
         params: { nam, loaiThongKe }
       });
     }
@@ -85,7 +87,7 @@ const ThongKeBenhNhan = () => {
             ? 'Số lượng bệnh nhân'
             : 'Loại bệnh',
         data: values,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        backgroundColor: ['red', 'blue', 'green', 'orange', 'purple'],
         borderRadius: 5
       }
     ]
@@ -107,7 +109,7 @@ const ThongKeBenhNhan = () => {
   };
 
   return (
-    <div style={{ padding: '20px', maxHeight: '80vh', overflowY: 'auto' }}>
+    <div style={{ padding: '20px' }}>
 <div
   style={{
     marginBottom: '16px',
