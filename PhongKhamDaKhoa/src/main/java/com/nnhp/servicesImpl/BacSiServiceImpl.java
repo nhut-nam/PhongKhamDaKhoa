@@ -4,7 +4,7 @@
  */
 package com.nnhp.servicesImpl;
 
-import com.nnhp.dto.BacSiChiTietDTO;
+import com.nnhp.dto.BacSiDanhGiaDTO;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Chuyenkhoa;
 import com.nnhp.repositories.BacSiRepository;
@@ -50,7 +50,7 @@ public class BacSiServiceImpl implements BacSiService{
     }
 
     @Override
-    public BacSiChiTietDTO getBacSiWithDanhGiaById(int id) {
+    public BacSiDanhGiaDTO getBacSiWithDanhGiaById(int id) {
         return this.bacSiRepo.getBacSiWithDanhGiaById(id);
     }
     

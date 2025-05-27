@@ -2,10 +2,10 @@ import React from 'react';
 import '../Styles/MedicalFacilityCard.css';
 import { Link } from 'react-router-dom';
 
-const MedicalFacilityCard = ({id,  logo, tenBenhVien, diaChi }) => {
+const MedicalFacilityCard = ({id,  avatar, tenBenhVien, diaChi }) => {
   return (
     <div className="facility-card">
-      <img src={logo} alt={tenBenhVien} className="facility-logo" />
+      <img src={avatar} alt={tenBenhVien} className="facility-logo" />
       <div className="facility-info">
         <div className="facility-header">
           <h3 className="facility-name">{tenBenhVien}</h3>

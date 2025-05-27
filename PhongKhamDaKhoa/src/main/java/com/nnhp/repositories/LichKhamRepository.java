@@ -8,6 +8,7 @@ import com.nnhp.dto.LichKhamBacSiDTO;
 import com.nnhp.pojo.Lichkham;
 import jakarta.data.page.Pageable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,4 +23,5 @@ public interface LichKhamRepository {
     void deleteLichKham(int id);
     List<LichKhamBacSiDTO> getLichKhamByBacSi(Integer bacSiId, LocalDate date, Map<String, String> params);
     List<Lichkham> getLichKhamListByUserId(int userId);
+    List<Lichkham> getLichKhamListByBacSiIdAndNgayKhamAndBuoi(int id, Date ngayKham, String buoi);
 } 

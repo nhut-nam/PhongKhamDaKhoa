@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author namnh
  */
-public class BacSiChiTietDTO {
+public class BacSiDanhGiaDTO {
     private String hoNguoiDung;
     private String tenNguoiDung;
     private String avatar;
@@ -20,7 +20,7 @@ public class BacSiChiTietDTO {
     private Double soSao;
     private List<DanhGiaChiTietDTO> danhGiasDTO;
 
-    public BacSiChiTietDTO(String hoNguoiDung, String tenNguoiDung, BenhVienDTO bvDTO, Double soSao, List<DanhGiaChiTietDTO> danhGiasDTO) {
+    public BacSiDanhGiaDTO(String hoNguoiDung, String tenNguoiDung, BenhVienDTO bvDTO, Double soSao, List<DanhGiaChiTietDTO> danhGiasDTO) {
         this.hoNguoiDung = hoNguoiDung;
         this.tenNguoiDung = tenNguoiDung;
         this.bvDTO = bvDTO;
@@ -28,7 +28,7 @@ public class BacSiChiTietDTO {
         this.danhGiasDTO = danhGiasDTO;
     }
 
-    public BacSiChiTietDTO(String hoNguoiDung, String tenNguoiDung, String avatar, BenhVienDTO bvDTO, Double soSao) {
+    public BacSiDanhGiaDTO(String hoNguoiDung, String tenNguoiDung, String avatar, BenhVienDTO bvDTO, Double soSao) {
         this.hoNguoiDung = hoNguoiDung;
         this.tenNguoiDung = tenNguoiDung;
         this.avatar = avatar;
@@ -38,8 +38,8 @@ public class BacSiChiTietDTO {
 
     
     
-    public static BacSiChiTietDTO convertToDTO(Bacsi bs, Double soSao) {
-        return new BacSiChiTietDTO(bs.getHoNguoiDung(), bs.getTenNguoiDung(), bs.getAvatar(), BenhVienDTO.convertToBenhVienDTO(bs.getBenhvienId()), 
+    public static BacSiDanhGiaDTO convertToDTO(Bacsi bs, Double soSao) {
+        return new BacSiDanhGiaDTO(bs.getHoNguoiDung(), bs.getTenNguoiDung(), bs.getAvatar(), BenhVienDTO.convertToBenhVienDTO(bs.getBenhvienId()), 
                 soSao);
     }
 

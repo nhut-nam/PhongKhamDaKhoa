@@ -10,22 +10,27 @@ import com.nnhp.dto.LichKhamDTO;
 import com.nnhp.dto.LichKhamPatchDTO;
 import com.nnhp.dto.LichKhamRequestDTO;
 import com.nnhp.enums.TrangThaiLichKham;
+import com.nnhp.formaters.Formatter;
 import com.nnhp.pojo.BenhVienChuyenKhoaDichVu;
 import com.nnhp.pojo.Hoso;
 import com.nnhp.pojo.Lichkham;
 import com.nnhp.pojo.Taikhoan;
+import com.nnhp.pojo.ThongBao;
 import com.nnhp.services.BacSiService;
 import com.nnhp.services.BenhVienChuyenKhoaDichVuService;
 import com.nnhp.services.HoSoService;
 import com.nnhp.services.LichKhamService;
 import com.nnhp.services.TaiKhoanService;
 import com.nnhp.utils.JwtUtils;
+import java.text.ParseException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,13 +65,13 @@ public class ApiLichKhamController {
     @Autowired
     private HoSoService hsService;
 
-    @DeleteMapping("/lich-kham/{id}")
+    @DeleteMapping("/secure/users/lich-kham/{id}")
     public ResponseEntity<Void> deleteLichKham(@PathVariable(value = "id") int id) {
         this.lichKhamService.deleteLichKham(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/secure/lich-kham/bac-si/{id}")
+    @GetMapping("/secure/doctors/lich-kham/bac-si/{id}")
     public ResponseEntity<List<LichKhamBacSiDTO>> getLichKhamBacSi(@PathVariable(name = "id") int bacSiId,
             @RequestParam(value = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
             @RequestParam Map<String, String> params) {
@@ -87,22 +92,32 @@ public class ApiLichKhamController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
-    @PostMapping("/tao-lich-kham")
+    @GetMapping(path = "/secure/users/lich-kham")
     @CrossOrigin
-    public ResponseEntity<LichKhamDTO> taoLichKham(@RequestBody LichKhamRequestDTO lichKhamRequestDTO) {
-        return new ResponseEntity<>(LichKhamDTO.convertToDTO(this.lichKhamService.createLichKhamFromDTO(lichKhamRequestDTO)), HttpStatus.CREATED);
+    public ResponseEntity<?> getLichKham(@RequestParam Map<String, String> params) {
+        List<Lichkham> lks = this.lichKhamService.getDsLichKham(params);
+        return new ResponseEntity<>(LichKhamDTO.convertToDTOList(lks), HttpStatus.OK);
     }
-
-    @GetMapping("/lich-kham/{id}")
+    
+    @PostMapping("/secure/users/tao-lich-kham")
+    @CrossOrigin
+    public ResponseEntity<?> taoLichKham(@RequestBody LichKhamRequestDTO lichKhamRequestDTO) {
+        Lichkham lk = this.lichKhamService.createLichKhamFromDTO(lichKhamRequestDTO);
+        if (lk == null) {
+            return new ResponseEntity<>(new ThongBao("Hôm nay đã đủ lịch hẹn. Xin vui lòng chọn ngày hẹn khác", false), HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(LichKhamDTO.convertToDTO(lk), HttpStatus.CREATED);
+    }
+    
+    @GetMapping("/secure/users/lich-kham/{id}")
     @CrossOrigin
     public ResponseEntity<List<LichKhamDTO>> getLichKhamList(@PathVariable(name = "id") int userId) {
         return new ResponseEntity<>(LichKhamDTO.convertToDTOList(this.lichKhamService.getLichKhamListByUserId(userId)), HttpStatus.OK);
     }
 
-    @PatchMapping("/sua-lich-kham/{id}")
+    @PatchMapping("/secure/users/sua-lich-kham/{id}")
     @CrossOrigin
     public ResponseEntity<LichKhamDTO> suaLichKham(@PathVariable(name = "id") int id, @RequestBody LichKhamPatchDTO lkPatch) {
         Lichkham lk = this.lichKhamService.getLichKhamById(id);

@@ -8,6 +8,7 @@ import com.nnhp.dto.LichKhamBacSiDTO;
 import com.nnhp.dto.LichKhamRequestDTO;
 import com.nnhp.pojo.Lichkham;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,4 +24,5 @@ public interface LichKhamService {
     List<LichKhamBacSiDTO> getLichKhamByBacSi(Integer bacSiId, LocalDate date, Map<String, String> params);
     Lichkham createLichKhamFromDTO(LichKhamRequestDTO dto);
     List<Lichkham> getLichKhamListByUserId(int userId);
+    List<Lichkham> getLichKhamListByBacSiIdAndNgayKhamAndBuoi(int id, Date ngayKham, String buoi);
 } 

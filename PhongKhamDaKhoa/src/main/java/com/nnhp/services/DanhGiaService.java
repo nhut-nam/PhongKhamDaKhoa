@@ -17,4 +17,5 @@ public interface DanhGiaService {
     Double averageSoSao(int id);
     Danhgia addOrUpdateDanhGia(Danhgia dg);
     Danhgia addOrUpdateDanhGiaFromDTO(DanhGiaRequestDTO dgDTO);
+    Danhgia getDanhGiaById(int id);
 }

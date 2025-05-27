@@ -4,7 +4,8 @@
  */
 package com.nnhp.repositoriesImpl;
 
-import com.nnhp.dto.BacSiChiTietDTO;
+import com.nnhp.dto.BacSiDanhGiaDTO;
+import com.nnhp.enums.TrangThaiTaiKhoan;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.pojo.Bacsithuocchuyenkhoa;
 import com.nnhp.pojo.Benhvien;
@@ -60,6 +61,13 @@ public class BacSiRepositoryImpl implements BacSiRepository {
                 Predicate tenLike = b.like(fullName, String.format("%%%s%%", kw));
                 Predicate bvLike = b.like(bvJoin.get("tenBenhVien"), String.format("%%%s%%", kw));
                 predicates.add(b.or(tenLike, bvLike));
+            }
+            
+            String trangThai = params.get("trangThai");
+
+            if (trangThai != null && !trangThai.isEmpty()) {
+                Predicate bvLike = b.equal(root.get("trangThai"), TrangThaiTaiKhoan.valueOf(trangThai));
+                predicates.add(bvLike);
             }
             q.where(predicates.toArray(Predicate[]::new));
 
@@ -143,7 +151,7 @@ public class BacSiRepositoryImpl implements BacSiRepository {
     }
 
     @Override
-    public BacSiChiTietDTO getBacSiWithDanhGiaById(int id) {
+    public BacSiDanhGiaDTO getBacSiWithDanhGiaById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Bacsi> q = b.createQuery(Bacsi.class);
@@ -155,14 +163,10 @@ public class BacSiRepositoryImpl implements BacSiRepository {
         q.select(root).distinct(true).where(b.equal(root.get("id"), id));
 
         Bacsi bs = s.createQuery(q).getSingleResult();
-
-        double avg = bs.getDanhgiaCollection() == null
-                ? 0
-                : bs.getDanhgiaCollection().stream()
-                        .filter(d -> d.getSoSao() != null)
-                        .mapToInt(Danhgia::getSoSao)
-                        .average()
-                        .orElse(0);
-        return BacSiChiTietDTO.convertToDTO(bs, avg);
+//        double avg = bs.getDanhgiaCollection().stream()
+//                .mapToInt(Danhgia::getSoSao)
+//                .average().orElse(0);
+        System.out.println(bs.getDanhgiaCollection());
+        return BacSiDanhGiaDTO.convertToDTO(bs, 0.0);
     }
 }

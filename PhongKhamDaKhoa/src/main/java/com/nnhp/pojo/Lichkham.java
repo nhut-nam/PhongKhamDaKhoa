@@ -58,7 +58,7 @@ public class Lichkham implements Serializable {
     @Enumerated(EnumType.STRING)
     private TrangThaiLichKham trangThai;
     @Column(name = "ngay_hen")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date ngayHen;
 //    @Column(name = "ngay_huy")
 //    @Temporal(TemporalType.TIMESTAMP)

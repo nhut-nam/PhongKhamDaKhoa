@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LichKhamServiceImpl implements LichKhamService {
+    private final static int LIMIT = 10;
     @Autowired
     private LichKhamRepository lichKhamRepo;
     @Autowired
@@ -110,11 +111,19 @@ public class LichKhamServiceImpl implements LichKhamService {
         lk.setNgayTao(new Date());
         lk.setTrangThai(dto.getTrangThai());
         lk.setSoTienNhan(dto.getSoTienNhan());
+        if (this.lichKhamRepo.getLichKhamListByBacSiIdAndNgayKhamAndBuoi(bs.getId(), dto.getNgayHen(), dto.getBuoi()).size()> LIMIT) {
+            return null;
+        }
         return this.lichKhamRepo.addOrUpdateLichKham(lk);
     }
 
     @Override
     public List<Lichkham> getLichKhamListByUserId(int userId) {
         return this.lichKhamRepo.getLichKhamListByUserId(userId);
+    }
+
+    @Override
+    public List<Lichkham> getLichKhamListByBacSiIdAndNgayKhamAndBuoi(int id, Date ngayKham, String buoi) {
+        return this.lichKhamRepo.getLichKhamListByBacSiIdAndNgayKhamAndBuoi(id, ngayKham, buoi);
     }
 } 

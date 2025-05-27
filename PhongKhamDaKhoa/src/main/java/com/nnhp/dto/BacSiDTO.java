@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
  * @author namnh
  */
 public class BacSiDTO extends TaiKhoanDTO {
-
     private BenhVienDTO benhVien;
     private String chuyenTri;
     private Date ngayLamViec;

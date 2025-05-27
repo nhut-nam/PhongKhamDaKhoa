@@ -64,7 +64,7 @@ function HoSoBenhNhan() {
           <p><b>Địa chỉ:</b> {hs.diaChi}</p>
           <p><b>Email:</b> {hs.email}</p>
           <p><b>Số điện thoại:</b> {hs.soDienThoai}</p>
-          <p><b>Giới tính:</b> {hs.gioiTinh ? 'Nam' : 'Nữ'}</p>
+          <p><b>Giới tính:</b> {hs.gioiTinh ? 'Nữ' : 'Nam'}</p>
 
           {hs.benhnhanId && (
             <>

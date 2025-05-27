@@ -11,14 +11,14 @@ function LoginPage() {
   const dispatch = useContext(MyDispatcherContext);
   const [msg, setMsg] = useState("");
   const nav = useNavigate();
-  
-  
+
+
   const login = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
       let res = await Apis.post(endpoints['login'], {
-      ...user
+        ...user
       });
       cookie.save('token', res.data.token);
       let u = await authApis().get(endpoints['current-user']);
@@ -28,13 +28,23 @@ function LoginPage() {
           user: u.data
         },
       });
-      // nav("/");
+      const formData = new FormData();
+      formData.append("userId", u.data.id);
+      setTimeout(async () => {
+        await authApis(res.data.token).post(endpoints['addTinTuc'], formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          }
+        });
+      }, 100);
+
       if (u.data.role === "ROLE_DOCTOR") {
-      nav("/bac-si/dashboard");
-    } 
-     else {
-      nav("/"); // Bệnh nhân hoặc người dùng bình thường
-    }
+        nav("/bac-si/dashboard");
+      }
+      else {
+        nav(-1); // Bệnh nhân hoặc người dùng bình thường
+      }
+
     } catch (ex) {
       if (ex.response && ex.response.data.status === false) {
         setMsg(ex.response.data.message);
