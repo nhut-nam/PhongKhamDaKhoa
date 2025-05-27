@@ -40,7 +40,7 @@ const LichKham = () => {
           <h3>{item.hoTen}</h3>
           <p><strong>Email:</strong> {item.email}</p>
           <p><strong>Điện thoại:</strong> {item.soDienThoai}</p>
-          <p><strong>Giới tính:</strong> {item.gioiTinh ? 'Nam' : 'Nữ'}</p>
+          <p><strong>Giới tính:</strong> {item.gioiTinh ? 'Nữ' : 'Nam'}</p>
           <p><strong>Ngày hẹn:</strong> {dayjs(item.ngayHen).format('DD/MM/YYYY HH:mm')}</p>
           <p>
             <strong>Trạng thái:</strong>{' '}

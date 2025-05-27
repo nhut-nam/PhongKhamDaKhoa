@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import '../Styles/BookingPage.css';
 import { FaHospitalAlt, FaSearch } from 'react-icons/fa';
 import { IoReturnUpBack } from 'react-icons/io5';
-import Apis, { endpoints } from '../Configs/Apis';
+import Apis, { authApis, endpoints } from '../Configs/Apis';
 import { sprintf } from 'sprintf-js';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import BookingCalendar from './BookingCalendar';
 import { MyUserContext } from '../Configs/MyContexts';
+import cookie from 'react-cookies';
 
 const loaiDichVu = {
   KHAM_DICH_VU: "Khám dịch vụ",
@@ -79,7 +80,8 @@ const BookingPage = () => {
     };
 
     const fetchProfile = async () => {
-      const res = await Apis.get(endpoints['getHoSoList'] + `/${user.user.id}`);
+      const token = cookie.load('token');
+      const res = await authApis(token).get(endpoints['getHoSoList'] + `/${user.user.id}`);
       setProfile(res.data);
       console.log(res.data)
     };
@@ -132,6 +134,12 @@ const BookingPage = () => {
 
   const handleChange = (e) => {
     const date = new Date(e.target.value);
+    const now = new Date();
+    const diffMs = date.getTime() - now.getTime();
+    if (diffMs < 24 * 60 * 60 * 1000) {
+      alert('Vui lòng chọn ngày khám cách thời điểm hiện tại ít nhất 24 tiếng.');
+      return;
+    }
     const day = date.getDay();
 
     if (date < today.setHours(0, 0, 0, 0)) {
@@ -150,11 +158,15 @@ const BookingPage = () => {
 
   const addAppointment = async () => {
     try {
-      const res = await Apis.post(endpoints['taoLichKham'], appointment);
+      const token = cookie.load('token');
+      const res = await authApis(token).post(endpoints['taoLichKham'], appointment);
       if (res.status === 200 || res.status === 201) {
         console.log("Đặt lịch thành công:", res.data);
         alert("Đặt lịch khám thành công!");
-        nav("/")
+        nav("/");
+      } else if (res.status === 409) {
+        console.warn(res.data.message);
+        alert(res.data.message);
       } else {
         console.warn("Đặt lịch không thành công. Mã:", res.status);
         alert("Có lỗi xảy ra khi đặt lịch. Vui lòng thử lại.");
@@ -165,8 +177,26 @@ const BookingPage = () => {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = cookie.load('token');
+    if (user === null || user.user === null) {
+      alert("Vui lòng đăng nhập để tiếp tục!");
+      return nav("/login");
+    }
+    const resNgayHen = await authApis(token).get(
+      endpoints['getLichKham'],
+      {
+        params: {
+          bacsiId: appointment.bacSiId,
+          ngayHen: selectedDate,
+          buoi: session,
+          trangThai: "DA_THANH_TOAN"
+        }
+      }
+    );
+    console.log(resNgayHen)
+    if (resNgayHen.data.length > 1) return alert("Lịch này đã hết chỗ trống");
     if (!selectedDate) return alert('Vui lòng chọn ngày hợp lệ!');
     if (!session) return alert('Vui lòng chọn buổi khám!');
     alert(`Bạn đã đặt lịch vào ngày ${selectedDate} - Buổi: ${session}`);
@@ -190,7 +220,7 @@ const BookingPage = () => {
       <div className="specialty-panel">
         {currentStep === "specialty" && (
           <>
-            <div className="panel-header">Vui lòng chọn bác sĩ</div>
+            <div className="panel-header">Vui lòng chọn chuyên khoa</div>
             <div className="search-bar-select-specialty">
               <input type="text" placeholder="Tìm nhanh chuyên khoa" />
               <FaSearch className="search-icon" />
@@ -285,11 +315,11 @@ const BookingPage = () => {
           </div>
         )}
 
-        {currentStep === "profile" && (
+        {currentStep === "profile" ? (
           <>
             <div className="panel-header">Chọn hồ sơ</div>
             <div className="specialty-list">
-              {profile.map((s, i) => (
+              {profile && profile.map((s, i) => (
                 <div onClick={() => updateProfile(s)} className="specialty-item" key={i}>
                   <strong>Họ tên: {s.hoTen}</strong>
                   <p>Giới tính: <span>{s.gioiTinh ? "Nữ" : "Nam"}</span></p>
@@ -300,7 +330,7 @@ const BookingPage = () => {
               ))}
             </div>
           </>
-        )}
+        ) : (() => {nav("/login")})}
 
         {currentStep === "appointment" && (
           <>
@@ -323,6 +353,8 @@ const BookingPage = () => {
           const steps = ["specialty", "service", "doctor", "time"];
           const currentIdx = steps.indexOf(currentStep);
           if (currentIdx > 0) goToStep(steps[currentIdx - 1]);
+          else
+           nav(-1)
         }}>
           <IoReturnUpBack /> Quay lại
         </div>

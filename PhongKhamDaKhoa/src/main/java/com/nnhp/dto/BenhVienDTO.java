@@ -15,16 +15,18 @@ import java.util.stream.Collectors;
 public class BenhVienDTO {
     private Integer id;
     private String diaChi;
+    private String avatar;
     private String tenBenhVien;
 
-    public BenhVienDTO(Integer id, String diaChi, String tenBenhVien) {
+    public BenhVienDTO(Integer id, String diaChi, String avatar, String tenBenhVien) {
         this.id = id;
         this.diaChi = diaChi;
+        this.avatar = avatar;
         this.tenBenhVien = tenBenhVien;
     }
     
     public static BenhVienDTO convertToBenhVienDTO(Benhvien bv) {
-        return new BenhVienDTO(bv.getId(), bv.getDiaChi(), bv.getTenBenhVien());
+        return new BenhVienDTO(bv.getId(), bv.getDiaChi(), bv.getAvatar(), bv.getTenBenhVien());
     }
     
     public static List<BenhVienDTO> convertToListBenhVienDTO(List<Benhvien> bvs) {
@@ -71,6 +73,14 @@ public class BenhVienDTO {
      */
     public void setTenBenhVien(String tenBenhVien) {
         this.tenBenhVien = tenBenhVien;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
     
     

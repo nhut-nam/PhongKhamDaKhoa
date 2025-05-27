@@ -55,5 +55,10 @@ public class DanhGiaServiceImpl implements DanhGiaService {
         dg.setTaikhoanId(this.tkRepo.getUserById(dgDTO.getTkId()));
         return this.dgRepo.addOrUpdateDanhGia(dg);
     }
+
+    @Override
+    public Danhgia getDanhGiaById(int id) {
+        return this.dgRepo.getDanhGiaById(id);
+    }
     
 }

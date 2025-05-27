@@ -45,61 +45,80 @@ export default function DoctorRegister() {
         setUser((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Kiểm tra mật khẩu
         if (user.matKhau !== user.confirmPassword) {
             setErrMsg("Mật khẩu và xác nhận không khớp.");
             return;
         }
-        // TODO: gửi dữ liệu về backend ở đây
-        console.log(user);
-        console.log(benhVien);
-        let chuyenKhoaString = chuyenKhoaSelectedList.join(",");
-        console.log(chuyenKhoaString);
-        const addUser = async () => {
-            try {
-                setLoading(true);
-                let res = await Apis.post(endpoints['doctor-register'],
-                    JSON.stringify({
-                        email: user.email,
-                        hoNguoiDung: user.hoNguoiDung,
-                        tenNguoiDung: user.tenNguoiDung,
-                        ngaySinh: user.ngaySinh,
-                        soDienThoai: user.soDienThoai,
-                        diaChi: user.diaChi,
-                        ghiChu: user.ghiChu,
-                        avatar: user.avatar,
-                        matKhau: user.matKhau,
-                        benhVien: user.benhVien,
-                        chuyenKhoa: chuyenKhoaString,
-                        chuyenTri: user.chuyenTri,
-                        ngayLamViec: user.ngayLamViec
-                    }),
-                    {
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                    });
-                let formData = new FormData();
-                formData.append("userId", res.data.id);
-                formData.append("coQuanCap", user.coQuanCap);
-                formData.append("ngayCap", user.ngayCap);
-                formData.append("ngayHetHan", user.ngayHetHan);
-                formData.append("hinhMatTruoc", user.hinhMatTruoc);
 
-                let resBangCap = await Apis.post(endpoints['addBangCap'],
-                    formData, {
-                        headers: {
-                            "Content-Type": "multipart/form-data"
-                        },
-                    });
-                setUser(res.data);
-                nav("/login");
-            } catch (ex) {
-                console.error(ex);
-            }
+        // Kiểm tra các trường bắt buộc (tùy chọn, ví dụ)
+        if (!user.email || !user.hoNguoiDung || !user.tenNguoiDung || !user.matKhau) {
+            setErrMsg("Vui lòng điền đầy đủ các trường bắt buộc!");
+            return;
         }
-        addUser();
+
+        // Tạo chuỗi chuyên khoa
+        const chuyenKhoaString = chuyenKhoaSelectedList.join(",");
+
+        try {
+            setLoading(true);
+
+            // Gửi yêu cầu đăng ký bác sĩ
+            const doctorRegisterResponse = await Apis.post(
+                endpoints['doctor-register'],
+                JSON.stringify({
+                    email: user.email,
+                    hoNguoiDung: user.hoNguoiDung,
+                    tenNguoiDung: user.tenNguoiDung,
+                    ngaySinh: user.ngaySinh,
+                    soDienThoai: user.soDienThoai,
+                    diaChi: user.diaChi,
+                    ghiChu: user.ghiChu,
+                    avatar: user.avatar,
+                    matKhau: user.matKhau,
+                    benhVien: user.benhVien,
+                    chuyenKhoa: chuyenKhoaString,
+                    chuyenTri: user.chuyenTri,
+                    ngayLamViec: user.ngayLamViec,
+                }),
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            // Nếu đăng ký bác sĩ thành công, tiếp tục gửi thông tin bằng cấp
+            const userId = doctorRegisterResponse.data.id;
+            const formData = new FormData();
+            formData.append("userId", userId);
+            formData.append("coQuanCap", user.coQuanCap);
+            formData.append("ngayCap", user.ngayCap);
+            formData.append("ngayHetHan", user.ngayHetHan);
+            formData.append("hinhMatTruoc", user.hinhMatTruoc);
+
+            const bangCapResponse = await Apis.post(
+                endpoints['addBangCap'],
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
+            setUser(doctorRegisterResponse.data);
+            setLoading(false);
+            nav("/login");
+        } catch (ex) {
+            setLoading(false);
+            console.error("Error during registration:", ex);
+            const errorMessage = ex.response?.data?.message || ex.message || "Đăng ký thất bại, vui lòng thử lại!";
+            setErrMsg(errorMessage);
+        }
     };
 
     useEffect(() => {

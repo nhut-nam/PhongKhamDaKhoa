@@ -3,6 +3,7 @@ import "../Styles/Patient.css";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import PatientRecord from "./PatientRecord";
 import MedicalExamination from "./MedicalExamination";
+import Notification from "./Nofitication";
 
 const Patient = () => {
   const [q] = useSearchParams();
@@ -20,7 +21,7 @@ const Patient = () => {
   }
   return (
     <div className="container-home">
-      <div className="sidebar">
+      <div className="p-sidebar">
 
         <Link to="/tao-ho-so" className="add-button">
           <span className="icon">😊</span> Thêm hồ sơ
@@ -35,6 +36,7 @@ const Patient = () => {
       <div className="main">
         {q.get("key") === "ho-so-benh-nhan" ? <PatientRecord /> : null}
         {q.get("key") === "phieu-kham-benh" ? <MedicalExamination /> : null}
+        {q.get("key") === "thong-bao" ? <Notification /> : null}
       </div>
     </div>
 

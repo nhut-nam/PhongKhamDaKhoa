@@ -12,10 +12,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  *
@@ -23,7 +28,23 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "tintuc")
-public class TinTuc implements Serializable {
+@NamedQueries({
+    @NamedQuery(name = "Tintuc.findAll", 
+                query = "SELECT t FROM Tintuc t"),
+    @NamedQuery(name = "Tintuc.findById", 
+                query = "SELECT t FROM Tintuc t WHERE t.id = :id"),
+    @NamedQuery(name = "Tintuc.findByTieuDe", 
+                query = "SELECT t FROM Tintuc t WHERE t.tieuDe = :tieuDe"),
+    @NamedQuery(name = "Tintuc.findByNoiDung", 
+                query = "SELECT t FROM Tintuc t WHERE t.noiDung LIKE :noiDung"),
+    @NamedQuery(name = "Tintuc.findByNgayDang", 
+                query = "SELECT t FROM Tintuc t WHERE t.ngayDang = :ngayDang"),
+    @NamedQuery(name = "Tintuc.findByTieuDeContaining", 
+                query = "SELECT t FROM Tintuc t WHERE t.tieuDe LIKE :tieuDe"),
+    @NamedQuery(name = "Tintuc.findLatest", 
+                query = "SELECT t FROM Tintuc t ORDER BY t.ngayDang DESC")
+})
+public class Tintuc implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -32,14 +53,15 @@ public class TinTuc implements Serializable {
     @Column(name = "noi_dung", nullable = false)
     private String noiDung;
     @Column(name = "ngay_dang", nullable = false)
-    private String ngayDang;
+    @Temporal(TemporalType.DATE)
+    private Date ngayDang;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tintucId")
     private Collection<TaiKhoanTinTuc> taikhoantintucCollection;
 
-    public TinTuc() {
+    public Tintuc() {
     }
 
-    public TinTuc(Integer id) {
+    public Tintuc(Integer id) {
         this.id = id;
     }
 
@@ -67,12 +89,17 @@ public class TinTuc implements Serializable {
         this.noiDung = noiDung;
     }
 
-    public String getNgayDang() {
+    public Date getNgayDang() {
         return ngayDang;
     }
 
-    public void setNgayDang(String ngayDang) {
+    public void setNgayDang(Date ngayDang) {
         this.ngayDang = ngayDang;
     }
 
+    public void setTaikhoantintucCollection(Collection<TaiKhoanTinTuc> taikhoantintucCollection) {
+        this.taikhoantintucCollection = taikhoantintucCollection;
+    }
+
+    
 }

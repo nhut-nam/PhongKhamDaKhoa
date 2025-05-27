@@ -4,8 +4,9 @@
  */
 package com.nnhp.controllers;
 
-import com.nnhp.dto.BacSiChiTietDTO;
+import com.nnhp.dto.BacSiDanhGiaDTO;
 import com.nnhp.dto.BacSiDTO;
+import com.nnhp.dto.DanhGiaChiTietDTO;
 import com.nnhp.pojo.Bacsi;
 import com.nnhp.services.BacSiService;
 import com.nnhp.services.DanhGiaService;
@@ -42,10 +43,12 @@ public class ApiBacSiController {
     
     @GetMapping("/bac-si-chi-tiet/{id}")
     @CrossOrigin
-    public ResponseEntity<BacSiChiTietDTO> getBacSiChiTiet(@PathVariable(name = "id") int id) {
-        BacSiChiTietDTO bs = this.bsService.getBacSiWithDanhGiaById(id);
+    public ResponseEntity<BacSiDanhGiaDTO> getBacSiChiTiet(@PathVariable(name = "id") int id) {
+        BacSiDanhGiaDTO bs = this.bsService.getBacSiWithDanhGiaById(id);
         Double soSao = this.dgService.averageSoSao(id);
         bs.setSoSao(soSao);
+        List<DanhGiaChiTietDTO> dgct = DanhGiaChiTietDTO.convertToDTOList(this.dgService.getDanhGiaByBacSiId(id));
+        bs.setDanhGiasDTO(dgct);
         return new ResponseEntity<>(bs, HttpStatus.OK);
     } 
 }

@@ -51,10 +51,10 @@ public class Bangcap implements Serializable {
     @Enumerated(EnumType.STRING)
     private TrangThaiBangCap trangThai;
     @Column(name = "ngay_cap")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date ngayCap;
     @Column(name = "ngay_het_han")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date ngayHetHan;
     @Size(max = 255)
     @Column(name = "co_quan_cap")

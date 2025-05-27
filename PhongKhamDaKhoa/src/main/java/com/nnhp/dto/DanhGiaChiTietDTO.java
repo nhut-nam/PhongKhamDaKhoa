@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  * @author namnh
  */
 public class DanhGiaChiTietDTO {
+    private int id;
     private String binhLuan;
     private Boolean chinhSua;
     private Short soSao;
@@ -22,7 +23,8 @@ public class DanhGiaChiTietDTO {
     private String phanHoi;
     private TaiKhoanDTO tkDTO;
 
-    public DanhGiaChiTietDTO(String binhLuan, Boolean chinhSua, Short soSao, Date ngayTao, String phanHoi, TaiKhoanDTO tkDTO) {
+    public DanhGiaChiTietDTO(int id, String binhLuan, Boolean chinhSua, Short soSao, Date ngayTao, String phanHoi, TaiKhoanDTO tkDTO) {
+        this.id = id;
         this.binhLuan = binhLuan;
         this.chinhSua = chinhSua;
         this.soSao = soSao;
@@ -32,7 +34,7 @@ public class DanhGiaChiTietDTO {
     }
 
     public static DanhGiaChiTietDTO convertToDTO(Danhgia dg) {
-        return new DanhGiaChiTietDTO(dg.getBinhLuan(), dg.getChinhSua(), dg.getSoSao(), 
+        return new DanhGiaChiTietDTO(dg.getId(), dg.getBinhLuan(), dg.getChinhSua(), dg.getSoSao(), 
                 dg.getNgayTao(), dg.getPhanHoi(), TaiKhoanDTO.convertToDTO(dg.getTaikhoanId()));
     }
     
@@ -90,6 +92,14 @@ public class DanhGiaChiTietDTO {
 
     public void setTkDTO(TaiKhoanDTO tkDTO) {
         this.tkDTO = tkDTO;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
 }

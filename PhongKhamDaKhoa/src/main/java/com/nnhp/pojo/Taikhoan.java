@@ -70,7 +70,7 @@ public class Taikhoan implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ngay_sinh")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date ngaySinh;
     @Size(max = 255)
     @Column(name = "avatar")

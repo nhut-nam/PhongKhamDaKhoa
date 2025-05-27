@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import Header from './Components/Header';
 import Home from './Components/Home';
 import Footer from './Components/Footer';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import Login from './Components/Login';
 import UserRegister from './Components/UserRegister';
 import { MyDispatcherContext, MyUserContext } from './Configs/MyContexts';
@@ -34,6 +34,17 @@ function init(initialUser) {
   return initialUser;
 }
 
+const ProtectedRoute = ({ allowedRoles, user }) => {
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  if (!allowedRoles.includes("USER", "DOCTOR")) {
+    return <Navigate to="/unauthorized" />;
+  }
+
+};
+
 function App() {
   const [user, dispatch] = useReducer(MyUserReducer, null, init);
 
@@ -48,30 +59,34 @@ function App() {
   return (
     <div>
       <MyUserContext.Provider value={user}>
-      <MyDispatcherContext.Provider value={dispatch}>
-        <BrowserRouter>
-        <Header />
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/user-register" element={<UserRegister />} />
-            <Route path="/doctor-register" element={<DoctorRegister />} />
-            <Route path="/dich-vu" element={<ServicesPage />} />
-            <Route path="/patient" element={<Patient />} />
-            <Route path="/tao-ho-so" element={<AddPatientRecord />} />
-            <Route path="/dat-kham-theo-co-so" element={<MedicalFacilityList />} />
-            <Route path="/chat-truc-tuyen" element={<ChatPage />} />
-            <Route path="/tim-kiem?" element={<Search />} />
-            <Route path="/bac-si-lich-kham" element={<LichKham />} />
-            <Route path="/bac-si/dashboard" element={<DoctorDashboard />} />
-            <Route path="/bac-si/lich-su-kham-benh/:hoSoId" element={<CapNhatHoSo />} />
-            <Route path="/dat-lich-kham" element={<BookingPage />} />
-            <Route path="/lich-kham" element={<BookingSummary />} />
-            <Route path="/chi-tiet-bac-si" element={<DoctorDetail />} />
-        </Routes>
-        <Footer />
-        </BrowserRouter>
-      </MyDispatcherContext.Provider>
+        <MyDispatcherContext.Provider value={dispatch}>
+          <BrowserRouter>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/user-register" element={<UserRegister />} />
+              <Route path="/doctor-register" element={<DoctorRegister />} />
+              <Route path="/dich-vu" element={<ServicesPage />} />
+              <Route element={<ProtectedRoute allowedRoles={['USER']} user={user} />}>
+                <Route path="/patient" element={<Patient />} />
+                <Route path="/lich-kham" element={<BookingSummary />} />
+                <Route path="/tao-ho-so" element={<AddPatientRecord />} />
+              </Route>
+              <Route path="/dat-kham-theo-co-so" element={<MedicalFacilityList />} />
+              <Route path="/chat-truc-tuyen" element={<ChatPage />} />
+              <Route path="/tim-kiem?" element={<Search />} />
+              <Route path="/bac-si-lich-kham" element={<LichKham />} />
+              <Route element={<ProtectedRoute allowedRoles={['DOCTOR']} user={user} />}>
+                <Route path="/bac-si/dashboard" element={<DoctorDashboard />} />
+              </Route>
+              <Route path="/bac-si/lich-su-kham-benh/:hoSoId" element={<CapNhatHoSo />} />
+              <Route path="/dat-lich-kham" element={<BookingPage />} />
+              <Route path="/chi-tiet-bac-si" element={<DoctorDetail />} />
+            </Routes>
+            <Footer />
+          </BrowserRouter>
+        </MyDispatcherContext.Provider>
       </MyUserContext.Provider>
     </div>
   );

@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import java.io.Serializable;
 
@@ -20,6 +22,19 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "taikhoantintuc")
+@NamedQueries({
+    @NamedQuery(name = "TaiKhoanTinTuc.findAll", 
+                query = "SELECT t FROM TaiKhoanTinTuc t"),
+    @NamedQuery(name = "TaiKhoanTinTuc.findById", 
+                query = "SELECT t FROM TaiKhoanTinTuc t WHERE t.id = :id"),
+    @NamedQuery(name = "TaiKhoanTinTuc.findByTrangThai", 
+                query = "SELECT t FROM TaiKhoanTinTuc t WHERE t.trangThai = :trangThai"),
+    @NamedQuery(name = "TaiKhoanTinTuc.findByTaikhoanId", 
+                query = "SELECT t FROM TaiKhoanTinTuc t WHERE t.taikhoanId.id = :taikhoanId"),
+    @NamedQuery(name = "TaiKhoanTinTuc.findByTintucId", 
+                query = "SELECT t FROM TaiKhoanTinTuc t WHERE t.tintucId.id = :tintucId"),
+    @NamedQuery(name = "TaiKhoanTinTuc.findByTaikhoanAndTintuc", 
+                query = "SELECT t FROM TaiKhoanTinTuc t WHERE t.taikhoanId.id = :taikhoanId AND t.tintucId.id = :tintucId")})
 public class TaiKhoanTinTuc implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +44,7 @@ public class TaiKhoanTinTuc implements Serializable {
     private Taikhoan taikhoanId;
     @JoinColumn(name = "tintuc_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private TinTuc tintucId;
+    private Tintuc tintucId;
     @Column(name = "trang_thai")
     private boolean trangThai;
 
@@ -56,11 +71,11 @@ public class TaiKhoanTinTuc implements Serializable {
         this.taikhoanId = taikhoanId;
     }
 
-    public TinTuc getTintucId() {
+    public Tintuc getTintucId() {
         return tintucId;
     }
 
-    public void setTintucId(TinTuc tintucId) {
+    public void setTintucId(Tintuc tintucId) {
         this.tintucId = tintucId;
     }
 

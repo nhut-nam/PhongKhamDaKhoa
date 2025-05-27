@@ -59,6 +59,7 @@ const Header = () => {
                     <nav className="main-menu">
                         <ul>
                             <li><Link to="/">Trang chủ</Link></li>
+                            {user !== null && (user.user.role === "ROLE_DOCTOR" && <li><Link to="/bac-si/dashboard">Dashboard</Link></li>)}
                             <li><Link to="/about">Giới thiệu</Link></li>
                             <li><Link to="/dich-vu">Dịch vụ</Link></li>
                             <li><Link to="/news">Tin tức</Link></li>
@@ -92,7 +93,8 @@ const Header = () => {
                                                 </div>
                                             </div>
                                             <hr />
-                                            <Link to="/patient?key=ho-so-benh-nhan">📁 Hồ sơ bệnh nhân</Link>
+                                            {user && user.user.role === "ROLE_USER" && <Link to="/patient?key=ho-so-benh-nhan">📁 Hồ sơ bệnh nhân</Link>}
+                                            {user && user.user.role === "ROLE_DOCTOR" && <Link to={`/chi-tiet-bac-si?doctorId=${user.user.id}`}><i className="fas fa-star"></i> Đánh giá cá nhân</Link>}
                                             <Link to="/patient?key=phieu-kham-benh">📄 Phiếu khám bệnh</Link>
                                             <Link to="/patient?key=thong-bao">🔔 Thông báo</Link>
                                             <hr />
@@ -112,8 +114,6 @@ const Header = () => {
                 </div>
             </div>
         </header>
-
-
     );
 };
 

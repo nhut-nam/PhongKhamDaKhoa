@@ -1,9 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import "../Styles/MedicalExamination.css";
 import { useState } from "react";
-import Apis, { endpoints } from "../Configs/Apis";
+import Apis, { authApis, endpoints } from "../Configs/Apis";
 import { Link } from "react-router-dom";
+import { addDays, isSaturday, isSunday } from 'date-fns';
 import { MyUserContext } from "../Configs/MyContexts";
+import DatePicker from "react-datepicker";
+import { Modal, Button, Form } from "react-bootstrap";
+import cookie from 'react-cookies';
 
 const tabs = [
     { key: "DA_THANH_TOAN", label: "Đã thanh toán" },
@@ -16,12 +20,17 @@ const tabs = [
 const MedicalExamination = () => {
     const [activeTab, setActiveTab] = useState("DA_THANH_TOAN")
     const [medicalExaminationList, setMedicalExaminationList] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const currentDate = new Date('2025-05-27T14:44:00+07:00');
+    const minDateTime = addDays(currentDate, 1);
     const user = useContext(MyUserContext);
+    const token = cookie.load("token");
 
     useEffect(() => {
         const fetchMedicalExaminationList = async () => {
             try {
-                const res = await Apis.get(endpoints['getLichKham'] + `/${user.user.id}`)
+                const res = await authApis(token).get(endpoints['getLichKham'] + `/${user.user.id}`)
                 setMedicalExaminationList(res.data)
             } catch (error) {
                 console.error("Lỗi: ", error);
@@ -38,10 +47,29 @@ const MedicalExamination = () => {
         return diffHours <= 48;
     };
 
+    const filterDays = (date) => {
+        return !isSaturday(date) && !isSunday(date);
+    };
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+        console.log('Ngày đã chọn:', date.toLocaleString());
+    };
+
+    const handleSave = () => {
+        if (selectedDate) {
+            setShowModal(false);
+            console.log('Ngày được lưu:', selectedDate.toLocaleString());
+            // Thêm logic gửi ngày về backend ở đây nếu cần
+        } else {
+            alert('Vui lòng chọn ngày trước khi lưu!');
+        }
+    };
+
     const handleCancel = async (item) => {
         try {
             if (canCancel(item.ngayTao)) {
-                const res = await Apis.patch(endpoints["suaLichKham"] + "/" + item.id,
+                const res = await authApis(token).patch(endpoints["suaLichKham"] + "/" + item.id,
                     {
                         "trangThai": "DA_HUY"
                     }
@@ -58,7 +86,7 @@ const MedicalExamination = () => {
     const handlePaid = async (item) => {
         try {
             if (canCancel(item.ngayTao)) {
-                const res = await Apis.patch(endpoints["suaLichKham"] + "/" + item.id,
+                const res = await authApis(token).patch(endpoints["suaLichKham"] + "/" + item.id,
                     {
                         "trangThai": "DA_THANH_TOAN"
                     }
@@ -133,6 +161,10 @@ const MedicalExamination = () => {
                                                 <span className="me-info-label">Ngày khám:</span>
                                                 <span>{new Date(item.ngayHen).toLocaleDateString('vi-VN')}</span>
                                             </div>
+                                            <div className="me-info-section">
+                                                <span className="me-info-label">Ngày đặt lịch:</span>
+                                                <span>{new Date(item.ngayTao).toLocaleDateString('vi-VN')}</span>
+                                            </div>
                                         </div>
                                         <div className="me-divider" />
                                         <div className="me-info-row">
@@ -149,6 +181,14 @@ const MedicalExamination = () => {
                                                 <span>{item?.bvckdvDTO?.tenDichVu || "Không có"}</span>
                                             </div>
                                             <div className="me-info-section">
+                                                <span className="me-info-label">Dịch vụ:</span>
+                                                <span>{item?.bvckdvDTO?.loaiDichVu || "Không có"}</span>
+                                            </div>
+                                            <div className="me-info-section">
+                                                <span className="me-info-label">Dịch vụ:</span>
+                                                <span>{item?.bvckdvDTO?.loaiThanhToan || "Không có"}</span>
+                                            </div>
+                                            <div className="me-info-section">
                                                 <span className="me-info-label">Giá tiền:</span>
                                                 <span>{item?.bvckdvDTO?.giaTien || "0"} VNĐ</span>
                                             </div>
@@ -158,8 +198,61 @@ const MedicalExamination = () => {
                                     <div className="me-divider" />
                                     {activeTab === "CHUA_THANH_TOAN" && <div className="me-button-group">
                                         <button onClick={() => handleCancel(item)} className="me-btn delete">Hủy lịch khám</button>
-                                        <button onClick={() => handlePaid(item)} className="me-btn">Thanh toán</button>
-                                        <button className="me-btn">Đổi lịch hẹn</button>
+                                        {item?.bvckdvDTO?.loaiThanhToan === "THANH_TOAN_TRUC_TUYEN" && <button onClick={() => handlePaid(item)} className="me-btn">Thanh toán</button>}
+                                        { <button onClick={() => setShowModal(true)} className="me-btn">Đổi lịch hẹn</button>
+                                        /*<Modal show={showModal} onHide={() => setShowModal(false)} centered>
+                                            <Modal.Header closeButton>
+                                                <Modal.Title>Chọn lịch hẹn</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                                <Form>
+                                                    <Form.Group className="mb-3">
+                                                        <Form.Label>Chọn ngày</Form.Label>
+                                                        <DatePicker
+                                                            selected={selectedDate}
+                                                            onChange={handleDateChange}
+                                                            minDate={minDateTime}
+                                                            filterDate={filterDays}
+                                                            dateFormat="dd/MM/yyyy"
+                                                            inline
+                                                            placeholderText="Chọn ngày"
+                                                        />
+                                                    </Form.Group>
+
+                                                    <Form.Group className="mb-3">
+                                                        <Form.Label>Chọn buổi</Form.Label>
+                                                        <div>
+                                                            <Form.Check
+                                                                inline
+                                                                label="Sáng"
+                                                                type="radio"
+                                                                name="period"
+                                                                value="AM"
+                                                                checked={selectedPeriod === 'AM'}
+                                                                onChange={handlePeriodChange}
+                                                            />
+                                                            <Form.Check
+                                                                inline
+                                                                label="Chiều"
+                                                                type="radio"
+                                                                name="period"
+                                                                value="PM"
+                                                                checked={selectedPeriod === 'PM'}
+                                                                onChange={handlePeriodChange}
+                                                            />
+                                                        </div>
+                                                    </Form.Group>
+                                                </Form>
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <Button variant="secondary" onClick={() => setShowModal(false)}>
+                                                    Đóng
+                                                </Button>
+                                                <Button variant="primary" onClick={handleSave}>
+                                                    Lưu
+                                                </Button>
+                                            </Modal.Footer>
+                                        </Modal> */}
                                     </div>}
                                 </div>
                             </div>
@@ -175,7 +268,7 @@ const MedicalExamination = () => {
                         />
                     </>
                 )}
-            </div>
+            </div >
         </>
     );
 };

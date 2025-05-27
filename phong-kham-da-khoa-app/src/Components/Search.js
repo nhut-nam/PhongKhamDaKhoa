@@ -2,10 +2,11 @@ import React, { use, useEffect, useRef, useState } from 'react';
 import '../Styles/Search.css';
 import Specialty from './Specialty';
 import { data, useNavigate, useSearchParams } from 'react-router-dom';
-import Apis, { endpoints } from '../Configs/Apis';
+import Apis, { authApis, endpoints } from '../Configs/Apis';
 import MedicalFacilityCard from './MedicalFacilityCard';
 import { sprintf } from 'sprintf-js';
 import DoctorCard from './DoctorCard';
+import cookie from 'react-cookies';
 
 const Search = () => {
     const nav = useNavigate();
@@ -37,6 +38,8 @@ const Search = () => {
     const fetchData = async (type) => {
         try {
             console.log(sprintf(list[type].endpoint, kw, page));
+            const params = { trangThai: 'KICH_HOAT' };
+            const token = cookie.load('token');
             const res = await Apis.get(sprintf(list[type].endpoint, kw, page));
             setList((prev) => ({ ...prev, [type]: { ...prev[type], data: res.data } }));
         } catch (error) {

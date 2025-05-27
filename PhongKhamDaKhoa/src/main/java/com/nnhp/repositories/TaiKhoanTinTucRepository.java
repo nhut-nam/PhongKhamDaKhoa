@@ -4,16 +4,12 @@
  */
 package com.nnhp.repositories;
 
-import com.nnhp.pojo.Danhgia;
-import java.util.List;
+import com.nnhp.pojo.TaiKhoanTinTuc;
 
 /**
  *
  * @author namnh
  */
-public interface DanhGiaRepository {
-    List<Danhgia> getDanhGiaByBacSiId(int id);
-    Double averageSoSao(int id);
-    Danhgia addOrUpdateDanhGia(Danhgia dg);
-    Danhgia getDanhGiaById(int id);
+public interface TaiKhoanTinTucRepository {
+    TaiKhoanTinTuc addOrUpdateTaiKhoanTinTuc(TaiKhoanTinTuc tktt);
 }

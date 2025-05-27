@@ -41,18 +41,19 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class UserController {
+
     @Autowired
     private TaiKhoanService taiKhoanService;
     @Autowired
     private BenhVienService benhVienService;
     @Autowired
     private BacSiService bacSiService;
-    
+
     @GetMapping("/login")
     public String loginView() {
         return "login";
     }
-    
+
     @GetMapping("/admin-tai-khoan")
     public String addListView(Model model, @RequestParam Map<String, String> params) {
         String role = params.getOrDefault("role", "");
@@ -61,31 +62,31 @@ public class UserController {
         model.addAttribute("selectedRole", role);
         return "taikhoan";
     }
-    
+
     @GetMapping("/taikhoanchange")
-    public String addView(Model model){
+    public String addView(Model model) {
         model.addAttribute("taiKhoan", new Taikhoan());
         model.addAttribute("dsBenhVien", benhVienService.getAllBenhVien());
         return "taikhoanchange";
     }
-    
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setDisallowedFields("ngaySinh");
     }
-    
+
     @PostMapping("/tai-khoan/add")
     public String addTaiKhoan(@ModelAttribute(value = "taiKhoan") Taikhoan tk,
             @RequestParam("ngaySinh") String ngaySinh,
             @RequestParam(value = "role", required = false, defaultValue = "ROLE_USER") String role,
-            @RequestParam(value = "benhVienId", required= false)Integer benhVienId) {
-           
+            @RequestParam(value = "benhVienId", required = false) Integer benhVienId) {
+
         try {
             tk.setNgaySinh(Formatter.DATE_FORMATTER.parse(ngaySinh));
         } catch (ParseException ex) {
             Logger.getLogger(TaiKhoanServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         // Kiểm tra số điện thoại đã tồn tại chưa
         List<Taikhoan> dsTaiKhoan = taiKhoanService.getTaiKhoanList();
         for (Taikhoan t : dsTaiKhoan) {
@@ -93,27 +94,26 @@ public class UserController {
                 // Số điện thoại đã tồn tại
                 return "redirect:/taikhoanchange?error=duplicate_phone";
             }
-            
+
             if (t.getEmail() != null && t.getEmail().equals(tk.getEmail()) && !t.getId().equals(tk.getId())) {
                 // Email đã tồn tại
                 return "redirect:/taikhoanchange?error=duplicate_email";
             }
         }
-        
+
         // Thiết lập role mặc định là USER nếu không được chỉ định
         tk.setRole(role);
-            
+
         try {
-             if ("ROLE_DOCTOR".equals(tk.getRole())) {
+            if ("ROLE_DOCTOR".equals(tk.getRole())) {
                 if (benhVienId == null || benhVienId == 0) {
                     return "redirect:/taikhoanchange?error=benhvien_required";
                 }
                 System.out.println("benhVienId nhận được: " + benhVienId);
-                this.taiKhoanService.addOrUpdateTaiKhoan(tk,benhVienId);
-               }
-             else{
-            this.taiKhoanService.addOrUpdateTaiKhoan(tk,benhVienId);
-             }
+                this.taiKhoanService.addOrUpdateTaiKhoan(tk, benhVienId);
+            } else {
+                this.taiKhoanService.addOrUpdateTaiKhoan(tk, benhVienId);
+            }
             return "redirect:/admin-tai-khoan";
         } catch (DataIntegrityViolationException | ConstraintViolationException e) {
             // Xác định loại lỗi
@@ -130,7 +130,7 @@ public class UserController {
             return "redirect:/taikhoanchange?error=unknown";
         }
     }
-    
+
     @GetMapping("/tai-khoan/{taiKhoanEmail}")
     public String updateView(Model model, @PathVariable(value = "taiKhoanEmail") String email) {
         Taikhoan tk = this.taiKhoanService.getUserByEmail(email);
@@ -141,8 +141,8 @@ public class UserController {
         model.addAttribute("dsBenhVien", benhVienService.getAllBenhVien());
         return "taikhoanchange";
     }
-    
-        // Lọc danh sách
+
+    // Lọc danh sách
     @GetMapping("/xet-duyet-tai-khoan")
     public String danhSachDuyet(@RequestParam(value = "trangThai", required = false) String trangThai, Model model) {
         List<Taikhoan> ds;
