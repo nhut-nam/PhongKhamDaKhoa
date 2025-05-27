@@ -62,7 +62,8 @@ public class ApiHoSoController {
     
     @GetMapping("/secure/users/get-ho-so/{id}")
     @CrossOrigin
-    public ResponseEntity<HoSoDTO> getHoSo(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<HoSoDTO> getHoSo(@PathVariable(name = "id") int id) {
+        System.out.println(id);
         return new ResponseEntity<>(HoSoDTO.convertToDTO(this.hsService.getHoSoById(id)), HttpStatus.OK);
     }
     @GetMapping("/secure/doctors/get-list-ho-so-benh-nhan/{bacSiId}")

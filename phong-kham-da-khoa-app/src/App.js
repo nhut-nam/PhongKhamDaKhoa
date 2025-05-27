@@ -26,6 +26,8 @@ import BookingSummary from './Components/Appointment';
 import DoctorDetail from './Components/DoctorDetail';
 import CallWrapper from './Components/RoomCall';
 import USERCHAT from './Components/USERCHATTEST';
+import PaymentPage from './Components/PaymentPage';
+import VNPayReturn from './Components/VNPayReturn';
 
 function init(initialUser) {
   if (!initialUser) {
@@ -78,6 +80,7 @@ function App() {
               {/* <Route path="/patient" element={<Patient />} />
                 <Route path="/lich-kham" element={<BookingSummary />} />
                 <Route path="/tao-ho-so" element={<AddPatientRecord />} /> */}
+
               
               <Route path="/dat-kham-theo-co-so" element={<MedicalFacilityList />} />
               <Route path="/tim-kiem?" element={<Search />} />
@@ -85,6 +88,7 @@ function App() {
                 <Route path="/bac-si/dashboard" element={<DoctorDashboard />} />
                 <Route path="/bac-si-lich-kham" element={<LichKham />} />
                 <Route path="/bac-si/lich-su-kham-benh/:hoSoId" element={<CapNhatHoSo />} />
+
               </Route>
               <Route path="/dat-lich-kham" element={<BookingPage />} />
               <Route path="/chi-tiet-bac-si" element={<DoctorDetail />} />

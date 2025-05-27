@@ -101,6 +101,7 @@ public class HoSoRepositoryImpl implements HoSoRepository {
     public Hoso getHoSoById(int id) {
         try {
             Session s = this.factory.getObject().getCurrentSession();
+            System.out.println(s.get(Hoso.class, id));
             return s.get(Hoso.class, id);
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -43,7 +43,7 @@ public class ApiThongKeBacSiController {
     @Autowired
     private TaiKhoanService taiKhoanService;
 
-    @GetMapping("/secure/doctors/bac-si/{id}/thong-ke-so-luong")
+    @GetMapping("/secure/doctors/{id}/thong-ke-so-luong")
     public ResponseEntity<?> getThongKeSoBenhNhan(@PathVariable(name = "id") Integer bacSiId,
             @RequestParam(name = "nam" , required = false) Integer nam,
             @RequestParam(name = "loaiThongKe", required = false) String loaiThongKe) {
@@ -71,7 +71,7 @@ public class ApiThongKeBacSiController {
         }
     }
 
-    @GetMapping("/secure/doctors/bac-si/{id}/thong-ke-loai-benh")
+    @GetMapping("/secure/doctors/{id}/thong-ke-loai-benh")
     public ResponseEntity<?> getThongKeBenhPhoBien(@PathVariable(name = "id") Integer bacSiId,
             @RequestParam(name = "nam" , required = false) Integer nam,
             @RequestParam(name = "loaiThongKe" , required = false) String loaiThongKe) {

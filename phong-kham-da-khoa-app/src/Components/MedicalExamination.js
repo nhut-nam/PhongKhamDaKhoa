@@ -83,22 +83,44 @@ const MedicalExamination = () => {
         }
     }
 
-    const handlePaid = async (item) => {
-        try {
-            if (canCancel(item.ngayTao)) {
-                const res = await authApis(token).patch(endpoints["suaLichKham"] + "/" + item.id,
-                    {
-                        "trangThai": "DA_THANH_TOAN"
-                    }
-                );
-                alert("Đã thanh toán thành công");
-            } else {
-                alert("Không thể hủy lịch khám vì đã quá 48 tiếng");
+   const handlePaid = async (item) => {
+    try {
+        // Cập nhật trạng thái lịch khám
+        const res = await authApis(token).patch(endpoints["suaLichKham"] + "/" + item.id, 
+            {
+                trangThai: "DA_THANH_TOAN"
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             }
-        } catch (error) {
-            console.error("Lỗi:", error);
-        }
+        );
+        console.log("Cập nhật trạng thái thành công:", res.data);
+
+        // Gửi email xác nhận
+        const resMail = await authApis(token).post(endpoints['sendEmail'], 
+            JSON.stringify({
+                to: item.hsDTO.email,
+                subject: "Hóa đơn thanh toán",
+                body: `"Thông tin lịch khám | Mã lịch khám: ${item.id} | Họ và tên: ${item.hsDTO.hoTen} | Giới tính: ${item.hsDTO.gioiTinh === false ? 'Nam' : 'Nữ'} | Ngày sinh: ${new Date(item.hsDTO.ngaySinh).toLocaleDateString('vi-VN')} | Số điện thoại: ${item.hsDTO.soDienThoai} | Email: ${item.hsDTO.email} | Địa chỉ: ${item.hsDTO.diaChi} | Ngày khám: ${new Date(item.ngayHen).toLocaleDateString('vi-VN')} | Ngày đặt lịch: ${new Date(item.ngayTao).toLocaleDateString('vi-VN')} | --- | Bệnh viện: ${item?.bvckdvDTO?.ckDTO?.benhVien?.tenBenhVien || 'Không có'} | Chuyên khoa: ${item?.bvckdvDTO?.ckDTO?.chuyenKhoa?.tenChuyenKhoa || 'Không có'} | Dịch vụ: ${item?.bvckdvDTO?.tenDichVu || 'Không có'} | Loại dịch vụ: ${item?.bvckdvDTO?.loaiDichVu || 'Không có'} | Loại thanh toán: ${item?.bvckdvDTO?.loaiThanhToan || 'Không có'} | Giá tiền: ${item?.bvckdvDTO?.giaTien || '0'} VNĐ"`
+            }),
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        console.log(resMail.data.message);
+
+        // Thông báo cho người dùng (VD: dùng toast hoặc alert)
+        alert("Thanh toán và email xác nhận đã được xử lý thành công!");
+
+    } catch (error) {
+        console.error("Lỗi:", error.response ? error.response.data : error.message);
+        alert("Đã xảy ra lỗi khi xử lý thanh toán hoặc gửi email.");
     }
+};
 
     return (
         <>
@@ -199,7 +221,7 @@ const MedicalExamination = () => {
                                     {activeTab === "CHUA_THANH_TOAN" && <div className="me-button-group">
                                         <button onClick={() => handleCancel(item)} className="me-btn delete">Hủy lịch khám</button>
                                         {item?.bvckdvDTO?.loaiThanhToan === "THANH_TOAN_TRUC_TUYEN" && <button onClick={() => handlePaid(item)} className="me-btn">Thanh toán</button>}
-                                        { <button onClick={() => setShowModal(true)} className="me-btn">Đổi lịch hẹn</button>
+                                        {<button onClick={() => setShowModal(true)} className="me-btn">Đổi lịch hẹn</button>
                                         /*<Modal show={showModal} onHide={() => setShowModal(false)} centered>
                                             <Modal.Header closeButton>
                                                 <Modal.Title>Chọn lịch hẹn</Modal.Title>

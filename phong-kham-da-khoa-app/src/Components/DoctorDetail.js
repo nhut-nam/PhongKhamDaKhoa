@@ -179,6 +179,7 @@ const ReviewWithReply = ({ review }) => {
   const [showReplyDoctor, setShowReplyDoctor] = useState(false);
   const [doctorReply, setDoctorReply] = useState('');
   const user = useContext(MyUserContext);
+  const token = cookie.load('token');
 
   const handleDoctorReply = async () => {
     if (!doctorReply.trim()) {
@@ -187,7 +188,7 @@ const ReviewWithReply = ({ review }) => {
     }
 
     try {
-      await Apis.put(
+      await authApis(token).put(
         endpoints['phanHoiDanhGia'],
         { id: review.id, phanHoi: doctorReply },
         { headers: { 'Content-Type': 'application/json' } }

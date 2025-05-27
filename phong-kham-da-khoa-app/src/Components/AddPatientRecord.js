@@ -1,9 +1,10 @@
 import React, { createContext, use, useContext, useEffect, useState } from 'react';
 import '../Styles/AddPatientRecord.css';
 import { MyUserContext } from '../Configs/MyContexts';
-import Apis, { endpoints } from '../Configs/Apis';
+import Apis, { authApis, endpoints } from '../Configs/Apis';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BiArrowBack } from 'react-icons/bi';
+import cookies from 'react-cookies';
 
 function AddPatientRecord() {
     const user = useContext(MyUserContext);
@@ -20,11 +21,12 @@ function AddPatientRecord() {
         user_id: user.user.id
     });
     const nav = useNavigate();
+    const token = cookies.load("token")
 
     useEffect(() => {
         const getRecord = async (id) => {
             try {
-                let response = await Apis.get(endpoints['getHoSo'] + "/" + id);
+                let response = await authApis(token).get(endpoints['getHoSo'] + "/" + id);
                 setForm({
                     ...form,
                     id: response.data.id,
@@ -58,7 +60,7 @@ function AddPatientRecord() {
         console.log('Dữ liệu gửi:', form);
         const addPatientRecord = async () => {
             try {
-                let response = await Apis.post(endpoints['addPatientRecord'],
+                let response = await authApis(token).post(endpoints['addPatientRecord'],
                     JSON.stringify({
                         ...form
                     })
@@ -75,7 +77,7 @@ function AddPatientRecord() {
         };
         const updatePatientRecord = async () => {
             try {
-                let response = await Apis.put(endpoints['updateHoSo'],
+                let response = await authApis(token).put(endpoints['updateHoSo'],
                     JSON.stringify({
                         ...form
                     })
